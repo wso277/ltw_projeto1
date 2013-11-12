@@ -19,18 +19,18 @@
                 $result = $stmt->fetch();
 
                 if ($result != FALSE) {
-                    return json_encode($result);
+                    echo json_encode($result);
                 } else {
                     $error = '{"error":{"code":303,"reason":"Product not found"}}';
-                    return $error;
+                    echo $error;
                 }
             } else {
                 $error = '{"error":{"code":302,"reason":"Invalid product code"}}';
-                return $error;
+                echo $error;
             }
         } else {
             $error = '{"error":{"code":301,"reason":"Product code not set"}}';
-            return $error;
+            echo $error;
         }
         ?>
     </BODY>

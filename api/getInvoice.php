@@ -19,19 +19,19 @@
                 $result = $stmt->fetch();
 
                 if ($result != FALSE) {
-                    return json_encode($result);
+                    echo json_encode($result);
                 } else {
                     $error = '{"error":{"code":203,"reason":"Invoice not found"}}';
-                    return $error;
+                    echo $error;
                 }
             }
             else {
                 $error = '{"error":{"code":202,"reason":"Invalid invoice number"}}';
-                return $error;
+                echo $error;
             }
         } else {
             $error = '{"error":{"code":201,"reason":"Invoice number not set"}}';
-            return $error;
+            echo $error;
         }
         ?>
     </BODY>
