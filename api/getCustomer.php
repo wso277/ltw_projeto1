@@ -7,7 +7,7 @@
     <BODY>
         <?php
         $CustomerID = $_GET['CustomerID'];
-
+		
         if (isset($CustomerID)) {
 
             if ($CustomerID > 0) {
