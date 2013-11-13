@@ -1,0 +1,2 @@
+javac <class-name>
+java -classpath <something.jar> <exec-file>
