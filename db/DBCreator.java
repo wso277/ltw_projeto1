@@ -150,7 +150,7 @@ public class DBCreator {
 			e.printStackTrace();
 		}
 		
-		String prod_desc[] = {"'atum, compre o que é nosso'", "'iogurte de pinacolada fabricado no Hawai'", 
+		String prod_desc[] = {"'atum, compre o que e nosso'", "'iogurte de pinacolada fabricado no Hawai'", 
 				"'flores em segunda mao'", "'livro tecnico coiso'"};
 		double prod_unitprice[] = { 23.3, 75, 555.33, 1000000};
 		String prod_unmeasure[] = {"'micrometros'", "'user stories'", "'cancros'"};

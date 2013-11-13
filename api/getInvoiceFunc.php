@@ -1,12 +1,12 @@
 <?php
-funcion getInvoiceFromDB($InvoiceNo) {
+function getInvoiceFromDB($InvoiceNo) {
 	if (isset($InvoiceNo)) {
 
 		if ($InvoiceNo > 0) {
 			try {
 				$db = new PDO('sqlite:../db/finances.db');
 			} catch (PDOException $e) {
-				exit('{"error":{"code":204,"reason":"' + $e -> getMessage() + '"}}');
+				return json_decode('{"error":{"code":204,"reason":"' . $e -> getMessage() . '"}}', true);
 			}
 
 			$stmt = $db -> prepare('SELECT * FROM Bill WHERE InvoiceNo = :num');
@@ -15,7 +15,7 @@ funcion getInvoiceFromDB($InvoiceNo) {
 			$invoice = $stmt -> fetch(PDO::FETCH_ASSOC);
 
 			if ($invoice != FALSE) {
-				include('getCustomerFunc.php');
+				include ('getCustomerFunc.php');
 				$customer = getCustomerFromDB($invoice['CustomerID']);
 				if (!isset($customer['error'])) {
 					unset($invoice['CustomerID']);
