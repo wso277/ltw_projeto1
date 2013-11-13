@@ -12,7 +12,7 @@ public class DBCreator {
 
 		try {
 			Class.forName("org.sqlite.JDBC");
-			c = DriverManager.getConnection("jdbc:sqlite:test.db");
+			c = DriverManager.getConnection("jdbc:sqlite:finances.db");
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
 			System.exit(0);
@@ -89,7 +89,7 @@ public class DBCreator {
 
 		String bill = "CREATE TABLE Bill ("
 				+ "InvoiceNo 		INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "InvoiceDate 		DATE NOT NULL,"
+				+ "InvoiceDate 		DATETIME NOT NULL,"
 				+ "CustomerID 		INTEGER REFERENCES Customer(CustomerID) NOT NULL,"
 				+ "DocumentTotalsID	INTEGER REFERENCES DocumentTotals(DocumentTotalsID) NOT NULL"
 				+ ");";
@@ -171,7 +171,7 @@ public class DBCreator {
 			}
 		}
 		
-		String bill_detail[] = {"'Rua da Pena'", "'nº 23 Tapada'", "'Avenida Sempre-Aberta'"};
+		String bill_detail[] = {"'Rua da Pena'", "'n 23 Tapada'", "'Avenida Sempre-Aberta'"};
 		String bill_city[] = {"'Cardoso'", "'Vila Nova da Bonita'", "'Souto Maior'", "'Desgosto City'"};
 		String bill_postcod[] = {"'1234-568'", "'9999999'", "'2225-56699'"};
 		String bill_country[] = {"'Coxixina'", "'United States of Tugas'", "'Coiso'"};
@@ -245,7 +245,7 @@ public class DBCreator {
 			}
 		}
 		
-		String taxtype[] = {"'Fundo Monetário para a Corrupção'", "'Imposto pelo St. António'", "'Imposto sobre o Álcool'"};
+		String taxtype[] = {"'Fundo Monetario para a Corrupcao'", "'Imposto pelo St. Antonio'", "'Imposto sobre o Alcool'"};
 		double taxperc[] = { 132131, 211.3222, 3216365.12};
 		for (int i = 1; i <= max; i++) {
 			int type =  Math.abs(r.nextInt() % taxperc.length);
