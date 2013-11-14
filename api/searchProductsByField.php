@@ -10,19 +10,19 @@ if (isset($field) && $field != "") {
 			include ('getProductFunc.php');
 			switch ($op) {
 				case "range" :
-					echo json_encode(getCustomerByValRange($field, $val));
+					echo json_encode(getProductByValRange($field, $val));
 					break;
 				case "equal" :
-					echo json_encode(getCustomerByValEqual($field, $val));
+					echo json_encode(getProductByValEqual($field, $val));
 					break;
 				case "contains" :
-					echo json_encode(getCustomerByValContains($field, $val));
+					echo json_encode(getProductByValContains($field, $val));
 					break;
 				case "min" :
-					echo json_encode(getCustomerByValMin($field, $val));
+					echo json_encode(getProductByValMin($field, $val));
 					break;
 				case "max" : 
-					echo json_encode(getCustomerByValMax($field, $val));
+					echo json_encode(getProductByValMax($field, $val));
 					break;
 			}
 		} else {

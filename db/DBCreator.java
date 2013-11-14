@@ -126,7 +126,7 @@ public class DBCreator {
 
 		String bill_line = "CREATE TABLE Line ("
 				+ "LineID 		INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ "BillID 		REFERENCES Bill(InvoiceNo) NOT NULL,"
+				+ "InvoiceNo 		REFERENCES Bill(InvoiceNo) NOT NULL,"
 				+ "LineNumber 	INTEGER NOT NULL,"
 				+ "ProductCode	INTEGER REFERENCES Product(ProductCode) NOT NULL,"
 				+ "Quantity 	REAL NOT NULL," 
@@ -270,7 +270,7 @@ public class DBCreator {
 			int credam =  Math.abs(r.nextInt() % taxperc.length);
 			
 			
-			String line = "INSERT INTO Line (BillID, LineNumber,ProductCode, Quantity, UnitPrice, CreditAmount) VALUES (" 
+			String line = "INSERT INTO Line (InvoiceNo, LineNumber,ProductCode, Quantity, UnitPrice, CreditAmount) VALUES (" 
 					+ billid + ", " + linenr + ", " + prod + ", "+ quant + ", " + unprice + ", " + credam + ");";
 			
 			try {
@@ -280,13 +280,12 @@ public class DBCreator {
 			}
 		}
 		
-		for (int i = 1; i <= max; i++) {
-			int lineid =  Math.abs(r.nextInt() % 100) + 1;
+		for (int i = 1; i <= 100; i++) {
 			int taxid =  Math.abs(r.nextInt() % max) + 1;
 			
 			
 			String taxline = "INSERT INTO TaxPerBillLine (LineID, TaxID) VALUES (" 
-					+ lineid + ", " + taxid + ");";
+					+ i + ", " + taxid + ");";
 			
 			try {
 				stmt.executeUpdate(taxline);

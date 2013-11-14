@@ -1,5 +1,6 @@
 <?php
 include ('getCustomerFunc.php');
+include ('getProductFunc.php');
 
 function getInvoiceFromDB($InvoiceNo) {
 	if (isset($InvoiceNo)) {
@@ -31,6 +32,21 @@ function getInvoiceFromDB($InvoiceNo) {
 					if ($documentTotals != FALSE) {
 						unset($invoice['DocumentsTotalsID']);
 						$invoice['DocumentsTotals'] = $documentTotals;
+
+						$query = 'SELECT LineNumber, ProductCode, Quantity, UnitPrice, CreditAmount, TaxType, TaxPercentage 
+						FROM Line NATURAL JOIN TaxPerBillLine NATURAL JOIN Tax WHERE InvoiceNo = ' . $InvoiceNo . ' ORDER BY LineNumber ASC';
+						$stmt = $db -> prepare($query);
+						$stmt->execute();
+						$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
+						if ($lines != FALSE) {
+							$invoice['Lines'] = $lines;
+							$i = 0;
+							foreach($invoice['Lines'] as &$line) {
+								$line['Product'] = getProductFromDB($line['ProductCode']);
+								unset($line['ProductCode']);
+							}
+						}
+
 						return $invoice;
 					} else {
 						$error = json_decode('{"error":{"code":206,"reason":"DocumentTotals entry not found"}}', true);
@@ -66,25 +82,40 @@ function getInvoiceByValRange($field, $val) {
 			return json_decode('{"error":{"code":205,"reason":"' . $e -> getMessage() . '"}}', true);
 
 		}
-		if ($field == "InvoiceNo" || $field == "InvoiceDate" || $field == "CompanyName" || $field == "GrossTotal") {
 
-			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > " . $value1 . " AND " . $field . " < " . $value2;
+		$invoices;
+
+		if ($field == "InvoiceNo") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "' AND " . $field . " < '" . $value2 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
-
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			$i = 0;
-			$retVals = array();
-			foreach ($invoices as $c) {
-				$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
-
-			}
-
-			return $retVals;
+		} else if ($field == "InvoiceDate") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") > julianday('" . $value1 . "') AND julianday(" . $field . ") < julianday('" . $value2 . "')";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "CompanyName") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN Customer WHERE " . $field . " > '" . $value1 . "' AND '" . $field . "' < " . $value2 . "'";
+			echo $select;
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "GrossTotal") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " > '" . $value1 . "' AND '" . $field . "' < '" . $value2 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else {
 			$error = json_decode('{"error":{"code":206,"reason":"Field invalid"}}', true);
 			return $error;
 		}
+		$i = 0;
+		$retVals = array();
+		foreach ($invoices as $c) {
+			$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
+		}
+		return $retVals;
 	} else {
 		$error = json_decode('{"error":{"code":204,"reason":"Value not defined"}}', true);
 		return $error;
@@ -102,24 +133,36 @@ function getInvoiceByValEqual($field, $val) {
 			return json_decode('{"error":{"code":205,"reason":"' . $e -> getMessage() . '"}}', true);
 
 		}
-		if ($field == "InvoiceNo" || $field == "InvoiceDate" || $field == "CompanyName" || $field == "GrossTotal") {
-
-			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " = " . $value1;
+		if ($field == "InvoiceNo") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " = '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
-
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			$i = 0;
-			$retVals = array();
-
-			foreach ($invoices as $c) {
-				$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
-			}
-			return $retVals;
+		} else if ($field == "InvoiceDate") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") = julianday('" . $value1 . "')";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "CompanyName") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN Customer WHERE " . $field . " = '" . $value1 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "GrossTotal") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " = '" . $value1 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else {
 			$error = json_decode('{"error":{"code":206,"reason":"Field invalid"}}', true);
 			return $error;
 		}
+		$i = 0;
+		$retVals = array();
+		foreach ($invoices as $c) {
+			$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
+		}
+		return $retVals;
 	} else {
 		$error = json_decode('{"error":{"code":204,"reason":"Value not defined"}}', true);
 		return $error;
@@ -133,29 +176,38 @@ function getInvoiceByValContains($field, $val) {
 		try {
 			$db = new PDO('sqlite:../db/finances.db');
 		} catch (PDOException $e) {
-			return json_decode('{"error":{"code":105,"reason":"' . $e -> getMessage() . '"}}', true);
+			return json_decode('{"error":{"code":205,"reason":"' . $e -> getMessage() . '"}}', true);
 
 		}
-		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
-
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " LIKE " . "'%" . $value1 . "%'";
-
+		if ($field == "InvoiceNo" || $field == "InvoiceDate") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " LIKE '%" . $value1 . "%'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$customers = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			$i = 0;
-			$retVals = array();
-
-			foreach ($customers as $c) {
-				$retVals[$i++] = getInvoiceFromDB($c['CustomerID']);
-			}
-			return $retVals;
+		} else if ($field == "CompanyName") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN Customer WHERE " . $field . " LIKE '%" . $value1 . "%'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "GrossTotal") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " LIKE '%" . $value1 . "%'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			$error = json_decode('{"error":{"code":106,"reason":"Field invalid"}}', true);
+			$error = json_decode('{"error":{"code":206,"reason":"Field invalid"}}', true);
 			return $error;
 		}
+		$i = 0;
+		$retVals = array();
+		foreach ($invoices as $c) {
+			$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
+		}
+
+		return $retVals;
+		
 	} else {
-		$error = json_decode('{"error":{"code":104,"reason":"Value not defined"}}', true);
+		$error = json_decode('{"error":{"code":204,"reason":"Value not defined"}}', true);
 		return $error;
 	}
 }
@@ -167,29 +219,43 @@ function getInvoiceByValMin($field, $val) {
 		try {
 			$db = new PDO('sqlite:../db/finances.db');
 		} catch (PDOException $e) {
-			return json_decode('{"error":{"code":105,"reason":"' . $e -> getMessage() . '"}}', true);
+			return json_decode('{"error":{"code":205,"reason":"' . $e -> getMessage() . '"}}', true);
 
 		}
-		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
-
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " > " . $value1;
-
+		if ($field == "InvoiceNo") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$customers = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			$i = 0;
-			$retVals = array();
-
-			foreach ($customers as $c) {
-				$retVals[$i++] = getInvoiceFromDB($c['CustomerID']);
-			}
-			return $retVals;
+		} else if ($field == "InvoiceDate") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") > julianday('" . $value1 . "')";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "CompanyName") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN Customer WHERE " . $field . " > '" . $value1 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "GrossTotal") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " > '" . $value1 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			$error = json_decode('{"error":{"code":106,"reason":"Field invalid"}}', true);
+			$error = json_decode('{"error":{"code":206,"reason":"Field invalid"}}', true);
 			return $error;
 		}
+		$i = 0;
+		$retVals = array();
+		foreach ($invoices as $c) {
+			$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
+		}
+
+		return $retVals;
+		
 	} else {
-		$error = json_decode('{"error":{"code":104,"reason":"Value not defined"}}', true);
+		$error = json_decode('{"error":{"code":204,"reason":"Value not defined"}}', true);
 		return $error;
 	}
 }
@@ -201,29 +267,43 @@ function getInvoiceByValMax($field, $val) {
 		try {
 			$db = new PDO('sqlite:../db/finances.db');
 		} catch (PDOException $e) {
-			return json_decode('{"error":{"code":105,"reason":"' . $e -> getMessage() . '"}}', true);
+			return json_decode('{"error":{"code":205,"reason":"' . $e -> getMessage() . '"}}', true);
 
 		}
-		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
-
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " < " . $value1;
-
+		if ($field == "InvoiceNo") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " < '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$customers = $stmt -> fetchAll(PDO::FETCH_ASSOC);
-			$i = 0;
-			$retVals = array();
-
-			foreach ($customers as $c) {
-				$retVals[$i++] = getInvoiceFromDB($c['CustomerID']);
-			}
-			return $retVals;
+		} else if ($field == "InvoiceDate") {
+			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") < julianday('" . $value1 . "')";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "CompanyName") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN Customer WHERE " . $field . " < '" . $value1 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+		} else if ($field == "GrossTotal") {
+			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " < '" . $value1 . "'";
+			$stmt = $db -> prepare($select);
+			$stmt -> execute();
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else {
-			$error = json_decode('{"error":{"code":106,"reason":"Field invalid"}}', true);
+			$error = json_decode('{"error":{"code":206,"reason":"Field invalid"}}', true);
 			return $error;
 		}
+		$i = 0;
+		$retVals = array();
+		foreach ($invoices as $c) {
+			$retVals[$i++] = getInvoiceFromDB($c['InvoiceNo']);
+		}
+
+		return $retVals;
+
 	} else {
-		$error = json_decode('{"error":{"code":104,"reason":"Value not defined"}}', true);
+		$error = json_decode('{"error":{"code":204,"reason":"Value not defined"}}', true);
 		return $error;
 	}
 }

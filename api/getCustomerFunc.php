@@ -54,7 +54,7 @@ function getCustomerByValRange($field, $val) {
 		}
 		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
 
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " > " . $value1 . " AND " . $field . " < " . $value2;
+			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " > '" . $value1 . "' AND " . $field . " < '" . $value2 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 
@@ -89,7 +89,7 @@ function getCustomerByValEqual($field, $val) {
 		}
 		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
 
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " = " . $value1;
+			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " = '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 
@@ -123,7 +123,7 @@ function getCustomerByValContains($field, $val) {
 		}
 		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
 
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " LIKE " . "'%" . $value1 . "%'";
+			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " LIKE '%" . $value1 . "%'";
 
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
@@ -157,7 +157,7 @@ function getCustomerByValMin($field, $val) {
 		}
 		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
 
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " > " . $value1;
+			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " > '" . $value1 . "'";
 
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
@@ -191,7 +191,7 @@ function getCustomerByValMax($field, $val) {
 		}
 		if ($field == "CustomerID" || $field == "CustomerTaxID" || $field == "CompanyName") {
 
-			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " < " . $value1;
+			$select = "SELECT CustomerID FROM Customer WHERE " . $field . " < '" . $value1 . "'";
 
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
