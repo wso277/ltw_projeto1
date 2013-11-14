@@ -8,8 +8,7 @@
 	<body>
 	<?php
 	
-			if( isset($_GET["companyName"]) && "" != $_GET["companyName"]     
-				) 
+			if( isset($_GET["companyName"]) && "" != $_GET["companyName"]) 
 			{
 				echo "<h1>ja ta definido</h1>";
 			}

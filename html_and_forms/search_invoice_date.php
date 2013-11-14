@@ -10,7 +10,7 @@
 	
 			if( isset($_GET["invoiceDate"]) && "" != $_GET["invoiceDate"])
 			{
-				echo "<h1>ja ta definido</h1>";
+				echo $_GET["invoiceDate"];
 			}
 			else
 			{
