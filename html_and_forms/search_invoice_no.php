@@ -9,16 +9,19 @@
 	<?php
 	
 			if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"])
-			{?>
-				<script type="text/javascript" src="../lib/jquery-1.10.2.js"></script>
-				<script type="text/javascript" src="../src/search-by-invoice-no.js"></script>
-			<?php}
+			{
+				?>
+				<script src="../lib/jquery-1.10.2.js"></script>
+				<script src="../src/search-by-invoice-no.js"></script>
+				<table id="results" border="1"></table>
+			<?php
+			}
 			else
 			{
 				?>
 				
 				<form>
-				Invoice Number <input name="invoiceNo" type="text" value="<?=isset($_GET['invoiceNo'])? $_GET['invoiceNo'] :""?>">
+				Invoice Number <input id="invoice" name="invoiceNo" type="text" value="<?=isset($_GET['invoiceNo'])? $_GET['invoiceNo'] :""?>">
 				<br/>
 				<input id="submit_btn" type="submit">
 				</form>
