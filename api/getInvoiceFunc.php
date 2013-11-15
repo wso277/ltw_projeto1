@@ -30,7 +30,7 @@ function getInvoiceFromDB($InvoiceNo) {
 
 					$documentTotals = $stmt -> fetch(PDO::FETCH_ASSOC);
 					if ($documentTotals != FALSE) {
-						unset($invoice['DocumentsTotalsID']);
+						unset($invoice['DocumentTotalsID']);
 						$invoice['DocumentsTotals'] = $documentTotals;
 
 						$query = 'SELECT LineNumber, ProductCode, Quantity, UnitPrice, CreditAmount, TaxType, TaxPercentage 

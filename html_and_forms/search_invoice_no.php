@@ -9,17 +9,18 @@
 	<?php
 	
 			if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"])
-			{
-				echo "<h1>ja ta definido</h1>";
-			}
+			{?>
+				<script type="text/javascript" src="../lib/jquery-1.10.2.js"></script>
+				<script type="text/javascript" src="../src/search-by-invoice-no.js"></script>
+			<?php}
 			else
 			{
 				?>
 				
-				<form action="">
+				<form>
 				Invoice Number <input name="invoiceNo" type="text" value="<?=isset($_GET['invoiceNo'])? $_GET['invoiceNo'] :""?>">
 				<br/>
-				<input type="submit">
+				<input id="submit_btn" type="submit">
 				</form>
 				
 				<?php
