@@ -183,7 +183,7 @@ function getInvoiceByValContains($field, $val) {
 			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " LIKE '%" . $value1 . "%'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
-			$customers = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "CompanyName") {
 			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN Customer WHERE " . $field . " LIKE '%" . $value1 . "%'";
 			$stmt = $db -> prepare($select);
@@ -226,7 +226,7 @@ function getInvoiceByValMin($field, $val) {
 			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
-			$customers = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "InvoiceDate") {
 			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") > julianday('" . $value1 . "')";
 			$stmt = $db -> prepare($select);
@@ -274,7 +274,7 @@ function getInvoiceByValMax($field, $val) {
 			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " < '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
-			$customers = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "InvoiceDate") {
 			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") < julianday('" . $value1 . "')";
 			$stmt = $db -> prepare($select);

@@ -11,15 +11,8 @@
 	<body>
 		<script src="../src/check_range.js"></script>
 		<?php
-		if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"] && preg_match("/^[0-9]+$/", $_GET["invoiceNo"]))
+		if( isset($_GET["value1"]) && "" != $_GET["value1"] && preg_match("/^[0-9]+$/", $_GET["value1"]))
 		{
-
-		?>
-		<table id="bill" border="1"></table>
-		<table id="customer" border="1"></table>
-		<table id="lines" border="1"></table>
-
-		<?php
 		}
 		else
 		{
@@ -27,7 +20,8 @@
 
 		<form id="form">
 			Invoice Number
-			<input id="invoice" name="invoiceNo" type="text" value="<?=isset($_GET['invoiceNo']) ? $_GET['invoiceNo'] : "" ?>">
+			<input name="field" type="hidden" value="InvoiceNo">
+			<input id="value1" name="value1" type="text" value="<?=isset($_GET['value1']) ? $_GET['value1'] : "" ?>">
 			<br/>
 			<select id="op" name="op">
 				<option> Equal </option>

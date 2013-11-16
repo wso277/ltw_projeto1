@@ -12,7 +12,7 @@
 		<script src="../src/check_range.js"></script>
 		<?php
 
-		if( isset($_GET["companyName"]) && "" != $_GET["companyName"])
+		if( isset($_GET["value1"]) && "" != $_GET["value1"])
 		{
 		}
 		else
@@ -21,7 +21,8 @@
 
 		<form id="form">
 			Company Name
-			<input name="companyName" type="text" value="<?=isset($_GET['companyName']) ? $_GET['companyName'] : "" ?>">
+			<input name="field" type="hidden" value="CompanyName">
+			<input name="value1" type="text" value="<?=isset($_GET['value1']) ? $_GET['value1'] : "" ?>">
 			<br/>
 			<select id="op" name="op">
 				<option> Equal </option>
