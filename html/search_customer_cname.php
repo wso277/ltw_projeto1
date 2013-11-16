@@ -10,17 +10,24 @@
 	<body>
 		<?php
 
-if( isset($_GET["companyName"]) && "" != $_GET["companyName"])
-{
-echo "<h1>ja ta definido</h1>";
-}
-else
-{
+		if( isset($_GET["companyName"]) && "" != $_GET["companyName"])
+		{
+		}
+		else
+		{
 		?>
 
-		<form action="">
+		<form>
 			Company Name
 			<input name="companyName" type="text" value="<?=isset($_GET['companyName']) ? $_GET['companyName'] : "" ?>">
+			<br/>
+			<select id="op" name="op">
+				<option> Equal </option>
+				<option> Range </option>
+				<option> Contains </option>
+				<option> Min </option>
+				<option> Max </option>
+			</select>
 			<br/>
 			<button id="submit_btn">
 				Submit Query

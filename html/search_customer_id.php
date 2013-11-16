@@ -8,8 +8,7 @@
 	<body>
 	<?php
 	
-			if( isset($_GET["customerID"]) && "" != $_GET["customerID"]     
-				) 
+			if( isset($_GET["customerID"]) && "" != $_GET["customerID"]) 
 			{
 				echo "<h1>ja ta definido</h1>";
 			}
@@ -20,7 +19,17 @@
 				<form action="">
 				Customer ID <input name="customerID" type="text" value="<?=isset($_GET['customerID'])? $_GET['customerID'] :""?>">
 				<br/>
-				<input type="submit">
+				<select id="op" name="op">
+					<option> Equal </option>
+					<option> Range </option>
+					<option> Contains </option>
+					<option> Min </option>
+					<option> Max </option>
+				</select>
+				<br/>
+				<button id="submit_btn">
+					Submit Query
+				</button>
 				</form>
 				
 				<?php

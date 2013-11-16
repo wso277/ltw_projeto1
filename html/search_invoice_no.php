@@ -9,8 +9,8 @@
 
 	<body>
 		<?php
-if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"] && preg_match("/^[0-9]+$/", $_GET["invoiceNo"]))
-{
+		if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"] && preg_match("/^[0-9]+$/", $_GET["invoiceNo"]))
+		{
 
 		?>
 		<table id="bill" border="1"></table>
@@ -26,6 +26,14 @@ if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"] && preg_match("/^[0-9]
 		<form>
 			Invoice Number
 			<input id="invoice" name="invoiceNo" type="text" value="<?=isset($_GET['invoiceNo']) ? $_GET['invoiceNo'] : "" ?>">
+			<br/>
+			<select id="op" name="op">
+				<option> Equal </option>
+				<option> Range </option>
+				<option> Contains </option>
+				<option> Min </option>
+				<option> Max </option>
+			</select>
 			<br/>
 			<button id="submit_btn">
 				Submit Query
