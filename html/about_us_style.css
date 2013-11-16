@@ -1,0 +1,85 @@
+*{
+	margin: 0px;
+}
+
+html {
+	height: 100%;
+	background: url(index.jpeg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+body {
+	font-family: Helvetica; 
+	font-size: 18px; 
+	line-height: 24px;
+	height: 38em;
+	width: 60em;
+	margin: 3em auto;
+}
+
+header {
+	background-color: #DAF7A0;
+	text-align:left;
+	margin-right:100px;
+	font: 50px Tahoma, Helvetica, Arial, Sans-Serif;
+	color: #222; 
+	text-shadow: 0px 2px 3px #555;
+	font-size: 18pt;
+	padding: 1em 3em;
+	width: 100%;
+}
+
+#main_div {
+	border-radius: 10px 80px 10px 80px;
+	border: 4px solid;
+	border-color: white;
+	height: inherit;
+	width: inherit;
+	overflow: hidden;
+	position: absolute;
+	background: url(body_pattern.jpg) repeat center center;
+	background-size: 10%;
+}
+
+nav{
+	padding: 10px 50px;
+	line-height:50px;
+}
+
+
+footer{
+	position: fixed;
+	bottom: 0px;
+	height: 2em;
+	width: inherit;
+	background:#006600;
+	font-size:10pt;
+	text-align: right;
+}
+
+footer>a{
+	text-decoration:none;
+	color:white;
+	margin:0px 10px;
+	letter-spacing:.1em;
+	font-variant:small-caps;
+}
+
+#pipe{
+	color:white;
+}
+
+#elements{
+	list-style:url(marker2.png);
+}
+
+#elements > li{
+	padding-top:5px;
+}
+
+#about_us_intro{
+	font-size:24px;
+}
