@@ -4,7 +4,6 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<script src="../src/search-customer-by-company-name.js"></script>
 		<link rel="stylesheet" href="./coiso.css">
 	</head>
 	
@@ -12,16 +11,20 @@
 		<script src="../src/check_range.js"></script>
 	<?php
 	
-		if( isset($_GET["grossTotal"]) && "" != $_GET["grossTotal"])
+		if( isset($_GET["value1"]) && "" != $_GET["value1"] && preg_match("/^[0-9]+|[0-9]+\.[0-9]+$/", $_GET["value1"]))
 		{
-			echo "<h1>ja ta definido</h1>";
+			?>
+		<script src="../src/search-invoice-by-field.js"></script>
+		<?php
 		}
 		else
 		{
 			?>
 				
 			<form id="form">
-				Gross Total <input name="grossTotal" type="text" value="<?=isset($_GET['grossTotal'])? $_GET['grossTotal'] :""?>">
+				Gross Total 
+				<input name="field" type="hidden" value="GrossTotal">
+				<input name="value1" type="text" value="<?=isset($_GET['value1'])? $_GET['value1'] :""?>">
 				<br/>
 				<select id="op" name="op">
 					<option> Equal </option>

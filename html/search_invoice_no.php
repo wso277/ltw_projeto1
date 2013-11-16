@@ -4,7 +4,6 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<script src="../src/search-invoice-by-field.js"></script>
 		<link rel="stylesheet" href="./coiso.css">
 	</head>
 
@@ -13,6 +12,9 @@
 		<?php
 		if( isset($_GET["value1"]) && "" != $_GET["value1"] && preg_match("/^[0-9]+$/", $_GET["value1"]))
 		{
+			?>
+		<script src="../src/search-invoice-by-field.js"></script>
+		<?php
 		}
 		else
 		{

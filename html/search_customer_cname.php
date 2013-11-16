@@ -4,7 +4,6 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<script src="../src/search-customer-by-company-name.js"></script>
 		<link rel="stylesheet" href="./coiso.css">
 	</head>
 
@@ -14,6 +13,12 @@
 
 		if( isset($_GET["value1"]) && "" != $_GET["value1"])
 		{
+			?>
+			
+		<script src="../src/search-customer-by-field.js"></script>
+			<table id="customer" border="1">
+			</table>
+		<?php
 		}
 		else
 		{

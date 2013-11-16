@@ -9,7 +9,10 @@ function getUrlVars() {
 $(document).ready(function() {
 	
 	var field = getUrlVars()["field"];
-	var op = getUrlVars()["op"].toLowerCase();
+	var op;
+	if (typeof getUrlVars()["op"] != "undefined") {
+		op = getUrlVars()["op"].toLowerCase();
+	}
 	var value1 = getUrlVars()["value1"];
 	var value2 = getUrlVars()["value2"];
 	

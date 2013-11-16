@@ -4,7 +4,6 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<script src="../src/search-customer-by-company-name.js"></script>
 		<link rel="stylesheet" href="./coiso.css">
 	</head>
 	
@@ -12,16 +11,24 @@
 		<script src="../src/check_range.js"></script>
 	<?php
 	
-		if( isset($_GET["productCode"]) && "" != $_GET["productCode"]) 
+		if( isset($_GET["value1"]) && "" != $_GET["value1"] && preg_match("/^[0-9]+$/", $_GET["value1"])) 
 		{
-			echo "<h1>ja ta definido</h1>";
+			?>
+		<script src="../src/search-products-by-field.js"></script>
+		<table id="product" border="1">
+			
+		</table>
+		
+		<?php
 		}
 		else
 		{
 			?>
 				
 			<form id="form">
-				Product Code <input name="productCode" type="text" value="<?=isset($_GET['productCode'])? $_GET['productCode'] :""?>">
+				Product Code 
+				<input name="field" type="hidden" value="ProductCode">
+				<input name="value1" type="text" value="<?=isset($_GET['value1'])? $_GET['value1'] :""?>">
 				<br/>
 				<select id="op" name="op">
 					<option> Equal </option>
