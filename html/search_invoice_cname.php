@@ -1,13 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-	<meta charset = "UTF-8">
-	<title> Search Customer by Field </title>
-	<script src="../lib/jquery-1.10.2.js"></script>
-	<script src="../src/search-customer-by-company-name.js"></script>
+		<meta charset = "UTF-8">
+		<title> Search Customer by Field </title>
+		<script src="../lib/jquery-1.10.2.js"></script>
+		<script src="../src/search-customer-by-company-name.js"></script>
+		<link rel="stylesheet" href="./coiso.css">
 	</head>
 	
 	<body>
+		<script src="../src/check_range.js"></script>
 	<?php
 	
 		if( isset($_GET["companyName"]) && "" != $_GET["companyName"])
@@ -18,7 +20,7 @@
 		{
 			?>
 				
-			<form>
+			<form id="form">
 				Company Name <input name="companyName" type="text" value="<?=isset($_GET['companyName'])? $_GET['companyName'] :""?>">
 				<br/>
 				<select id="op" name="op">

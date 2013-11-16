@@ -4,10 +4,12 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<script src="../src/search-by-invoice-no.js"></script>
+		<script src="../src/search-invoice-by-field.js"></script>
+		<link rel="stylesheet" href="./coiso.css">
 	</head>
 
 	<body>
+		<script src="../src/check_range.js"></script>
 		<?php
 		if( isset($_GET["invoiceNo"]) && "" != $_GET["invoiceNo"] && preg_match("/^[0-9]+$/", $_GET["invoiceNo"]))
 		{
@@ -23,7 +25,7 @@
 		{
 		?>
 
-		<form>
+		<form id="form">
 			Invoice Number
 			<input id="invoice" name="invoiceNo" type="text" value="<?=isset($_GET['invoiceNo']) ? $_GET['invoiceNo'] : "" ?>">
 			<br/>
