@@ -8,10 +8,10 @@ function getUrlVars() {
 
 $(document).ready(function() {
 	
-	var invoiceNo = getUrlVars()["invoiceNo"];
+	var companyName = getUrlVars()["companyName"];
 
 
-var $invoice = $.ajax({url: "../api/getInvoice.php",
+var $customer = $.ajax({url: "../api/getInvoice.php",
 	type: "GET",
 	data: ({InvoiceNo:invoiceNo}), // aqui pôr-se ia a variável invoiceNo se o
 							// jquery desse.
