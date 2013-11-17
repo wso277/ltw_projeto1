@@ -102,11 +102,11 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 
 		if (data[k].Lines != null) // Se tiver entradas da tabela Lines
 		{
-			
+			var j=1;
 			for (var i = 0; i < data[k].Lines.length; i++)
 			{
 				var rowLine = $('<tr>');
-				rowLine.append($('<td>' + data[k].Lines[i].LineNumber + '</td>'));
+				rowLine.append($('<td>' + j + '</td>')); j++;
 				rowLine.append($('<td>' + data[k].Lines[i].Quantity + '</td>'));
 				rowLine.append($('<td>' + data[k].Lines[i].UnitPrice + '</td>'));
 				rowLine.append($('<td>' + data[k].Lines[i].CreditAmount + '</td>'));

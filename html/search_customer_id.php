@@ -4,7 +4,7 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<link rel="stylesheet" href="./style.css">
+		<link rel="stylesheet" href="./style1.css">
 	</head>
 	
 	<body>

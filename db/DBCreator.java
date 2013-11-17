@@ -151,9 +151,9 @@ public class DBCreator {
 		}
 		
 		String prod_desc[] = {"'atum, compre o que e nosso'", "'iogurte de pinacolada fabricado no Hawai'", 
-				"'flores em segunda mao'", "'livro tecnico coiso'"};
-		double prod_unitprice[] = { 23.3, 75, 555.33, 1000000};
-		String prod_unmeasure[] = {"'micrometros'", "'user stories'", "'cancros'"};
+				"'flores em segunda mao'", "'livro tecnico coiso'", "'Carapauzinho, com espinha deste tamanho'", "'Leite ressequido'", "'Super Computador 2015'"};
+		double prod_unitprice[] = { 23.3, 75, 555.33, 1005.75, 326.45};
+		String prod_unmeasure[] = {"'micrometros'", "'Kilos'", "'Jaquinzinhos'", "'Umhs'"};
 		
 		for (int i = 1; i <= max; i++) {
 			int desc =  Math.abs(r.nextInt() % prod_desc.length);
@@ -171,10 +171,10 @@ public class DBCreator {
 			}
 		}
 		
-		String bill_detail[] = {"'Rua da Pena'", "'n 23 Tapada'", "'Avenida Sempre-Aberta'"};
-		String bill_city[] = {"'Cardoso'", "'Vila Nova da Bonita'", "'Souto Maior'", "'Desgosto City'"};
-		String bill_postcod[] = {"'1234-568'", "'9999999'", "'2225-56699'"};
-		String bill_country[] = {"'Coxixina'", "'United States of Tugas'", "'Coiso'"};
+		String bill_detail[] = {"'Rua da Pena'", "'n 23 Tapada'", "'Avenida Sempre-Aberta'", "'Avenida Aberta-as-vezes'", "'Rua do Ze Grande'"};
+		String bill_city[] = {"'Regua'", "'Vila Nova da Bonita'", "'Souto Maior'", "'Desgosto City'"};
+		String bill_postcod[] = {"'1234-568'", "'9999-123'", "'2225-566'"};
+		String bill_country[] = {"'Pais dos maiores'", "'United States of Tugas'", "'Aquele ali do lado'"};
 		
 		for (int i = 1; i <= max; i++) {
 			int detail =  Math.abs(r.nextInt() % bill_detail.length);
@@ -193,15 +193,19 @@ public class DBCreator {
 			}
 		}
 		
-		String cust_taxid[] = {"'35646'", "'5555555'", "'123555555555'"};
+		String cust_taxid[] = {"'35646'", "'31254'", "'687645'", "'98783231'"};
 		String comp_name[] = {"'Caves de absinto'", "'modalfa'", "'itCrowd'", "'Pandaria'"};
-		String email[] = {"'kldsgh@upaupa'", "'masquecoisasecante@trabalhossecantes.com'", "'sqlforthe@win'"};
+		String email[] = {"'kjndf@gmail.com'", "'putin@russia.rsrs'", "'sqlforthe@win'"};
 		
 		for (int i = 1; i <= max; i++) {
-			int tax_id =  Math.abs(r.nextInt() % bill_detail.length);
+			/*int tax_id =  Math.abs(r.nextInt() % bill_detail.length);
 			int name =  Math.abs(r.nextInt() % bill_city.length);
 			int addr =  Math.abs(r.nextInt() % max) + 1;
-			int mail =  Math.abs(r.nextInt() % bill_country.length);
+			int mail =  Math.abs(r.nextInt() % bill_country.length);*/
+			int tax_id =  Math.abs(r.nextInt() % cust_taxid.length);
+			int name =  Math.abs(r.nextInt() % comp_name.length);
+			int addr =  Math.abs(r.nextInt() % max) + 1;
+			int mail =  Math.abs(r.nextInt() % email.length);
 			
 			String cust = "INSERT INTO Customer (CustomerTaxID, CompanyName, BillingAddressID, Email) VALUES (" 
 					+ cust_taxid[tax_id] + ", " + comp_name[name] + ", "
@@ -229,7 +233,7 @@ public class DBCreator {
 			}
 		}
 		
-		String date[] = {"'2013-01-23'", "'1970-12-24'", "'1993-08-27'"};
+		String date[] = {"'2013-01-23'", "'1970-12-24'", "'1993-08-27'", "'1993-08-09'", "'1993-04-02'", "'2001-05-31'", "'2003-02-15'"};
 		for (int i = 1; i <= max_bills; i++) {
 			int date_i =  Math.abs(r.nextInt() % date.length);
 			int custm_id =  Math.abs(r.nextInt() % max) + 1;
@@ -246,7 +250,7 @@ public class DBCreator {
 		}
 		
 		String taxtype[] = {"'Fundo Monetario para a Corrupcao'", "'Imposto pelo St. Antonio'", "'Imposto sobre o Alcool'"};
-		double taxperc[] = { 132131, 211.3222, 3216365.12};
+		double taxperc[] = { 132.35, 211.32, 321.12};
 		for (int i = 1; i <= max; i++) {
 			int type =  Math.abs(r.nextInt() % taxperc.length);
 			int perc =  Math.abs(r.nextInt() % taxtype.length);
