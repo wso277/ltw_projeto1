@@ -31,28 +31,30 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 		
 		for (var k = 0; k < data.length; k++) {
 			
-			var tableBill = $('<table border="1">');
-			var customerBill = $('<table border="1">');
-			var lineBill = $('<table border="1">');
+			var tableBill = $('<table id="bill">');
+			var customerBill = $('<table id="bill_customer">');
+			var lineBill = $('<table id="line_bill">');
 			
-		var rowInit = $('<tr>');
-		rowInit.append($('<td>' + "Invoice Number" + '</td>'));
-		rowInit.append($('<td>' + "Invoice Date" + '</td>'));
+		var rowInit = $('<thead>');
+		rowInit.append($('<tr><th>' + "Invoice Number" + '</th></tr>'));
+		rowInit.append($('<tr><th>' + "Invoice Date" + '</th></tr>'));
 
-		rowInit.append($('<td>' + "Tax Payable" + '</td>'));
-		rowInit.append($('<td>' + "Net Total" + '</td>'));
-		rowInit.append($('<td>' + "Gross Total" + '</td>'));
+		rowInit.append($('<tr><th>' + "Tax Payable" + '</th></tr>'));
+		rowInit.append($('<tr><th>' + "Net Total" + '</th></tr>'));
+		rowInit.append($('<tr><th>' + "Gross Total" + '</th></tr>'));
+		rowInit.append($('</thead>'));
 		tableBill.append(rowInit);
 		
-		var customerRow = $('<tr>');
-		customerRow.append($('<td>' + "Customer ID" + '</td>'));
-		customerRow.append($('<td>' + "Customer Tax ID" + '</td>'));
-		customerRow.append($('<td>' + "Company Name" + '</td>'));
-		customerRow.append($('<td>' + "Email" + '</td>'));
-		customerRow.append($('<td>' + "Address Detail" + '</td>'));
-		customerRow.append($('<td>' + "City" + '</td>'));
-		customerRow.append($('<td>' + "Postal Code" + '</td>'));
-		customerRow.append($('<td>' + "Country" + '</td>'));
+		var customerRow = $('<thead>');
+		customerRow.append($('<tr><th>' + "Customer ID" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "Customer Tax ID" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "Company Name" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "Email" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "Address Detail" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "City" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "Postal Code" + '</th></tr>'));
+		customerRow.append($('<tr><th>' + "Country" + '</th></tr>'));
+		customerRow.append($('</thead>'));
 		
 		customerBill.append(customerRow);
 		
@@ -60,38 +62,40 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 		var linesRow = $('<tr>');
 
 				
-				linesRow.append($('<td>' + "Line Number" + '</td>'));
-				linesRow.append($('<td>' + "Quantity" + '</td>'));
-				linesRow.append($('<td>' + "Unit Price" + '</td>'));
-				linesRow.append($('<td>' + "Credit Amount" + '</td>'));
-				linesRow.append($('<td>' + "Tax Type" + '</td>'));
-				linesRow.append($('<td>' + "Tax Percentage" + '</td>'));
-				linesRow.append($('<td>' + "Product Code" + '</td>'));
-				linesRow.append($('<td>' + "Product Description" + '</td>'));
-				linesRow.append($('<td>' + "Unit Price" + '</td>'));
-				linesRow.append($('<td>' + "Unit of Measure" + '</td>'));
+				linesRow.append($('<th>' + "Line Number" + '</th>'));
+				linesRow.append($('<th>' + "Quantity" + '</th>'));
+				linesRow.append($('<th>' + "Unit Price" + '</th>'));
+				linesRow.append($('<th>' + "Credit Amount" + '</th>'));
+				linesRow.append($('<th>' + "Tax Type" + '</th>'));
+				linesRow.append($('<th>' + "Tax Percentage" + '</th>'));
+				linesRow.append($('<th>' + "Product Code" + '</th>'));
+				linesRow.append($('<th>' + "Product Description" + '</th>'));
+				linesRow.append($('<th>' + "Unit Price" + '</th>'));
+				linesRow.append($('<th>' + "Unit Of Measure" + '</th>'));
+				linesRow.append($('</tr>'));
 		
 		lineBill.append(linesRow);
 		
-			var row = $('<tr>');
-			row.append($('<td>' + data[k].InvoiceNo + '</td>'));
-			row.append($('<td>' + data[k].InvoiceDate + '</td>'));
-			row.append($('<td>' + data[k].DocumentsTotals.TaxPayable + '</td>'));
-			row.append($('<td>' + data[k].DocumentsTotals.NetTotal + '</td>'));
-			row.append($('<td>' + data[k].DocumentsTotals.GrossTotal + '</td>'));
-			row.append($('</tr>'));
+			var row = $('<tbody>');
+			row.append($('<tr><td>' + data[k].InvoiceNo + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].InvoiceDate + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].DocumentsTotals.TaxPayable + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].DocumentsTotals.NetTotal + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].DocumentsTotals.GrossTotal + '</td></tr>'));
+			row.append($('</body>'));
 			tableBill.append(row);
 
 
-		var rowCust = $('<tr>');
-		rowCust.append($('<td>' + data[k].Customer.CustomerID + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.CustomerTaxID + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.CompanyName + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.Email + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.BillingAddress.AddressDetail + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.BillingAddress.City + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.BillingAddress.PostalCode + '</td>'));
-		rowCust.append($('<td>' + data[k].Customer.BillingAddress.Country + '</td>'));
+		var rowCust = $('<tbody>');
+		rowCust.append($('<tr><td>' + data[k].Customer.CustomerID + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.CustomerTaxID + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.CompanyName + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.Email + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.BillingAddress.AddressDetail + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.BillingAddress.City + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.BillingAddress.PostalCode + '</td></tr>'));
+		rowCust.append($('<tr><td>' + data[k].Customer.BillingAddress.Country + '</td></tr>'));
+		rowCust.append($('</body>'));
 		customerBill.append(rowCust);
 
 		
@@ -119,8 +123,8 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 		tableBill.append('</table>');
 		customerBill.append('</table>');
 		lineBill.append('</table>');
-		$('#main_div').append(tableBill);
 		$('#main_div').append(customerBill);
+		$('#main_div').append(tableBill);
 		$('#main_div').append(lineBill);
 		}
 		

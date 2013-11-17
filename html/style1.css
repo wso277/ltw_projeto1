@@ -45,6 +45,7 @@ header {
 	font-size: 18pt;
 	padding: 1em 3em;
 	width: 100%;
+	position: relative;
 }
 
 h1>span {
@@ -154,6 +155,60 @@ table {
 	position: relative;	
 	z-index: 1;
 	margin: 2em;
+	border: 2px solid white;
+	border-collapse: collapse;
 }
 
+#bill {
+	position: absolute;
+	top: 6em;
+	right: 0px;
+	display: inline-block;
+}
+
+#bill_customer {
+	top: 0px;
+	left: 0px;
+	display: inline-block;
+}
+
+#bill thead {
+	display: inline-block;
+}
+
+#bill tbody {
+	display: inline-block;
+}
+
+#bill_customer thead {
+	display: inline-table;
+}
+
+#bill_customer tbody {
+	display: inline-table;
+}
+
+th {
+	background-color: #96C56F;
+	border: solid white;
+	color: white;
+	font-weight: normal;
+	font-size: 90%;
+	padding: 0px 0.5em;
+}
+
+td {
+	border: solid white;
+	padding: 0px 0.5em;
+	font-weight: lighter;
+	font-size: 80%;
+}
+
+tr:nth-child(2n) {
+	background-color: #aaa;
+}
+
+tr:nth-child(2n + 1) {
+	background-color: #ddd;
+}
 

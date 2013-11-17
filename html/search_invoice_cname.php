@@ -4,10 +4,12 @@
 		<meta charset = "UTF-8">
 		<title> Search Customer by Field </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
-		<link rel="stylesheet" href="./coiso.css">
+		<link rel="stylesheet" href="./style1.css">
 	</head>
 	
 	<body>
+	<div id="main_div">
+		<?php include('header.php');?>
 		<script src="../src/check_range.js"></script>
 	<?php
 	
@@ -43,7 +45,7 @@
 				<?php
 			}
 			?>
-			
+			</div>
 	</body>
 	
 </html>
