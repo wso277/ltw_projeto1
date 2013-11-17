@@ -14,15 +14,16 @@ html {
 }
 
 body {
+	z-index: 0;
 	font-family: Helvetica; 
 	font-size: 18px; 
 	line-height: 24px;
-	height: 38em;
 	width: 60em;
 	margin: 3em auto;
 }
 
 #main_div {
+	z-index: 0;
 	border-radius: 10px 80px 10px 80px;
 	border: 4px solid;
 	border-color: white;
@@ -77,6 +78,7 @@ nav {
 }
 
 .section {
+	position: relative;
 	border-radius: 5px 20px 5px 20px;
 	display: inline-block;
 	width: 200px;
@@ -98,7 +100,7 @@ nav {
 }
 
 .section>ul {
-	display:block;
+	display: table-row;
 	font-size: 12pt;
 }
 
@@ -138,3 +140,20 @@ nav>div>ul>a {
 nav>div>ul>a:hover {
 	background: #4b545f;
 }
+
+#text_div{
+	display:inline;
+}
+
+#form {
+	width: 30em;
+	margin: 5em auto;
+}
+
+table {
+	position: relative;	
+	z-index: 1;
+	margin: 2em;
+}
+
+

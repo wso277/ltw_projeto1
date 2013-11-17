@@ -119,9 +119,9 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 		tableBill.append('</table>');
 		customerBill.append('</table>');
 		lineBill.append('</table>');
-		$('body').append(tableBill);
-		$('body').append(customerBill);
-		$('body').append(lineBill);
+		$('#main_div').append(tableBill);
+		$('#main_div').append(customerBill);
+		$('#main_div').append(lineBill);
 		}
 		
 		console.log(data); // mostra o que está em data
