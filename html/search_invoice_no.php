@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <title>Search Customer by Field</title>
 <script src="../lib/jquery-1.10.2.js"></script>
-<link rel="stylesheet" media="all" href="./style1.css">
+<link rel="stylesheet" media="screen" href="./style1.css">
+<link rel="stylesheet" media="print" href="./print.css">
 </head>
 
 <body>
