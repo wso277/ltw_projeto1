@@ -6,6 +6,7 @@
 		<script src="../lib/jquery-1.10.2.js"></script>
 		
 		<link rel="stylesheet" href="./style1.css">
+<link rel="stylesheet" media="print" href="./print.css">
 	</head>
 	
 	<body>
