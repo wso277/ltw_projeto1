@@ -35,6 +35,15 @@ body {
 	background-size: 10%;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:visited {
+	text-decoration: none;
+	color: inherit; 
+}
+
 header {
 	background-color: #DAF7A0;
 	text-align:left;
@@ -160,9 +169,9 @@ table {
 }
 
 #bill {
-	position: absolute;
-	top: 6em;
-	right: 0px;
+	position: relative;
+	top: -2em;
+	right: -20em;
 	display: inline-block;
 }
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Search Customer by Field</title>
 <script src="../lib/jquery-1.10.2.js"></script>
-<link rel="stylesheet" media="all" href="./style1.css">
+<link rel="stylesheet" media="screen" href="./style1.css">
 <link rel="stylesheet" media="print" href="./print.css">
 </head>
 
@@ -21,7 +21,8 @@
 			?>
 
 		<form id="form">
-			Invoice Number <input name="field" type="hidden" value="InvoiceNo"> <input
+			Invoice Number 
+			<input name="field" type="hidden" value="InvoiceNo"> <input
 				id="value1" name="value1" type="text"
 				value="<?=isset($_GET['value1']) ? $_GET['value1'] : "" ?>"> <br />
 			<select id="op" name="op">
