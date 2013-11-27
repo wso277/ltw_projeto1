@@ -228,10 +228,6 @@ public class DBCreator {
 		String email[] = {"'kjndf@gmail.com'", "'putin@russia.rsrs'", "'sqlforthe@win'"};
 		
 		for (int i = 1; i <= max; i++) {
-			/*int tax_id =  Math.abs(r.nextInt() % bill_detail.length);
-			int name =  Math.abs(r.nextInt() % bill_city.length);
-			int addr =  Math.abs(r.nextInt() % max) + 1;
-			int mail =  Math.abs(r.nextInt() % bill_country.length);*/
 			int tax_id =  Math.abs(r.nextInt() % cust_taxid.length);
 			int name =  Math.abs(r.nextInt() % comp_name.length);
 			int addr =  Math.abs(r.nextInt() % max) + 1;

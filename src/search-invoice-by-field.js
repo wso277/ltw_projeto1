@@ -13,21 +13,30 @@ $(document).ready(function() {
 	if (typeof getUrlVars()["op"] != "undefined") {
 		op = getUrlVars()["op"].toLowerCase();
 	}
+	
 	var value1 = getUrlVars()["value1"];
+	if (typeof getUrlVars()["value1"] != "undefined") {
+		var tmp = value1;
+		while((tmp = tmp.replace("+", " ")) != value1) {
+			value1 = tmp;
+		}
+	}
 	var value2 = getUrlVars()["value2"];
+	if (typeof getUrlVars()["value2"] != "undefined") {
+		var tmp = value2;
+		while((tmp = tmp.replace("+", " ")) != value2) {
+			value2 = tmp;
+		}
+	}
 	
 	var data = "field=" + encodeURIComponent(field) + "&op=" + encodeURIComponent(op) + "&value[]=" + encodeURIComponent(value1) + "&value[]=" + encodeURIComponent(value2);
 	
 
 var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 	type: "GET",
-	data: data, // aqui pôr-se ia a variável invoiceNo se o
-							// jquery desse.
+	data: data,
 	dataType: "json",
-	success: function(data){ 
-		// tornar isto dinâmico e bonito com css
-		// isto vai fazendo append à tabela com id results que está no
-		// php do formulário.
+	success: function(data){
 		
 		for (var k = 0; k < data.length; k++) {
 			
