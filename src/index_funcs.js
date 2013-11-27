@@ -3,19 +3,22 @@ $(document).ready(function() {
 	$('.section>ul>a').hide();
 	
 	$('.section').mouseenter(function() {
-		$(this).children('ul').children('a').slideToggle('slow');
+		var link = $(this).children('ul').children('a');
+		link.stop(true, true);
+		link.slideToggle('fast');
 	});
 	
 	$('.section').mouseleave(function() {
-		$(this).children('ul').children('a').slideUp('slow');
+		var link = $(this).children('ul').children('a');
+		link.stop(true, true);
+		link.slideUp('fast');
 	});
 	
-	
-	$('#login').mouseenter(function() {
+	$('.log').mouseenter(function() {
 		$(this).fadeTo('fast', '1');
 	});
 	
-	$('#login').mouseleave(function() {
+	$('.log').mouseleave(function() {
 		$(this).fadeTo('fast', '0.5');
 	});
 	

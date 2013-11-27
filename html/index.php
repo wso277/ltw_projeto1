@@ -11,7 +11,13 @@
 	<div id="main_div">
 		<header>
 			<h1>Online<span>Invoicing</span>System</h1>
-			<div id="login"><a href="login.php">Login</a></div>
+			<?php 
+				if (!isset($_SESSION['permission'])) { ?>
+					<a href="login.php"><div class="log">Login</div></a>
+				<?php } else { ?>
+					<a href="logout.php"><div class="log">Logout</div></a>
+				<?php }
+			?>
 		</header>
 		<nav>
 			<div class="section">

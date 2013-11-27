@@ -61,7 +61,7 @@ h1>span {
 	color: #ddd; 
 }
 
-#login {
+.log {
 	position: relative;
 	width: 10em;
 	float: right;
@@ -70,10 +70,6 @@ h1>span {
 	padding-left: 1em;
 	border-top-left-radius: 10px;
 	opacity: 0.5;
-}
-
-#login>a {
-	text-decoration: none;
 }
 
 footer{
@@ -242,4 +238,12 @@ tr:nth-child(2n + 1) {
 footer a:visited {
 	text-decoration: none;
 	color: white;
+}
+
+form {
+	margin: 2em;
+}
+
+input#login {
+	margin: 0px 2em;
 }
