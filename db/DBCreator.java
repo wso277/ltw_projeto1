@@ -54,7 +54,7 @@ public class DBCreator {
 				+ "UserID	INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ "UserName 	TEXT NOT NULL,"
 				+ "Password		TEXT NOT NULL,"
-				+ "Permission	TEXT NOT NULL,"
+				+ "Permission	TEXT NOT NULL"
 				+ ");";
 		try {
 			stmt.executeUpdate(user);
@@ -164,13 +164,13 @@ public class DBCreator {
 		}
 
 		String administrator = "INSERT INTO User (UserID, UserName, Password, Permission) VALUES (" 
-					+ 1 + ", " + "administrator1" + ", " + "administrator1Password" + "administrator" + ");";
+					+ 1 + ", " + "'administrator1'" + ", " + "'administrator1Password'" + ", " + "'administrator'" + ");";
 			
 		String editor = "INSERT INTO User (UserID, UserName, Password, Permission) VALUES (" 
-					+ 1 + ", " + "editor1" + ", " + "editor1Password" + "editor" + ");";
+					+ 2 + ", " + "'editor1'" + ", " + "'editor1Password'" + ", " + "'editor'" + ");";
 					
 		String reader = "INSERT INTO User (UserID, UserName, Password, Permission) VALUES (" 
-					+ 1 + ", " + "reader1" + ", " + "reader1Password" + "reader" + ");";
+					+ 3 + ", " + "'reader1'" + ", " + "'reader1Password'" + ", " + "'reader'" + ");";
 									
 		try {
 			stmt.executeUpdate(administrator);
