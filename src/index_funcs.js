@@ -11,4 +11,12 @@ $(document).ready(function() {
 	});
 	
 	
+	$('#login').mouseenter(function() {
+		$(this).fadeTo('fast', '1');
+	});
+	
+	$('#login').mouseleave(function() {
+		$(this).fadeTo('fast', '0.5');
+	});
+	
 });
