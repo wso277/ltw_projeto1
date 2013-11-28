@@ -61,6 +61,17 @@ h1>span {
 	color: #ddd; 
 }
 
+.log {
+	position: relative;
+	width: 10em;
+	float: right;
+	bottom: 0.5em;
+	background-color: #00AA00;
+	padding-left: 1em;
+	border-top-left-radius: 10px;
+	opacity: 0.5;
+}
+
 footer{
 	position: fixed;
 	bottom: 0px;
@@ -85,6 +96,9 @@ footer>a{
 
 nav {
 	margin: 5em auto;
+	padding: 0px auto;
+	position: relative;
+	width: 710px;
 }
 
 .section {
@@ -105,13 +119,25 @@ nav {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a9db80', endColorstr='#96c56f',GradientType=0 ); /* IE6-9 */
 }
 
+.section:first-child {
+	margin-left: 0px;
+}
+
 .section>ul>a {
-	display:none;
+	display:block;
+	text-decoration: none;
+	color: #ffffff; 
+}
+
+.section>ul>a>li {
+	list-style:none;
 }
 
 .section>ul {
-	display: table-row;
+	display: table;
 	font-size: 12pt;
+	width: 200px;
+	padding: auto;
 }
 
 .section:hover {
@@ -127,23 +153,11 @@ nav {
 }
 
 .section:hover>ul>a {
-	display: block; 
-	/*padding: 25px 30px;*/
-	color: #ffffff; 
-	text-decoration: none;
-}
-.section:hover>ul>a>li {
-	list-style:none;
-}
-
-.section:hover>ul>a {
-	float: none; 
 	border-top: 1px solid #6b727c;
 	position: relative;
 }
 
 nav>div>ul>a {
-	/*padding: 15px 100px;*/
 	color: #fff;
 }
 
@@ -221,3 +235,15 @@ tr:nth-child(2n + 1) {
 	background-color: #ddd;
 }
 
+footer a:visited {
+	text-decoration: none;
+	color: white;
+}
+
+form {
+	margin: 2em;
+}
+
+input#login {
+	margin: 0px 2em;
+}

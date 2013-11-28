@@ -13,8 +13,21 @@ $(document).ready(function() {
 	if (typeof getUrlVars()["op"] != "undefined") {
 		op = getUrlVars()["op"].toLowerCase();
 	}
+
 	var value1 = getUrlVars()["value1"];
+	if (typeof getUrlVars()["value1"] != "undefined") {
+		var tmp = value1;
+		while((tmp = tmp.replace("+", " ")) != value1) {
+			value1 = tmp;
+		}
+	}
 	var value2 = getUrlVars()["value2"];
+	if (typeof getUrlVars()["value2"] != "undefined") {
+		var tmp = value2;
+		while((tmp = tmp.replace("+", " ")) != value2) {
+			value2 = tmp;
+		}
+	}
 	
 	var data = "field=" + encodeURIComponent(field) + "&op=" + encodeURIComponent(op) + "&value[]=" + encodeURIComponent(value1) + "&value[]=" + encodeURIComponent(value2);
 	
@@ -26,10 +39,10 @@ $(document).ready(function() {
 			success: function(data) {
 				
 				var productRow = $('<tr>');
-				productRow.append($('<td>' + "Product Code" + '</td>'));
-				productRow.append($('<td>' + "Product Description" + '</td>'));
-				productRow.append($('<td>' + "Unit Price" + '</td>'));
-				productRow.append($('<td>' + "Unit of Measure" + '</td>'));
+				productRow.append($('<th>' + "Product Code" + '</th>'));
+				productRow.append($('<th>' + "Product Description" + '</th>'));
+				productRow.append($('<th>' + "Unit Price" + '</th>'));
+				productRow.append($('<th>' + "Unit of Measure" + '</th>'));
 				$('#product').append(productRow);
 				
 				if (data.length != null) {

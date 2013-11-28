@@ -35,6 +35,7 @@ public class DBCreator {
 		}
 
 		String drop_tables = 
+						"DROP TABLE IF EXISTS User; " +
 						"DROP TABLE IF EXISTS TaxPerBillLine; " +
 						"DROP TABLE IF EXISTS Tax; " +
 						"DROP TABLE IF EXISTS Line; " + 
@@ -45,6 +46,18 @@ public class DBCreator {
 						"DROP TABLE IF EXISTS BillingAddress; ";
 		try {
 			stmt.executeUpdate(drop_tables);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String user = "CREATE TABLE User ("
+				+ "UserID	INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ "UserName 	TEXT NOT NULL,"
+				+ "Password		TEXT NOT NULL,"
+				+ "Permission	TEXT NOT NULL"
+				+ ");";
+		try {
+			stmt.executeUpdate(user);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -146,6 +159,23 @@ public class DBCreator {
 				+ ");";
 		try {
 			stmt.executeUpdate(tax_billLine);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		String administrator = "INSERT INTO User (UserID, UserName, Password, Permission) VALUES (" 
+					+ 1 + ", " + "'administrator1'" + ", " + "'administrator1Password'" + ", " + "'administrator'" + ");";
+			
+		String editor = "INSERT INTO User (UserID, UserName, Password, Permission) VALUES (" 
+					+ 2 + ", " + "'editor1'" + ", " + "'editor1Password'" + ", " + "'editor'" + ");";
+					
+		String reader = "INSERT INTO User (UserID, UserName, Password, Permission) VALUES (" 
+					+ 3 + ", " + "'reader1'" + ", " + "'reader1Password'" + ", " + "'reader'" + ");";
+									
+		try {
+			stmt.executeUpdate(administrator);
+			stmt.executeUpdate(editor);
+			stmt.executeUpdate(reader);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

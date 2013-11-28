@@ -13,8 +13,21 @@ $(document).ready(function() {
 	if (typeof getUrlVars()["op"] != "undefined") {
 		op = getUrlVars()["op"].toLowerCase();
 	}
+	
 	var value1 = getUrlVars()["value1"];
+	if (typeof getUrlVars()["value1"] != "undefined") {
+		var tmp = value1;
+		while((tmp = tmp.replace("+", " ")) != value1) {
+			value1 = tmp;
+		}
+	}
 	var value2 = getUrlVars()["value2"];
+	if (typeof getUrlVars()["value2"] != "undefined") {
+		var tmp = value2;
+		while((tmp = tmp.replace("+", " ")) != value2) {
+			value2 = tmp;
+		}
+	}
 	
 	var data = "field=" + encodeURIComponent(field) + "&op=" + encodeURIComponent(op) + "&value[]=" + encodeURIComponent(value1) + "&value[]=" + encodeURIComponent(value2);
 	
@@ -26,14 +39,14 @@ $(document).ready(function() {
 			success: function(data) {
 				
 				var customerRow = $('<tr>');
-				customerRow.append($('<td>' + "Customer ID" + '</td>'));
-				customerRow.append($('<td>' + "Customer Tax ID" + '</td>'));
-				customerRow.append($('<td>' + "Company Name" + '</td>'));
-				customerRow.append($('<td>' + "Email" + '</td>'));
-				customerRow.append($('<td>' + "Address Detail" + '</td>'));
-				customerRow.append($('<td>' + "City" + '</td>'));
-				customerRow.append($('<td>' + "Postal Code" + '</td>'));
-				customerRow.append($('<td>' + "Country" + '</td>'));
+				customerRow.append($('<th>' + "Customer ID" + '</th>'));
+				customerRow.append($('<th>' + "Customer Tax ID" + '</th>'));
+				customerRow.append($('<th>' + "Company Name" + '</th>'));
+				customerRow.append($('<th>' + "Email" + '</th>'));
+				customerRow.append($('<th>' + "Address Detail" + '</th>'));
+				customerRow.append($('<th>' + "City" + '</th>'));
+				customerRow.append($('<th>' + "Postal Code" + '</th>'));
+				customerRow.append($('<th>' + "Country" + '</th>'));
 				$('#customer').append(customerRow);
 				
 				if (data.length != null) {
