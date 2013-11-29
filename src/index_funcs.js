@@ -15,11 +15,12 @@ $(document).ready(function() {
 	});
 	
 	$('.log').mouseenter(function() {
+		$(this).stop(true, true);
 		$(this).fadeTo('fast', '1');
 	});
 	
 	$('.log').mouseleave(function() {
-		link.stop(true, true);
+		$(this).stop(true, true);
 		$(this).fadeTo('fast', '0.5');
 	});
 	
