@@ -4,11 +4,11 @@ session_start ();
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Online Invoicing System</title>
-<meta charset="UTF-8">
-<link rel="stylesheet" href="style1.css">
-<script type="text/javascript" src="../lib/jquery-1.10.2.js"></script>
-<script type="text/javascript" src="../src/index_funcs.js"></script>
+	<title>Online Invoicing System</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="style1.css">
+	<script type="text/javascript" src="../lib/jquery-1.10.2.js"></script>
+	<script type="text/javascript" src="../src/index_funcs.js"></script>
 </head>
 <body>
 	<div id="main_div">
@@ -20,10 +20,16 @@ session_start ();
 			var_dump($_SESSION ['permission'] );
 			if (! isset ( $_SESSION ['permission'] )) {
 				?>
-					<a href="login.php"><div class="log">Login</div></a>
+				<a href="login.php"><div class="log">Login</div></a>
+				<a href="register.php"><div class="register">Register</div></a>
 				<?php } else { ?>
-					<a href="logout.php"><div class="log">Logout</div></a>
+				<a href="logout.php"><div class="log">Logout</div></a>
 				<?php
+				if ($_SESSION['permission'] == "administrator") {
+					?>
+					<a href="administrate.php"><div class="register">Administration</div></a>
+					<?php
+				}
 			}
 			?>
 		</header>
@@ -57,7 +63,7 @@ session_start ();
 		</nav>
 		<footer>
 			<a href="./about_us.html"> About us </a> <span id="pipe"> | </span> <a
-				href="./contact_us.html"> Contact Us </a>
+			href="./contact_us.html"> Contact Us </a>
 		</footer>
 	</div>
 </body>

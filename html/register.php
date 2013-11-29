@@ -64,6 +64,26 @@ else {
 			$stmt->bindValue(':user', $user, PDO::PARAM_STR);
 			$stmt->bindValue(':password', $password, PDO::PARAM_STR);
 			$stmt->execute();
+
+			?>
+			<!DOCTYPE HTML>
+			<html>
+			<head>
+				<meta charset="utf-8" http-equiv="refresh" content="5;URL= login.php">
+				<title>User Registration</title>
+				<link rel="stylesheet" href="style1.css">
+			</head>
+			<body>
+				<div id="main_div">
+					<?php include('header.php');?>
+					<div class="redirect" > 
+						Registration Sucessfull!
+						You will be redirected to <a class="frontpage" href="login.php">login page</a> in 5 seconds.
+					</div>
+				</div>
+			</body>
+			</html>
+			<?php
 		}
 	}
 	else {

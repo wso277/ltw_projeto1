@@ -23,5 +23,15 @@ $(document).ready(function() {
 		$(this).stop(true, true);
 		$(this).fadeTo('fast', '0.5');
 	});
+
+	$('.register').mouseenter(function() {
+		$(this).stop(true, true);
+		$(this).fadeTo('fast', '1');
+	});
+	
+	$('.register').mouseleave(function() {
+		$(this).stop(true, true);
+		$(this).fadeTo('fast', '0.5');
+	});
 	
 });
