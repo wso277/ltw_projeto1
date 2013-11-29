@@ -251,3 +251,18 @@ input.session {
 .redirect {
 	margin: 2em 5em;
 }
+
+a.frontpage {
+	color: #277F00;
+	font-weight:bold;
+}
+
+a.frontpage:visited {
+	color: #277F00;
+	font-weight:bold;
+}
+
+a.frontpage:hover {
+	color: #60D600;
+	font-weight:bold;
+}
