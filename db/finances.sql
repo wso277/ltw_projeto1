@@ -68,3 +68,7 @@ CREATE TABLE Line (
 	TaxPointDate DATE NOT NULL,
 	CreditAmount REAL
 );
+
+INSERT INTO User (UserName, Password, Permission)
+	VALUES ('admin', 'obviouspass', 'administrator'),
+	       ('noob', '1234', 'reader');
