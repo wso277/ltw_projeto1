@@ -19,6 +19,7 @@ $(document).ready(function() {
 	});
 	
 	$('.log').mouseleave(function() {
+		link.stop(true, true);
 		$(this).fadeTo('fast', '0.5');
 	});
 	
