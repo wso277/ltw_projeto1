@@ -244,6 +244,10 @@ form {
 	margin: 2em;
 }
 
-input#login {
+input.session {
 	margin: 0px 2em;
+}
+
+.redirect {
+	margin: 2em 5em;
 }

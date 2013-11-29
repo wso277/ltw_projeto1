@@ -31,7 +31,7 @@ if (isset ( $_SESSION ['permission'] )) {
 				</tr>
 				<td></td>
 			</table>
-			<input id="login" type="submit" value="Login" />
+			<input id="login" class="session" type="submit" value="Login" />
 		</form>
 	</div>
 </body>
@@ -75,7 +75,7 @@ if (isset ( $_SESSION ['permission'] )) {
 				</tr>
 				<td></td>
 			</table>
-			<input id="login" type="submit" value="Login" />
+			<input id="login" class="session" type="submit" value="Login" />
 		</form>
 	</div>
 </body>
