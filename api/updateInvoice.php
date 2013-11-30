@@ -49,13 +49,14 @@ function updateEntry($invoice) {
 	}
 	elseif ($key == "CustomerID" || $key == "DocumentTotalsID") {
 		if (isset($invoice['CustomerID']) && is_integer($invoice['CustomerID'])) {
-		$stmt->bindValue('value', $value, PDO::PARAM_INT);
-	}
+			$stmt->bindValue('value', $value, PDO::PARAM_INT);
+		}
 
-	if ($stmt->execute() == FALSE) {
-		$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
-		$has_error = true;
-		break;
+		if ($stmt->execute() == FALSE) {
+			$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
+			$has_error = true;
+			break;
+		}
 	}
 }
 $sourceID = $_SESSION['user'];
@@ -82,6 +83,7 @@ else {
 }
 
 }
+
 
 function addEntry($invoice) {
 
@@ -135,9 +137,6 @@ function addEntry($invoice) {
 			}
 		}
 	} 
-
-
 }
 
 ?>
-
