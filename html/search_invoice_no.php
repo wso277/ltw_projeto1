@@ -13,7 +13,7 @@
 		<?php include('header.php');?>
 		<script src="../src/check_range.js"></script>
 		<?php
-		if (isset ( $_GET ["value1"] ) && "" != $_GET ["value1"] && preg_match ( "/^[0-9]+$/", $_GET ["value1"] )) {
+		if (isset ( $_GET ["value1"] ) && "" != $_GET ["value1"] && preg_match ( "[^ ]+ [^/^ ]+/[0-9]+", $_GET ["value1"] )) {
 			?>
 		<script src="../src/search-invoice-by-field.js"></script>
 		<?php

@@ -71,6 +71,20 @@ h1>span {
 	padding-left: 1em;
 	padding-right: 2em;
 	opacity: 0.5;
+	border-bottom-style: solid;
+	border-bottom-color: #00741A;
+}
+
+.register {
+	position: relative;
+	width: 10em;
+	margin-left: 34em;
+	bottom: 0.5em;
+	background-color: #00AA00;
+	padding-left: 1em;
+	border-top-style: solid; 
+	border-top-color: #00741A;
+	opacity: 0.5;
 }
 
 .log:last-of-type {

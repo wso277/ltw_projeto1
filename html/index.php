@@ -28,8 +28,7 @@ session_start ();
 			</div>
 				<?php
 			} else {
-			}
-			?>
+				?>
 					<div class="log">
 				<a href="logout.php">Logout</a>
 			</div>
@@ -41,7 +40,8 @@ session_start ();
 			</div>
 									<?php
 				}
-				?>
+			}
+			?>
 		</header>
 		<nav>
 			<div class="section">

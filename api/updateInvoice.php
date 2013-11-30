@@ -1,21 +1,27 @@
 <?php
+session_start();
+if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
+	$invoice = json_decode($_POST['invoice'], true);
 
-$invoice = json_decode($_POST['invoice'], true);
-
-if (isset($_SESSION['permission']) ) {
-	if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {
-		if (isset($invoice['InvoiceNo'])) {
-			updateEntry();
-		}
+	if (isset($_SESSION['permission']) ) {
+		if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {
+			if (isset($invoice['InvoiceNo'])) {
+				updateEntry();
+			}
+			else {
+				addEntry();
+			}
+		} 
 		else {
-			addEntry();
+			$error = {"error":{"code":1002,"reason":"Permission Denied"}};
+			echo $error;
 		}
 	} 
 	else {
-		$error = {"error":{"code":1002,"reason":"Permission Denied"}};
+		$error = {"error":{"code":1001,"reason":"Permission Denied"}};
 		echo $error;
 	}
-} 
+}
 else {
 	$error = {"error":{"code":1001,"reason":"Permission Denied"}};
 	echo $error;
@@ -38,7 +44,8 @@ function addEntry($invoice) {
 	$num = $stmt->fetch(PDO::FETCH_ASSOC);
 	$num += 1;
 
-	
+
 }
+
 ?>
 

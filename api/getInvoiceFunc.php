@@ -13,7 +13,7 @@ function getInvoiceFromDB($InvoiceNo) {
 			}
 
 			$stmt = $db -> prepare('SELECT * FROM Bill WHERE InvoiceNo = :num');
-			$stmt -> bindValue(':num', $InvoiceNo, PDO::PARAM_INT);
+			$stmt -> bindValue(':num', $InvoiceNo, PDO::PARAM_STR);
 			$stmt -> execute();
 			$invoice = $stmt -> fetch(PDO::FETCH_ASSOC);
 

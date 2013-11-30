@@ -23,7 +23,7 @@ if (isset ( $_SESSION ['permission'] ) && $_SESSION ['permission'] != 'administr
 			echo "Error opening database.";
 		}
 		$stmt = $db->prepare ( 'UPDATE User SET Permission = :perm
-WHERE UserName = :user' );
+			WHERE UserName = :user' );
 		$stmt->bindValue ( ':perm', $_GET ['perm'], PDO::PARAM_STR );
 		$stmt->bindValue ( ':user', $_GET ['user'], PDO::PARAM_STR );
 		$stmt->execute ();
