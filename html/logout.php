@@ -1,10 +1,13 @@
 <?php
 session_start ();
+include ('default_html_elems.php');
+fiveSecsHeader();
 if (isset ( $_SESSION ['permission'] )) {
 	unset ( $_SESSION ['permission'] );
 	session_destroy ();
-	header ( 'Location: index.php' );
+	echo '<p class="redirect">Logout successfull<br/> you\'ll be redirected to <a href="index.php">home</a> in 5 seconds.</p>';
 } else {
-	header ( 'Location: index.php' );
+	echo '<p class="redirect">You\'re not logged in.<br/> you\'ll be redirected to <a href="index.php">home</a> in 5 seconds.</p>';
 }
+defaultFooter();
 ?>

@@ -17,15 +17,31 @@ session_start ();
 				Online<span>Invoicing</span>System
 			</h1>
 			<?php
-			var_dump($_SESSION ['permission'] );
+			// var_dump ( $_SESSION ['permission'] );
 			if (! isset ( $_SESSION ['permission'] )) {
 				?>
-					<a href="login.php"><div class="log">Login</div></a>
-				<?php } else { ?>
-					<a href="logout.php"><div class="log">Logout</div></a>
+					<div class="log">
+				<a href="login.php">Login</a>
+			</div>
+			<div class="log">
+				<a href="register.php">Create Account</a>
+			</div>
 				<?php
+			} else {
 			}
 			?>
+					<div class="log">
+				<a href="logout.php">Logout</a>
+			</div>
+				<?php
+				if ($_SESSION ['permission'] == "administrator") {
+					?>
+									<div class="log">
+				<a href="administrate.php">Administrate</a>
+			</div>
+									<?php
+				}
+				?>
 		</header>
 		<nav>
 			<div class="section">

@@ -62,14 +62,23 @@ h1>span {
 }
 
 .log {
+	display: inline-block;
 	position: relative;
-	width: 10em;
-	float: right;
+	width: 8em;
 	bottom: 0.5em;
+	float:right;
 	background-color: #00AA00;
 	padding-left: 1em;
-	border-top-left-radius: 10px;
+	padding-right: 2em;
 	opacity: 0.5;
+}
+
+.log:last-of-type {
+	border-top-left-radius: 10px;
+}
+
+.log>a {
+	color: black;
 }
 
 footer{
