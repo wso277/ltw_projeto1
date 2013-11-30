@@ -42,40 +42,44 @@ function updateEntry($invoice) {
 	foreach ($invoice as $key => $value) {
 		$stmt->bindValue(':key', $key, PDO::PARAM_STR);
 		if ($key == "InvoiceStatusDate" || $key == "InvoiceDate") {
-			$stmt->bindValue('value', $value, PDO::PARAM_STR);
-		}
-		elseif ($key == "CustomerID" || $key == "DocumentTotalsID") {
-			$stmt->bindValue('value', $value, PDO::PARAM_INT);
-		}
-
-		if ($stmt->execute() == FALSE) {
-			$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
-			$has_error = true;
-			break;
+			if (isset($invoice[$key]) && 
+				preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $invoice[$key]) ) {
+				$stmt->bindValue('value', $value, PDO::PARAM_STR);
 		}
 	}
-	$sourceID = $_SESSION['user'];
-	$stmt->bindValue(':key', 'SourceID', PDO::PARAM_STR);
-	$stmt->bindValue(':value', $sourceID, PDO::PARAM_STR);
+	elseif ($key == "CustomerID" || $key == "DocumentTotalsID") {
+		if (isset($invoice['CustomerID']) && is_integer($invoice['CustomerID'])) {
+		$stmt->bindValue('value', $value, PDO::PARAM_INT);
+	}
+
 	if ($stmt->execute() == FALSE) {
 		$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
 		$has_error = true;
+		break;
 	}
-	$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
-	$stmt->bindValue(':key', 'SystemEntryDate', PDO::PARAM_STR);
-	$stmt->bindValue(':value', $entryDate, PDO::PARAM_STR);
-	if ($stmt->execute() == FALSE) {
-		$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
-		$has_error = true;
-	}
+}
+$sourceID = $_SESSION['user'];
+$stmt->bindValue(':key', 'SourceID', PDO::PARAM_STR);
+$stmt->bindValue(':value', $sourceID, PDO::PARAM_STR);
+if ($stmt->execute() == FALSE) {
+	$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
+	$has_error = true;
+}
+$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
+$stmt->bindValue(':key', 'SystemEntryDate', PDO::PARAM_STR);
+$stmt->bindValue(':value', $entryDate, PDO::PARAM_STR);
+if ($stmt->execute() == FALSE) {
+	$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
+	$has_error = true;
+}
 
-	if (has_error) {
-		echo $error;
-	}
-	else {
-		include('getInvoiceFunc.php');
-		echo json_encode(getInvoiceFromDB($invoiceNo));
-	}
+if (has_error) {
+	echo $error;
+}
+else {
+	include('getInvoiceFunc.php');
+	echo json_encode(getInvoiceFromDB($invoiceNo));
+}
 
 }
 
