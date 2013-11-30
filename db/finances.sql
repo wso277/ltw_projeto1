@@ -44,7 +44,6 @@ CREATE TABLE Bill (
 	InvoiceStatusDate DATE NOT NULL,
 	SourceID	TEXT NOT NULL,
 	InvoiceDate 		DATETIME NOT NULL,
-	InvoiceType		TEXT NOT NULL,
 	SystemEntryDate DATE NOT NULL,
 	CustomerID 		INTEGER REFERENCES Customer(CustomerID) NOT NULL,
 	DocumentTotalsID	INTEGER REFERENCES DocumentTotals(DocumentTotalsID) NOT NULL
@@ -54,6 +53,7 @@ CREATE TABLE Product (
 	ProductCode 			INTEGER PRIMARY KEY AUTOINCREMENT,
 	ProductType TEXT NOT NULL,
 	ProductDescription 	TEXT,
+	UnitOfMeasure 		TEXT NOT NULL,
 	UnitPrice 			REAL NOT NULL
 );
 
@@ -64,7 +64,6 @@ CREATE TABLE Line (
 	ProductCode	INTEGER REFERENCES Product(ProductCode) NOT NULL,
 	Quantity 	REAL NOT NULL,
 	UnitPrice 	REAL, 
-	UnitOfMeasure 		TEXT NOT NULL,
 	TaxPointDate DATE NOT NULL,
 	CreditAmount REAL
 );
