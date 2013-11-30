@@ -11,6 +11,7 @@
 			<?php include('header.php');?>
 
 			<?php
+			session_start();
 			if(isset($_POST["InvoiceStatusDate"]) && "" != $_POST["InvoiceStatusDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceStatusDate"])
 				|| isset($_POST["InvoiceNo"]) && "" != $_POST["InvoiceNo"]
 				|| isset($_POST["InvoiceDate"]) && "" != $_POST["InvoiceDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceDate"]))
@@ -29,10 +30,13 @@
 					dataType: "json",
 					success:function(data,textStatus, jqXHR) {
 						alert("PINTOU");
+						console.log(data);
 					},															
 					error: function (jqXHR, textStatus, errorThrown)
 					{
 						alert("ERRO");
+						console.log(jqXHR.status);
+						console.log(errorThrown);
 					}
 				});
 				</script>
