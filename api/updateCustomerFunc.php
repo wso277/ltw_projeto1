@@ -1,7 +1,7 @@
 <?php
 
-	function updateCustomer($customerID,$field,$newValue) {
-		if (isset($customerID) && isset($field) && isset($newValue)) {
+	function updateCustomer($customer,$update,$field) {
+		if (isset($customerID) && $customerID != "" isset($field) && $field != "" && isset($newValue) && $newValue != "") {
 
 			if ($customerID > 0) {
 				try {
@@ -11,8 +11,15 @@
 				}
 			}
 
-		$stmt = $db -> prepare("UPDATE Customer SET ". $field ."='". $newValue ."' WHERE CustomerID='". $customerID ."'");
-		$updateRes = $stmt -> execute();
+		if ($update != -1)
+		{
+			$stmt = $db -> prepare("UPDATE Customer SET ". $field ."='". $customer[$field] ."' WHERE CustomerID='". $customer['CustomerID'] ."'");
+			$updateRes = $stmt -> execute();
+		}
+		else
+		{
+			//insert
+		}
 		if (!$updateRes) {
 			return json_decode('{"error":{"code":601,"reason":"Error updating"}}', true);
 		}
