@@ -5,7 +5,7 @@ include ('getProductFunc.php');
 function getInvoiceFromDB($InvoiceNo) {
 	if (isset($InvoiceNo)) {
 
-		if ($InvoiceNo > 0) {
+		if ($InvoiceNo != "") {	//pregmatch
 			try {
 				$db = new PDO('sqlite:../db/finances.db');
 			} catch (PDOException $e) {
