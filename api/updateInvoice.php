@@ -1,10 +1,13 @@
 <?php
 session_start();
+//$_SESSION['permission'] = "editor";
+
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
-	$invoice = json_decode($_POST['invoice'], true);
+	$invoice = json_decode($_POST['invoice'])/*json_decode('{"InvoiceStatusDate":"2012-10-10","InvoiceNo":"100","InvoiceDate":"2012-10-10"}',true)*/;
 
 	if (isset($_SESSION['permission']) ) {
 		if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {
+			FirePHP($invoice);
 			if (isset($invoice['InvoiceNo']) && $invoice['InvoiceNo'] != "") {
 				updateEntry($invoice);
 			}
@@ -32,10 +35,10 @@ function updateEntry($invoice) {
 	try {
 		$db = new PDO('sqlite:../db/finances.db');
 	} catch (PDOException $e) {
-		return json_decode('{"error":{"code":1003,"reason":"' . $e -> getMessage() . '"}}', true);
+		echo '{"error":{"code":1003,"reason":"' . $e -> getMessage() . '"}}';
 	}
 
-	$stmt = $db->prepare('UPDATE Bill SET :key = :value WHERE InvoiceNo = :invoiceNo');
+	$stmt = $db->prepare('UPDATE Bill SET :kjdf = :value WHERE InvoiceNo = :invoiceNo');
 	$stmt->bindValue(':invoiceNo', $invoice['InvoiceNo'], PDO::PARAM_STR);
 	$error;
 	$has_error = false;
@@ -51,26 +54,26 @@ function updateEntry($invoice) {
 		if (isset($invoice['CustomerID']) && is_integer($invoice['CustomerID'])) {
 			$stmt->bindValue('value', $value, PDO::PARAM_INT);
 		}
+	}
 
-		if ($stmt->execute() == FALSE) {
-			$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
-			$has_error = true;
-			break;
-		}
+	if ($stmt->execute() == FALSE) {
+		$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
+		$has_error = true;
+		break;
 	}
 }
 $sourceID = $_SESSION['user'];
 $stmt->bindValue(':key', 'SourceID', PDO::PARAM_STR);
 $stmt->bindValue(':value', $sourceID, PDO::PARAM_STR);
 if ($stmt->execute() == FALSE) {
-	$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
+	$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
 	$has_error = true;
 }
 $entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
 $stmt->bindValue(':key', 'SystemEntryDate', PDO::PARAM_STR);
 $stmt->bindValue(':value', $entryDate, PDO::PARAM_STR);
 if ($stmt->execute() == FALSE) {
-	$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
+	$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
 	$has_error = true;
 }
 
@@ -90,7 +93,7 @@ function addEntry($invoice) {
 	try {
 		$db = new PDO('sqlite:../db/finances.db');
 	} catch (PDOException $e) {
-		return json_decode('{"error":{"code":1003,"reason":"' . $e -> getMessage() . '"}}', true);
+		return '{"error":{"code":1003,"reason":"' . $e -> getMessage() . '"}}';
 	}
 
 	$stmt = $db->prepare('SELECT max(InvoiceID) FROM Bill');
@@ -126,7 +129,7 @@ function addEntry($invoice) {
 					$stmt->bindValue(':totals', $invoice['DocumentTotalsID'], PDO::PARAM_INT);
 
 					if ($stmt->execute() == FALSE) {
-						$error = json_decode('{"error":{"code":1004,"reason":"Error writing to database"}}', true);
+						$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
 						echo $error;
 					}
 					else {
@@ -137,6 +140,30 @@ function addEntry($invoice) {
 			}
 		}
 	} 
+}
+
+function FirePHP($message, $label = null, $type = 'LOG')
+{
+	static $i = 0;
+
+	if (headers_sent() === false)
+	{
+		$type = (in_array($type, array('LOG', 'INFO', 'WARN', 'ERROR')) === false) ? 'LOG' : $type;
+
+		if (($_SERVER['HTTP_HOST'] == 'localhost') && (strpos($_SERVER['HTTP_USER_AGENT'], 'FirePHP') !== false))
+		{
+			$message = json_encode(array(array('Type' => $type, 'Label' => $label), $message));
+
+			if ($i == 0)
+			{
+				header('X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2');
+				header('X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3');
+				header('X-Wf-1-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1');
+			}
+
+			header('X-Wf-1-1-1-' . ++$i . ': ' . strlen($message) . '|' . $message . '|');
+		}
+	}
 }
 
 ?>

@@ -24,34 +24,24 @@ function getInvoiceFromDB($InvoiceNo) {
 
 					unset($invoice['CustomerID']);
 					$invoice['Customer'] = $customer;
-					$stmt = $db -> prepare('SELECT TaxPayable, NetTotal, GrossTotal FROM DocumentTotals WHERE DocumentTotalsID = :id');
-					$stmt -> bindValue(':id', $invoice['DocumentTotalsID'], PDO::PARAM_INT);
-					$stmt -> execute();
+					
+					$invoice['DocumentsTotals'] = $documentTotals;
 
-					$documentTotals = $stmt -> fetch(PDO::FETCH_ASSOC);
-					if ($documentTotals != FALSE) {
-						unset($invoice['DocumentTotalsID']);
-						$invoice['DocumentsTotals'] = $documentTotals;
-
-						$query = 'SELECT LineNumber, ProductCode, Quantity, UnitPrice, CreditAmount, TaxType, TaxPercentage 
-						FROM Line NATURAL JOIN TaxPerBillLine NATURAL JOIN Tax WHERE InvoiceNo = ' . $InvoiceNo . ' ORDER BY LineNumber ASC';
-						$stmt = $db -> prepare($query);
-						$stmt->execute();
-						$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
-						if ($lines != FALSE) {
-							$invoice['Lines'] = $lines;
-							$i = 0;
-							foreach($invoice['Lines'] as &$line) {
-								$line['Product'] = getProductFromDB($line['ProductCode']);
-								unset($line['ProductCode']);
-							}
+					$query = 'SELECT LineNumber, ProductCode, Quantity, UnitPrice, CreditAmount, TaxType, TaxPercentage 
+					FROM Line NATURAL JOIN TaxPerBillLine NATURAL JOIN Tax WHERE InvoiceNo = ' . $InvoiceNo . ' ORDER BY LineNumber ASC';
+					$stmt = $db -> prepare($query);
+					$stmt->execute();
+					$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
+					if ($lines != FALSE) {
+						$invoice['Lines'] = $lines;
+						$i = 0;
+						foreach($invoice['Lines'] as &$line) {
+							$line['Product'] = getProductFromDB($line['ProductCode']);
+							unset($line['ProductCode']);
 						}
-
-						return $invoice;
-					} else {
-						$error = json_decode('{"error":{"code":206,"reason":"DocumentTotals entry not found"}}', true);
-						return $error;
 					}
+
+					return $invoice;
 				} else {
 					$error = json_decode('{"error":{"code":205,"reason":"Customer not found"}}', true);
 					return $error;
@@ -102,7 +92,7 @@ function getInvoiceByValRange($field, $val) {
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "GrossTotal") {
-			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " > '" . $value1 . "' AND '" . $field . "' < '" . $value2 . "'";
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "' AND '" . $field . "' < '" . $value2 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -149,7 +139,7 @@ function getInvoiceByValEqual($field, $val) {
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "GrossTotal") {
-			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " = '" . $value1 . "'";
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " = '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -190,7 +180,7 @@ function getInvoiceByValContains($field, $val) {
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "GrossTotal") {
-			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " LIKE '%" . $value1 . "%'";
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " LIKE '%" . $value1 . "%'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -238,7 +228,7 @@ function getInvoiceByValMin($field, $val) {
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "GrossTotal") {
-			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " > '" . $value1 . "'";
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
@@ -286,7 +276,7 @@ function getInvoiceByValMax($field, $val) {
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
 		} else if ($field == "GrossTotal") {
-			$select = "SELECT InvoiceNo FROM Bill NATURAL JOIN DocumentTotals WHERE " . $field . " < '" . $value1 . "'";
+			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " < '" . $value1 . "'";
 			$stmt = $db -> prepare($select);
 			$stmt -> execute();
 			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);

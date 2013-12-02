@@ -17,26 +17,24 @@
 				|| isset($_POST["InvoiceDate"]) && "" != $_POST["InvoiceDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceDate"]))
 			{
 				?>
-				<script type='text/javascript'> var $_POST = 
+				<script type='text/javascript'> var jsPost = 
 				<?php 
-				$array;
-				$array['invoice'] = $_POST;
-				echo json_encode($array);
+					echo json_encode($_POST);				
 				?>;
-				console.log($_POST); 
+				console.log(jsPost); 
 				var invoice = $.ajax({url: "../api/updateInvoice.php",
 					type: "POST",
-					data: $_POST,
-					dataType: "json",
+					dataType: 'json',
+					data: {invoice : jsPost},
 					success:function(data,textStatus, jqXHR) {
 						alert("PINTOU");
-						console.log(data);
+						//console.log(data);
 					},															
 					error: function (jqXHR, textStatus, errorThrown)
 					{
 						alert("ERRO");
 						console.log(jqXHR.status);
-						console.log(errorThrown);
+						//console.log(errorThrown);
 					}
 				});
 				</script>
@@ -46,20 +44,45 @@
 			{
 				?>
 				
-				<form id="form" method="post">
+				<form id="form" method="post" action="updateInvoiceForm.php">
 					Invoice Status Date <input name="InvoiceStatusDate" type="date" value="<?=isset($_POST['InvoiceStatusDate'])? $_POST['InvoiceStatusDate'] :""?>">
 					<br/>
 					Invoice Number <input name="InvoiceNo" type="text" value="<?=isset($_POST['InvoiceNo'])? $_POST['InvoiceNo'] :""?>">
 					<br/>
 					Invoice Date <input name="InvoiceDate" type="date" value="<?=isset($_POST['InvoiceDate'])? $_POST['InvoiceDate'] :""?>">
 					<br/>
-					<button id="submit_btn">
-						Submit Query
-					</button>
+					<input id="submit_btn" type="submit" value="Submit Query"/>
 				</form>
 				<?php
 			}
 			?>
 		</div>
 	</body>
-	</html>
+</html>
+
+<?php
+function FirePHP($message, $label = null, $type = 'LOG')
+{
+    static $i = 0;
+
+    if (headers_sent() === false)
+    {
+        $type = (in_array($type, array('LOG', 'INFO', 'WARN', 'ERROR')) === false) ? 'LOG' : $type;
+
+        if (($_SERVER['HTTP_HOST'] == 'localhost') && (strpos($_SERVER['HTTP_USER_AGENT'], 'FirePHP') !== false))
+        {
+            $message = json_encode(array(array('Type' => $type, 'Label' => $label), $message));
+
+            if ($i == 0)
+            {
+                header('X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2');
+                header('X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3');
+                header('X-Wf-1-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1');
+            }
+
+            header('X-Wf-1-1-1-' . ++$i . ': ' . strlen($message) . '|' . $message . '|');
+        }
+    }
+}
+
+?>

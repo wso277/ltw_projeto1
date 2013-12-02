@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS User;
 DROP TABLE IF EXISTS Line;
 DROP TABLE IF EXISTS Product;
 DROP TABLE IF EXISTS Bill;
-DROP TABLE IF EXISTS DocumentTotals;
 DROP TABLE IF EXISTS Customer; 
 DROP TABLE IF EXISTS BillingAddress;
 
@@ -31,13 +30,6 @@ CREATE TABLE Customer (
 	Email			TEXT NOT NULL
 );
 
-CREATE TABLE DocumentTotals (
-	DocumentTotalsID	INTEGER PRIMARY KEY AUTOINCREMENT,
-	TaxPayable 		REAL,
-	NetTotal 		REAL,
-	GrossTotal 		REAL
-);
-
 CREATE TABLE Bill (
 	InvoiceID	INTEGER PRIMARY KEY AUTOINCREMENT,
 	InvoiceNo 		TEXT NOT NULL,
@@ -46,7 +38,9 @@ CREATE TABLE Bill (
 	InvoiceDate 		DATETIME NOT NULL,
 	SystemEntryDate DATE NOT NULL,
 	CustomerID 		INTEGER REFERENCES Customer(CustomerID) NOT NULL,
-	DocumentTotalsID	INTEGER REFERENCES DocumentTotals(DocumentTotalsID) NOT NULL
+	TaxPayable 		REAL,
+	NetTotal 		REAL,
+	GrossTotal 		REAL
 );
 
 CREATE TABLE Product (
