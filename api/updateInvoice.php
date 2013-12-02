@@ -4,7 +4,7 @@ $_SESSION['permission'] = "editor";
 
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
 	$invoice = /*json_decode($_POST['invoice'], true)*/json_decode('{"InvoiceStatusDate":"2012-10-10","InvoiceNo":"100","InvoiceDate":"2012-10-10"}',true);
-	
+
 	if (isset($_SESSION['permission']) ) {
 		if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {			
 			if (isset($invoice['InvoiceNo']) && $invoice['InvoiceNo'] != "") {
@@ -51,11 +51,12 @@ function updateEntry($invoice) {
 				$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 		}
 	}
-	elseif ($key == "CustomerID" || $key == "DocumentTotalsID") {
+	elseif ($key == "CustomerID") {
 		if (isset($value) && is_integer($value)) {
 			$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 		}
 	}
+	elseif ($key == "TaxPayable" || $key == "NetTotal" || $key == "GrossTotal")
 
 	if ($insert != "") {
 		$stmt = $db->prepare($insert);
