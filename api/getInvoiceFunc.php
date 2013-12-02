@@ -5,7 +5,7 @@ include ('getProductFunc.php');
 function getInvoiceFromDB($InvoiceNo) {
 	if (isset($InvoiceNo)) {
 
-		if ($InvoiceNo != "") {	//pregmatch
+		if ($InvoiceNo != "" && preg_match("/[^\/]+\/[0-9]+/", $invoice['InvoiceNo'])) {
 			try {
 				$db = new PDO('sqlite:../db/finances.db');
 			} catch (PDOException $e) {
@@ -25,7 +25,15 @@ function getInvoiceFromDB($InvoiceNo) {
 					unset($invoice['CustomerID']);
 					$invoice['Customer'] = $customer;
 					
+					$documentTotals['TaxPayable'] = $invoice['TaxPayable'];
+					$documentTotals['TaxPayable'] = $invoice['TaxPayable'];
+					$documentTotals['GrossTotal'] = $invoice['GrossTotal'];
+
 					$invoice['DocumentsTotals'] = $documentTotals;
+
+					unset($invoice['TaxPayable']);
+					unset($invoice['NetTotal']);
+					unset($invoice['GrossTotal']);
 
 					$query = 'SELECT LineNumber, ProductCode, Quantity, UnitPrice, CreditAmount, TaxType, TaxPercentage 
 					FROM Line NATURAL JOIN TaxPerBillLine NATURAL JOIN Tax WHERE InvoiceNo = ' . $InvoiceNo . ' ORDER BY LineNumber ASC';

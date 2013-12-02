@@ -1,28 +1,27 @@
 <?php
 session_start();
-$_SESSION['permission'] = "editor";
-$_SESSION['user'] = "wso277";
+//$_SESSION['permission'] = "editor";
+//$_SESSION['user'] = "wso277";
 
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
-	//$invoice = json_decode($_POST['invoice'], true);
-	$invoice = json_decode('{"InvoiceStatusDate":"2012-10-10","InvoiceDate":"2012-10-10","CustomerID":1,"TaxPayable":2.32,"NetTotal":3.21,"GrossTotal":4.21}',true);
+	$invoice = json_decode($_POST['invoice'], true);
+	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-10","InvoiceDate":"2012-10-10","CustomerID":1,"TaxPayable":2.32,"NetTotal":3.21,"GrossTotal":4.21}',true);
+	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-20","InvoiceDate":"2012-10-09","InvoiceNo":"FT SEQ/1"}',true);
 
-	if (isset($_SESSION['permission']) ) {
-		if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {			
-			if (isset($invoice['InvoiceNo']) && $invoice['InvoiceNo'] != "") {
-				updateEntry($invoice);
-			}
-			else {
-				addEntry($invoice);
-			}
-		} 
+	if (isset($invoice) ) {			
+		if (isset($invoice['InvoiceNo']) && preg_match("/[^\/]+\/[0-9]+/", $invoice['InvoiceNo'])) {
+			updateEntry($invoice);
+		}
+		elseif (!isset($invoice['InvoiceNo']) || $invoice['InvoiceNo'] == "") {
+			addEntry($invoice);
+		}
 		else {
-			$error = '{"error":{"code":1002,"reason":"Permission Denied"}}';
+			$error = '{"error":{"code":1007,"reason":"Invalid InvoiceNo"}}';
 			echo $error;
 		}
 	} 
 	else {
-		$error = '{"error":{"code":1001,"reason":"Permission Denied"}}';
+		$error = '{"error":{"code":1008,"reason":"No invoice"}}';
 		echo $error;
 	}
 }
@@ -50,7 +49,7 @@ function updateEntry($invoice) {
 				$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 			}
 			else {
-				$error = '{"error":{"code":1004,"reason":"Wrong data"}}';
+				$error = '{"error":{"code":1006,"reason":"Wrong data"}}';
 			}
 		}
 		elseif ($key == "CustomerID") {
@@ -58,7 +57,7 @@ function updateEntry($invoice) {
 				$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 			}
 			else {
-				$error = '{"error":{"code":1004,"reason":"Wrong data"}}';
+				$error = '{"error":{"code":1006,"reason":"Wrong data"}}';
 			}
 		}
 		elseif ($key == "TaxPayable" || $key == "NetTotal" || $key == "GrossTotal") {
@@ -66,7 +65,7 @@ function updateEntry($invoice) {
 				$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 			}
 			else {
-				$error = '{"error":{"code":1004,"reason":"Wrong data"}}';
+				$error = '{"error":{"code":1006,"reason":"Wrong data"}}';
 			}
 		}
 
@@ -130,70 +129,55 @@ function addEntry($invoice) {
 			preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $invoice['InvoiceDate']) ) {
 
 			if (isset($invoice['CustomerID']) && is_integer($invoice['CustomerID'])) {
-	
+				
+				$cust = $db->prepare("select CustomerID from Customer where CustomerID = :customer");
+				$cust->bindValue(':customer', $invoice['CustomerID'], PDO::PARAM_INT);
+				$cust->execute();
+				if ($cust->fetch() == FALSE) {
+					$error = '{"error":{"code":1005,"reason":"Customer not found in database"}}';
+					echo $error;
+				}
+				else {
+					if (isset($invoice['TaxPayable']) && (is_integer($invoice['TaxPayable']) || is_real($invoice['TaxPayable']) ) ) {
 
-				if (isset($invoice['TaxPayable']) && (is_integer($invoice['TaxPayable']) || is_real($invoice['TaxPayable']) ) ) {
-					
-					if (isset($invoice['NetTotal']) && (is_integer($invoice['NetTotal']) || is_real($invoice['NetTotal']) ) ) {
+						if (isset($invoice['NetTotal']) && (is_integer($invoice['NetTotal']) || is_real($invoice['NetTotal']) ) ) {
 
-						if (isset($invoice['GrossTotal']) && (is_integer($invoice['GrossTotal']) || is_real($invoice['GrossTotal']) ) ) {
+							if (isset($invoice['GrossTotal']) && (is_integer($invoice['GrossTotal']) || is_real($invoice['GrossTotal']) ) ) {
 
-							$invoiceID = $num;
-							$invoiceNo = "FT SEQ/" . $num;
-							$sourceID = $_SESSION['user'];
-							date_default_timezone_set("Europe/Lisbon");
-							$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
+								$invoiceID = $num;
+								$invoiceNo = "FT SEQ/" . $num;
+								$sourceID = $_SESSION['user'];
+								date_default_timezone_set("Europe/Lisbon");
+								$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
 
-							$stmt = $db->prepare('INSERT INTO Bill VALUES (:invoiceID, :invoiceNo, :statusDate, :source, :invoiceDate, :entryDate, :customer, :tax, :net, :gross)');
-							$stmt->bindValue(':invoiceID', $invoiceID, PDO::PARAM_INT);
-							$stmt->bindValue(':invoiceNo', $invoiceNo, PDO::PARAM_STR);
-							$stmt->bindValue(':statusDate', $invoice['InvoiceStatusDate'], PDO::PARAM_STR);
-							$stmt->bindValue(':source', $sourceID, PDO::PARAM_STR);
-							$stmt->bindValue(':invoiceDate', $invoice['InvoiceDate'], PDO::PARAM_STR);
-							$stmt->bindValue(':entryDate', $entryDate, PDO::PARAM_STR);
-							$stmt->bindValue(':customer', $invoice['CustomerID'], PDO::PARAM_INT);
-							$stmt->bindValue(':tax', strval($invoice['TaxPayable']), PDO::PARAM_STR);
-							$stmt->bindValue(':net', strval($invoice['NetTotal']), PDO::PARAM_STR);
-							$stmt->bindValue(':gross', strval($invoice['GrossTotal']), PDO::PARAM_STR);
+								$stmt = $db->prepare('INSERT INTO Bill VALUES (:invoiceID, :invoiceNo, :statusDate, :source, :invoiceDate, :entryDate, :customer, :tax, :net, :gross)');
+								$stmt->bindValue(':invoiceID', $invoiceID, PDO::PARAM_INT);
+								$stmt->bindValue(':invoiceNo', $invoiceNo, PDO::PARAM_STR);
+								$stmt->bindValue(':statusDate', $invoice['InvoiceStatusDate'], PDO::PARAM_STR);
+								$stmt->bindValue(':source', $sourceID, PDO::PARAM_STR);
+								$stmt->bindValue(':invoiceDate', $invoice['InvoiceDate'], PDO::PARAM_STR);
+								$stmt->bindValue(':entryDate', $entryDate, PDO::PARAM_STR);
+								$stmt->bindValue(':customer', $invoice['CustomerID'], PDO::PARAM_INT);
+								$stmt->bindValue(':tax', strval($invoice['TaxPayable']), PDO::PARAM_STR);
+								$stmt->bindValue(':net', strval($invoice['NetTotal']), PDO::PARAM_STR);
+								$stmt->bindValue(':gross', strval($invoice['GrossTotal']), PDO::PARAM_STR);
 
-							if ($stmt->execute() == FALSE) {
-								$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
-								echo $error;
-							}
-							else {
-								include('getInvoiceFunc.php');
-								echo json_encode(getInvoiceFromDB($invoiceNo));
+								if ($stmt->execute() == FALSE) {
+									$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
+									echo $error;
+								}
+								else {
+									include('getInvoiceFunc.php');
+									echo json_encode(getInvoiceFromDB($invoiceNo));
+								}
 							}
 						}
 					}
 				}
+
+				
 			}
 		}
 	}
 }
-
-function FirePHP($message, $label = null, $type = 'LOG')
-{
-	static $i = 0;
-
-	if (headers_sent() === false)
-	{
-		$type = (in_array($type, array('LOG', 'INFO', 'WARN', 'ERROR')) === false) ? 'LOG' : $type;
-
-		if (($_SERVER['HTTP_HOST'] == 'localhost') && (strpos($_SERVER['HTTP_USER_AGENT'], 'FirePHP') !== false))
-		{
-			$message = json_encode(array(array('Type' => $type, 'Label' => $label), $message));
-
-			if ($i == 0)
-			{
-				header('X-Wf-Protocol-1: http://meta.wildfirehq.org/Protocol/JsonStream/0.2');
-				header('X-Wf-1-Plugin-1: http://meta.firephp.org/Wildfire/Plugin/FirePHP/Library-FirePHPCore/0.3');
-				header('X-Wf-1-Structure-1: http://meta.firephp.org/Wildfire/Structure/FirePHP/FirebugConsole/0.1');
-			}
-
-			header('X-Wf-1-1-1-' . ++$i . ': ' . strlen($message) . '|' . $message . '|');
-		}
-	}
-}
-
 ?>
