@@ -1,13 +1,12 @@
 <?php
 session_start();
-//$_SESSION['permission'] = "editor";
+$_SESSION['permission'] = "editor";
 
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
-	$invoice = json_decode($_POST['invoice'])/*json_decode('{"InvoiceStatusDate":"2012-10-10","InvoiceNo":"100","InvoiceDate":"2012-10-10"}',true)*/;
-
+	$invoice = /*json_decode($_POST['invoice'], true)*/json_decode('{"InvoiceStatusDate":"2012-10-10","InvoiceNo":"100","InvoiceDate":"2012-10-10"}',true);
+	
 	if (isset($_SESSION['permission']) ) {
-		if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {
-			FirePHP($invoice);
+		if ( $_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {			
 			if (isset($invoice['InvoiceNo']) && $invoice['InvoiceNo'] != "") {
 				updateEntry($invoice);
 			}
@@ -38,51 +37,57 @@ function updateEntry($invoice) {
 		echo '{"error":{"code":1003,"reason":"' . $e -> getMessage() . '"}}';
 	}
 
-	$stmt = $db->prepare('UPDATE Bill SET :kjdf = :value WHERE InvoiceNo = :invoiceNo');
-	$stmt->bindValue(':invoiceNo', $invoice['InvoiceNo'], PDO::PARAM_STR);
+	// $stmt = $db->prepare('UPDATE Bill SET :kjdf = :value WHERE InvoiceNo = :invoiceNo');
+	// $stmt->bindValue(':invoiceNo', $invoice['InvoiceNo'], PDO::PARAM_STR);
+	$update = "UPDATE Bill SET ";
+	$where = " WHERE InvoiceNo = " . "'" . $invoice['InvoiceNo'] . "';";
 	$error;
 	$has_error = false;
 	foreach ($invoice as $key => $value) {
-		$stmt->bindValue(':key', $key, PDO::PARAM_STR);
+		$insert = "";
 		if ($key == "InvoiceStatusDate" || $key == "InvoiceDate") {
-			if (isset($invoice[$key]) && 
-				preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $invoice[$key]) ) {
-				$stmt->bindValue('value', $value, PDO::PARAM_STR);
+			if (isset($value) && 
+				preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $value) ) {
+				$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 		}
 	}
 	elseif ($key == "CustomerID" || $key == "DocumentTotalsID") {
-		if (isset($invoice['CustomerID']) && is_integer($invoice['CustomerID'])) {
-			$stmt->bindValue('value', $value, PDO::PARAM_INT);
+		if (isset($value) && is_integer($value)) {
+			$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
 		}
 	}
 
-	if ($stmt->execute() == FALSE) {
-		$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
-		$has_error = true;
-		break;
+	if ($insert != "") {
+		$stmt = $db->prepare($insert);
+		if ($stmt->execute() == FALSE) {
+			$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
+			$has_error = true;
+			break;
+		}	
 	}
+	
 }
 $sourceID = $_SESSION['user'];
-$stmt->bindValue(':key', 'SourceID', PDO::PARAM_STR);
-$stmt->bindValue(':value', $sourceID, PDO::PARAM_STR);
+$insert = "";
+$insert = $update . "'SourceID' = '" . $sourceID . "'" . $where;
 if ($stmt->execute() == FALSE) {
 	$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
 	$has_error = true;
 }
 $entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
-$stmt->bindValue(':key', 'SystemEntryDate', PDO::PARAM_STR);
-$stmt->bindValue(':value', $entryDate, PDO::PARAM_STR);
+$insert = "";
+$insert = $update . "'SystemEntryDate' = '" . $entryDate . "'" . $where;
 if ($stmt->execute() == FALSE) {
 	$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
 	$has_error = true;
 }
 
-if (has_error) {
+if ($has_error) {
 	echo $error;
 }
 else {
 	include('getInvoiceFunc.php');
-	echo json_encode(getInvoiceFromDB($invoiceNo));
+	echo json_encode(getInvoiceFromDB($invoice['InvoiceNo']));
 }
 
 }

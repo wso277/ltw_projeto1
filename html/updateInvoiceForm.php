@@ -22,10 +22,11 @@
 					echo json_encode($_POST);				
 				?>;
 				console.log(jsPost); 
+				var $jsonPost = JSON.stringify(jsPost);
 				var invoice = $.ajax({url: "../api/updateInvoice.php",
 					type: "POST",
 					dataType: 'json',
-					data: {invoice : jsPost},
+					data: {invoice : $jsonPost},
 					success:function(data,textStatus, jqXHR) {
 						alert("PINTOU");
 						//console.log(data);
