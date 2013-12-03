@@ -1,12 +1,12 @@
 <?php
 session_start();
-$_SESSION['permission'] = "editor";
-$_SESSION['user'] = "wso277";
+//$_SESSION['permission'] = "editor";
+//$_SESSION['user'] = "wso277";
 
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
 	//$invoice = json_decode($_POST['invoice'], true);
-	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-15","InvoiceDate":"2012-11-10","CustomerID":1,"DocumentTotals":{"TaxPayable":5.32,"NetTotal":3.21,"GrossTotal":4.21}}',true);
-	$invoice = json_decode('{"InvoiceStatusDate":"2012-10-02","DocumentTotals":{"NetTotal":1.21},"InvoiceNo":"FT SEQ/1"}',true);
+	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-15","InvoiceDate":"2012-11-10","CustomerID":1,"DocumentTotals":{"TaxPayable":5.32,"NetTotal":3.21,"GrossTotal":4.21},"Line":[{"LineNumber":1,"ProductCode":1,"Quantity":2,"UnitPrice":10,"CreditAmount":20,"Tax":{"TaxType":"IVA","TaxPercentage":23.00}}]}',true);
+	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-02","DocumentTotals":{"NetTotal":1.21},"InvoiceNo":"FT SEQ/1"}',true);
 
 	if (isset($invoice) ) {			
 		if (isset($invoice['InvoiceNo']) && preg_match("/[^\/]+\/[0-9]+/", $invoice['InvoiceNo'])) {
@@ -186,23 +186,55 @@ function addEntry($invoice) {
 												echo $error;
 											}
 											else {
-												addLines($invoice['Line']);
+												addLines($invoice['Line'], $invoiceNo, $db);
 												include('getInvoiceFunc.php');
 												echo json_encode(getInvoiceFromDB($invoiceNo));
 											}
+										}	
+										else {
+											$error = '{"error":{"code":1005,"reason":"Lines not valid.At least one valid line is needed"}}';
+											echo $error;
 										}
 									}
-
+									else {
+										$error = '{"error":{"code":1005,"reason":"Field Lines not found"}}';
+										echo $error;
+									}
+								}
+								else {
+									$error = '{"error":{"code":1005,"reason":"GrossTotal not found"}}';
+									echo $error;
 								}
 							}
+							else {
+								$error = '{"error":{"code":1005,"reason":"NetTotal not found"}}';
+								echo $error;
+							}
+						}
+						else {
+							$error = '{"error":{"code":1005,"reason":"TaxPayable not found"}}';
+							echo $error;
 						}
 					}
-					
+					else {
+						$error = '{"error":{"code":1005,"reason":"DocumentTotals not found"}}';
+						echo $error;
+					}	
 				}
-
-				
+			}
+			else {
+				$error = '{"error":{"code":1005,"reason":"Customer not found"}}';
+				echo $error;
 			}
 		}
+		else {
+			$error = '{"error":{"code":1005,"reason":"InvoiceDate not found"}}';
+			echo $error;
+		}
+	}
+	else {
+		$error = '{"error":{"code":1005,"reason":"InvoiceStatusDate not found"}}';
+		echo $error;
 	}
 }
 
@@ -211,7 +243,7 @@ function validateLine($line) {
 		if (isset($line['ProductCode']) && is_integer($line['ProductCode'])) {
 			if (isset($line['Quantity']) && is_integer($line['Quantity']) && $line['Quantity'] >= 0) {
 				if (isset($line['UnitPrice']) && (is_integer($line['UnitPrice']) || is_real($line['UnitPrice']) && $line['UnitPrice'] > 0)) {
-					if (isset($line['CreditAmount'] && (is_integer($line['CreditAmount']) || is_real($line['CreditAmount']) ) && $line['CreditAmount'] == $line['Quantity'] * $line['UnitPrice']) {
+					if (isset($line['CreditAmount']) && (is_integer($line['CreditAmount']) || is_real($line['CreditAmount']) ) && $line['CreditAmount'] == $line['Quantity'] * $line['UnitPrice']) {
 						if (isset($line['Tax'])) {
 							$tax = $line['Tax'];
 							if (isset($tax['TaxType']) && $tax['TaxType'] != "") {
@@ -229,7 +261,15 @@ function validateLine($line) {
 	return false;
 }
 
-function addLines($lines) {
-	
+function addLines($lines, $invoiceNo, $db) {
+	date_default_timezone_set("Europe/Lisbon");
+	$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
+	for ($i=0; $i < sizeof($lines); $i++) { 
+		if (validateLine($lines[$i])) {
+			$insert = "INSERT INTO Line VALUES (NULL,'".$invoiceNo."','".$lines[$i]['LineNumber']."','".$lines[$i]['ProductCode']."','".$lines[$i]['Quantity']."','".$lines[$i]['UnitPrice']."','".$entryDate."','".$lines[$i]['Tax']['TaxType']."','".$lines[$i]['Tax']['TaxPercentage']."','".$lines[$i]['CreditAmount']."');";
+			$stmt = $db->prepare($insert);
+			$stmt->execute();
+		}
+	}
 }
 ?>

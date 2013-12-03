@@ -46,7 +46,7 @@ function getInvoiceFromDB($InvoiceNo) {
 							$line['Product'] = getProductFromDB($line['ProductCode']);
 							unset($line['ProductCode']);
 							$tax['TaxType'] = $line['TaxType'];
-							$tax['TaxPercentage'] = $line['TaxPercentage'];
+							$tax['TaxPercentage'] = $line['TaxPercentage'] + 0;
 							$line['Tax'] = $tax;
 							unset($line['TaxType']);
 							unset($line['TaxPercentage']);
