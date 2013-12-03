@@ -18,17 +18,42 @@
 				|| isset($_POST["InvoiceDate"]) && "" != $_POST["InvoiceDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceDate"])
 				|| isset($_POST["TaxPayable"]) && "" != $_POST["TaxPayable"]
 				|| isset($_POST["NetTotal"]) && "" != $_POST["NetTotal"]
-				|| isset($_POST["GrossTotal"]) && "" != $_POST["GrossTotal"])
+				|| isset($_POST["GrossTotal"]) && "" != $_POST["GrossTotal"]
+				|| isset($_POST["LineNumber1"]) && "" != $_POST["LineNumber1"]
+				|| isset($_POST["Quantity1"]) && "" != $_POST["Quantity1"]
+				|| isset($_POST["UnitPrice1"]) && "" != $_POST["UnitPrice1"]
+				|| isset($_POST["TaxPointDate1"]) && "" != $_POST["TaxPointDate1"]
+				|| isset($_POST["CreditAmount1"]) && "" != $_POST["CreditAmount1"])
 			{
 				?>
-				<script type='text/javascript'> var jsPost = 
+				<script type='text/javascript'> 
+				var jsPost = 
 				<?php 
 					$documentsTotalsArray = array("TaxPayable" => $_POST['TaxPayable'], "NetTotal" => $_POST['NetTotal'], "GrossTotal" => $_POST['GrossTotal']);
+					$nLines = $_POST['NLines'];
+					$i;
+					$linesArray;
+					for($i = 1; $i <= $nLines; $i++)
+					{
+						$line;
+						$lineNumberString = 'LineNumber'.$i;
+						$quantityString = 'Quantity'.$i;
+						$unitPriceString = 'UnitPrice'.$i;
+						$taxPointDateString = 'TaxPointDate'.$i;
+						$creditAmountString = 'creditAMount'.$i;
+						$line['LineNumber'] = $_POST[$lineNumberString];
+						$line['Quantity'] = $_POST[$quantityString];
+						$line['UnitPrice'] = $_POST[$unitPriceString];
+						$line['TaxPointDate'] = $_POST[$taxPointDateString];
+						$line['CreditAmount'] = $_POST[$creditAmountString];
+						$linesArray[$i] = $line;
+					}
 					$postArray;
 					$postArray['InvoiceStatusDate'] = $_POST['InvoiceStatusDate'];
 					$postArray['InvoiceNo'] = $_POST['InvoiceNo'];
 					$postArray['InvoiceDate'] = $_POST['InvoiceDate'];
 					$postArray['DocumentsTotals'] = $documentsTotalsArray;
+					$postArray['Line'] = $linesArray;
 					echo json_encode($postArray);				
 				?>;
 				console.log(jsPost); 
@@ -69,17 +94,7 @@
 					Gross Total <input name="GrossTotal" type="text" value="<?=isset($_POST['GrossTotal'])? $_POST['GrossTotal'] :""?>">
 					<br/>
 					<br/>
-					Number of Lines <input name="NLines" type="text" value="1" id="NLines" onchange="addLines()">
-					<br/>
-					Line Number <input name="LineNumber" type="text" value="<?=isset($_POST['LineNumber'])? $_POST['LineNumber'] :""?>">
-					<br/>
-					Quantity <input name="Quantity" type="text" value="<?=isset($_POST['Quantity'])? $_POST['Quantity'] :""?>">
-					<br/>
-					Unit Price <input name="UnitPrice" type="text" value="<?=isset($_POST['UnitPrice'])? $_POST['UnitPrice'] :""?>">
-					<br/>
-					Tax Point Date <input name="TaxPointDate" type="date" value="<?=isset($_POST['TaxPointDate'])? $_POST['TaxPointDate'] :""?>">
-					<br/>
-					Credit Amount <input name="CreditAmount" type="text" value="<?=isset($_POST['CreditAmount'])? $_POST['CreditAmount'] :""?>">
+					Number of Lines <input name="NLines" type="text" value="<?=isset($_POST['NLines'])? $_POST['NLines'] :""?>" id="NLines" onchange="addLines()">
 					<br/>
 					<div id="nLinesDiv">
 						<input id="submit_btn" type="submit" value="Submit Form"/>
