@@ -152,32 +152,47 @@ function addEntry($invoice) {
 
 								if (isset($invoiceTotals['GrossTotal']) && (is_integer($invoiceTotals['GrossTotal']) || is_real($invoiceTotals['GrossTotal']) ) ) {
 
-									$invoiceID = $num;
-									$invoiceNo = "FT SEQ/" . $num;
-									$sourceID = $_SESSION['user'];
-									date_default_timezone_set("Europe/Lisbon");
-									$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
+									if (isset($invoice['Line'])) {
+										$lines = $invoice['Line'];
+										$is_valid = false;
+										for ($i=0; $i < sizeof($lines); $i++) { 
+											if (validateLine($lines[$i])) {
+												$is_valid = true;
+												break;
+											}
+										}
 
-									$stmt = $db->prepare('INSERT INTO Bill VALUES (:invoiceID, :invoiceNo, :statusDate, :source, :invoiceDate, :entryDate, :customer, :tax, :net, :gross)');
-									$stmt->bindValue(':invoiceID', $invoiceID, PDO::PARAM_INT);
-									$stmt->bindValue(':invoiceNo', $invoiceNo, PDO::PARAM_STR);
-									$stmt->bindValue(':statusDate', $invoice['InvoiceStatusDate'], PDO::PARAM_STR);
-									$stmt->bindValue(':source', $sourceID, PDO::PARAM_STR);
-									$stmt->bindValue(':invoiceDate', $invoice['InvoiceDate'], PDO::PARAM_STR);
-									$stmt->bindValue(':entryDate', $entryDate, PDO::PARAM_STR);
-									$stmt->bindValue(':customer', $invoice['CustomerID'], PDO::PARAM_INT);
-									$stmt->bindValue(':tax', strval($invoiceTotals['TaxPayable']), PDO::PARAM_STR);
-									$stmt->bindValue(':net', strval($invoiceTotals['NetTotal']), PDO::PARAM_STR);
-									$stmt->bindValue(':gross', strval($invoiceTotals['GrossTotal']), PDO::PARAM_STR);
+										if ($is_valid) {
+											$invoiceID = $num;
+											$invoiceNo = "FT SEQ/" . $num;
+											$sourceID = $_SESSION['user'];
+											date_default_timezone_set("Europe/Lisbon");
+											$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
 
-									if ($stmt->execute() == FALSE) {
-										$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
-										echo $error;
+											$stmt = $db->prepare('INSERT INTO Bill VALUES (:invoiceID, :invoiceNo, :statusDate, :source, :invoiceDate, :entryDate, :customer, :tax, :net, :gross)');
+											$stmt->bindValue(':invoiceID', $invoiceID, PDO::PARAM_INT);
+											$stmt->bindValue(':invoiceNo', $invoiceNo, PDO::PARAM_STR);
+											$stmt->bindValue(':statusDate', $invoice['InvoiceStatusDate'], PDO::PARAM_STR);
+											$stmt->bindValue(':source', $sourceID, PDO::PARAM_STR);
+											$stmt->bindValue(':invoiceDate', $invoice['InvoiceDate'], PDO::PARAM_STR);
+											$stmt->bindValue(':entryDate', $entryDate, PDO::PARAM_STR);
+											$stmt->bindValue(':customer', $invoice['CustomerID'], PDO::PARAM_INT);
+											$stmt->bindValue(':tax', strval($invoiceTotals['TaxPayable']), PDO::PARAM_STR);
+											$stmt->bindValue(':net', strval($invoiceTotals['NetTotal']), PDO::PARAM_STR);
+											$stmt->bindValue(':gross', strval($invoiceTotals['GrossTotal']), PDO::PARAM_STR);
+
+											if ($stmt->execute() == FALSE) {
+												$error = '{"error":{"code":1004,"reason":"Error writing to database"}}';
+												echo $error;
+											}
+											else {
+												addLines($invoice['Line']);
+												include('getInvoiceFunc.php');
+												echo json_encode(getInvoiceFromDB($invoiceNo));
+											}
+										}
 									}
-									else {
-										include('getInvoiceFunc.php');
-										echo json_encode(getInvoiceFromDB($invoiceNo));
-									}
+
 								}
 							}
 						}
@@ -189,5 +204,32 @@ function addEntry($invoice) {
 			}
 		}
 	}
+}
+
+function validateLine($line) {
+	if (isset($line['LineNumber']) && is_integer($line['LineNumber'])) {
+		if (isset($line['ProductCode']) && is_integer($line['ProductCode'])) {
+			if (isset($line['Quantity']) && is_integer($line['Quantity']) && $line['Quantity'] >= 0) {
+				if (isset($line['UnitPrice']) && (is_integer($line['UnitPrice']) || is_real($line['UnitPrice']) && $line['UnitPrice'] > 0)) {
+					if (isset($line['CreditAmount'] && (is_integer($line['CreditAmount']) || is_real($line['CreditAmount']) ) && $line['CreditAmount'] == $line['Quantity'] * $line['UnitPrice']) {
+						if (isset($line['Tax'])) {
+							$tax = $line['Tax'];
+							if (isset($tax['TaxType']) && $tax['TaxType'] != "") {
+								if (isset($tax['TaxPercentage']) && (is_integer($tax['TaxPercentage']) || is_real($tax['TaxPercentage'])) ) {
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+function addLines($lines) {
+	
 }
 ?>
