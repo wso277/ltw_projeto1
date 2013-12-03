@@ -45,32 +45,24 @@ function addLines()
 		creditAmountField.setAttribute("type","text");
 		var creditAmountFieldName = "CreditAmount"+i;
 		creditAmountField.setAttribute("name",creditAmountFieldName);
-
-		var br1 = document.createElement("br");
-		var br2 = document.createElement("br");
-		var br3 = document.createElement("br");
-		var br4 = document.createElement("br");
-		var br5 = document.createElement("br");
-		var br6 = document.createElement("br");
-		var br7 = document.createElement("br");
-
+		
 		if (i == 1)
-			container.insertBefore(br7,submitButton);
+			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(lineNumberText,submitButton);
 		container.insertBefore(lineNumberField,submitButton);
-		container.insertBefore(br1,submitButton);
+			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(quantityText,submitButton);
 		container.insertBefore(quantityField,submitButton);
-		container.insertBefore(br2,submitButton);
+			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(unitPriceText,submitButton);
 		container.insertBefore(unitPriceField,submitButton);
-		container.insertBefore(br3,submitButton);
+			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(taxPointDateText,submitButton);
 		container.insertBefore(taxPointDateField,submitButton);
-		container.insertBefore(br4,submitButton);
+			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(creditAmountText,submitButton);
 		container.insertBefore(creditAmountField,submitButton);
-		container.insertBefore(br5,submitButton);
-		container.insertBefore(br6,submitButton);
+			$("<br>").insertBefore("#submit_btn");
+			$("<br>").insertBefore("#submit_btn");
 	}
 }
