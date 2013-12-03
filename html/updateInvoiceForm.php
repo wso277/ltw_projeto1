@@ -35,18 +35,13 @@
 					$linesArray;
 					for($i = 1; $i <= $nLines; $i++)
 					{
-						$line;
 						$lineNumberString = 'LineNumber'.$i;
 						$quantityString = 'Quantity'.$i;
 						$unitPriceString = 'UnitPrice'.$i;
 						$taxPointDateString = 'TaxPointDate'.$i;
 						$creditAmountString = 'creditAMount'.$i;
-						$line['LineNumber'] = $_POST[$lineNumberString];
-						$line['Quantity'] = $_POST[$quantityString];
-						$line['UnitPrice'] = $_POST[$unitPriceString];
-						$line['TaxPointDate'] = $_POST[$taxPointDateString];
-						$line['CreditAmount'] = $_POST[$creditAmountString];
-						$linesArray[$i] = $line;
+						$line = array("LineNumber" => $_POST[$lineNumberString], "Quantity" => $_POST[$quantityString], "UnitPrice" => $_POST[$unitPriceString], "TaxPointDate" => $_POST[$taxPointDateString], "CreditAmount" => $line['CreditAmount'] = $_POST[$creditAmountString]);
+						$linesArray[$i-1] = $line;
 					}
 					$postArray;
 					$postArray['InvoiceStatusDate'] = $_POST['InvoiceStatusDate'];
