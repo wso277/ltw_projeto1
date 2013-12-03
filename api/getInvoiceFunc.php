@@ -5,7 +5,7 @@ include ('getProductFunc.php');
 function getInvoiceFromDB($InvoiceNo) {
 	if (isset($InvoiceNo)) {
 
-		if ($InvoiceNo != "" && preg_match("/[^\/]+\/[0-9]+/", $invoice['InvoiceNo'])) {
+		if ($InvoiceNo != "" && preg_match("/[^\/]+\/[0-9]+/", $InvoiceNo)) {
 			try {
 				$db = new PDO('sqlite:../db/finances.db');
 			} catch (PDOException $e) {
@@ -25,19 +25,18 @@ function getInvoiceFromDB($InvoiceNo) {
 					unset($invoice['CustomerID']);
 					$invoice['Customer'] = $customer;
 					
-					$documentTotals['TaxPayable'] = $invoice['TaxPayable'];
-					$documentTotals['TaxPayable'] = $invoice['TaxPayable'];
-					$documentTotals['GrossTotal'] = $invoice['GrossTotal'];
+					$documentTotals['TaxPayable'] = $invoice['TaxPayable'] + 0;
+					$documentTotals['NetTotal'] = $invoice['NetTotal'] + 0;
+					$documentTotals['GrossTotal'] = $invoice['GrossTotal'] + 0;
 
-					$invoice['DocumentsTotals'] = $documentTotals;
+					$invoice['DocumentTotals'] = $documentTotals;
 
 					unset($invoice['TaxPayable']);
 					unset($invoice['NetTotal']);
 					unset($invoice['GrossTotal']);
 
-					$query = 'SELECT LineNumber, ProductCode, Quantity, UnitPrice, CreditAmount, TaxType, TaxPercentage 
-					FROM Line NATURAL JOIN TaxPerBillLine NATURAL JOIN Tax WHERE InvoiceNo = ' . $InvoiceNo . ' ORDER BY LineNumber ASC';
-					$stmt = $db -> prepare($query);
+					$query = 'SELECT * FROM Line WHERE InvoiceNo = ' . "'" . $InvoiceNo . "'" . ' ORDER BY LineNumber ASC';
+					$stmt = $db->prepare($query);
 					$stmt->execute();
 					$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 					if ($lines != FALSE) {
@@ -46,6 +45,11 @@ function getInvoiceFromDB($InvoiceNo) {
 						foreach($invoice['Lines'] as &$line) {
 							$line['Product'] = getProductFromDB($line['ProductCode']);
 							unset($line['ProductCode']);
+							$tax['TaxType'] = $line['TaxType'];
+							$tax['TaxPercentage'] = $line['TaxPercentage'];
+							$line['Tax'] = $tax;
+							unset($line['TaxType']);
+							unset($line['TaxPercentage']);
 						}
 					}
 

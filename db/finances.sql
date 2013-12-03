@@ -32,7 +32,7 @@ CREATE TABLE Customer (
 
 CREATE TABLE Bill (
 	InvoiceID	INTEGER PRIMARY KEY AUTOINCREMENT,
-	InvoiceNo 		TEXT NOT NULL,
+	InvoiceNo 		TEXT UNIQUE NOT NULL,
 	InvoiceStatusDate DATE NOT NULL,
 	SourceID	TEXT NOT NULL,
 	InvoiceDate 		DATETIME NOT NULL,
@@ -59,9 +59,14 @@ CREATE TABLE Line (
 	Quantity 	REAL NOT NULL,
 	UnitPrice 	REAL, 
 	TaxPointDate DATE NOT NULL,
+	TaxType TEXT DEFAULT 'IVA',
+	TaxPercentage REAL DEFAULT 23.00,
 	CreditAmount REAL
 );
 
 INSERT INTO User (UserName, Password, Permission)
 	VALUES ('admin', 'obviouspass', 'administrator'),
 	       ('noob', '1234', 'reader');
+
+INSERT INTO BillingAddress VALUES (1,"Rua random", "City random", "1234-321","PT");
+INSERT INTO Customer VALUES (1,32156,317445,"Pandaria",1,"jkfjk@jsdfj.com");
