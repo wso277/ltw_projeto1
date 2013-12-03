@@ -52,7 +52,11 @@ function addLines()
 		var br3 = document.createElement("br");
 		var br4 = document.createElement("br");
 		var br5 = document.createElement("br");
+		var br6 = document.createElement("br");
+		var br7 = document.createElement("br");
 
+		if (i == 1)
+			container.insertBefore(br7,submitButton);
 		container.insertBefore(lineNumberText,submitButton);
 		container.insertBefore(lineNumberField,submitButton);
 		container.insertBefore(br1,submitButton);
@@ -68,5 +72,6 @@ function addLines()
 		container.insertBefore(creditAmountText,submitButton);
 		container.insertBefore(creditAmountField,submitButton);
 		container.insertBefore(br5,submitButton);
+		container.insertBefore(br6,submitButton);
 	}
 }

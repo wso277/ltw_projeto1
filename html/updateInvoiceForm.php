@@ -79,7 +79,7 @@
 					<br/>
 					Tax Point Date <input name="TaxPointDate" type="date" value="<?=isset($_POST['TaxPointDate'])? $_POST['TaxPointDate'] :""?>">
 					<br/>
-					Credit Amount <input name="CreditAmount" type="date" value="<?=isset($_POST['CreditAmount'])? $_POST['CreditAmount'] :""?>">
+					Credit Amount <input name="CreditAmount" type="text" value="<?=isset($_POST['CreditAmount'])? $_POST['CreditAmount'] :""?>">
 					<br/>
 					<div id="nLinesDiv">
 						<input id="submit_btn" type="submit" value="Submit Form"/>
