@@ -207,8 +207,8 @@ table {
 
 #bill {
 	position: relative;
-	top: -2em;
-	right: -20em;
+	top: -1em;
+	right: -14em;
 	display: inline-block;
 }
 
@@ -275,6 +275,18 @@ input.session {
 	margin: 2em 5em;
 }
 
+.go_top {
+	position: relative;
+	display: block;
+	width: 5em;
+	padding: 0.5em;
+	margin: 2em 5em;
+	background-color: #999999;
+	border-radius: 5px;
+	border-width: 5px;
+	border-color: white;
+}
+
 a.frontpage {
 	color: #277F00;
 	font-weight:bold;
@@ -288,4 +300,14 @@ a.frontpage:visited {
 a.frontpage:hover {
 	color: #60D600;
 	font-weight:bold;
+}
+
+.subtitle {
+	display: block;
+	background-color: rgba(200, 200, 200, 0.7);
+	border-radius: 5px 25px 5px 25px;
+	color: black;
+	padding: 1em 2em;
+	margin: 1em;
+	font-family: serif;
 }
