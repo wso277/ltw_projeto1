@@ -3,4 +3,12 @@ $InvoiceNo = $_GET['InvoiceNo'];
 
 include('getInvoiceFunc.php');
 
-echo json_encode(getInvoiceFromDB($InvoiceNo));
+$invoiceJson = json_encode(getInvoiceFromDB($InvoiceNo));
+echo $invoiceJson;
+
+if (isset($_GET['callback'])) {
+	$callback = $_GET['callback']; 
+	print($callback."(".$invoiceJson.");");	
+}
+
+?>

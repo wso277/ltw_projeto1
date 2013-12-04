@@ -1,12 +1,12 @@
 <?php
 session_start();
-//$_SESSION['permission'] = "editor";
-//$_SESSION['user'] = "wso277";
+$_SESSION['permission'] = "editor";
+$_SESSION['user'] = "wso277";
 
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
 	//$invoice = json_decode($_POST['invoice'], true);
 	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-15","InvoiceDate":"2012-11-10","CustomerID":1,"DocumentTotals":{"TaxPayable":5.32,"NetTotal":3.21,"GrossTotal":4.21},"Line":[{"LineNumber":1,"ProductCode":1,"Quantity":2,"UnitPrice":10,"CreditAmount":20,"Tax":{"TaxType":"IVA","TaxPercentage":23.00}}]}',true);
-	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-02","DocumentTotals":{"NetTotal":1.21},"InvoiceNo":"FT SEQ/1"}',true);
+	$invoice = json_decode('{"InvoiceStatusDate":"2012-10-02","DocumentTotals":{"NetTotal":1.21},"InvoiceNo":"FT SEQ/6","Line":[{"LineNumber":1,"ProductCode":1,"Quantity":3,"CreditAmount":30,"Tax":{"TaxPercentage":21.00}}]}',true);
 
 	if (isset($invoice) ) {			
 		if (isset($invoice['InvoiceNo']) && preg_match("/[^\/]+\/[0-9]+/", $invoice['InvoiceNo'])) {
@@ -62,7 +62,6 @@ function updateEntry($invoice) {
 		}
 		elseif ($key == "DocumentTotals") {
 			foreach ($value as $total => $value1) {
-				echo "sjfsdfjk";
 				if ($total == "TaxPayable" || $total == "NetTotal" || $total == "GrossTotal") {
 					if (isset($value1) && (is_integer($value1) || is_real($value1) ) ) {
 						$insert = $update . "'" . $total . "' = '" . $value1 . "'" . $where;
@@ -74,6 +73,9 @@ function updateEntry($invoice) {
 
 			}
 
+		}
+		elseif ($key == "Line") {
+			updateLines($invoice[$key], $invoice['InvoiceNo'], $db);
 		}
 
 		if ($insert != "") {
@@ -266,10 +268,44 @@ function addLines($lines, $invoiceNo, $db) {
 	$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
 	for ($i=0; $i < sizeof($lines); $i++) { 
 		if (validateLine($lines[$i])) {
-			$insert = "INSERT INTO Line VALUES (NULL,'".$invoiceNo."','".$lines[$i]['LineNumber']."','".$lines[$i]['ProductCode']."','".$lines[$i]['Quantity']."','".$lines[$i]['UnitPrice']."','".$entryDate."','".$lines[$i]['Tax']['TaxType']."','".$lines[$i]['Tax']['TaxPercentage']."','".$lines[$i]['CreditAmount']."');";
+			$insert = "INSERT INTO Line VALUES (NULL,'".$invoiceNo."', ".$lines[$i]['LineNumber'].", ".$lines[$i]['ProductCode'].", ".$lines[$i]['Quantity'].",'".$lines[$i]['UnitPrice']."','".$entryDate."','".$lines[$i]['Tax']['TaxType']."','".$lines[$i]['Tax']['TaxPercentage']."', ".$lines[$i]['CreditAmount'].");";
 			$stmt = $db->prepare($insert);
 			$stmt->execute();
 		}
+	}
+}
+
+function updateLines($lines, $invoiceNo, $db) {
+
+	$update = "UPDATE Line SET ";
+	$query = "";
+	for ($i=0; $i < sizeof($lines); $i++) { 
+		foreach ($lines[$i] as $key => $value) {
+			if ($key == "ProductCode" || $key == "Quantity") {
+				if (is_integer($value)) 
+					$query = $update . "'" . $key . "' = " . $value . " WHERE InvoiceNo = '" . $invoiceNo . "'" . " AND LineNumber = " . $lines[$i]['LineNumber'] . ";";
+			}
+			if ($key == "UnitPrice" || $key == "CreditAmount") {
+				if (is_integer($value) || is_real($value))
+					$query = $update . "'" . $key . "' = '" . $value . "' WHERE InvoiceNo = '" . $invoiceNo . "'" . " AND LineNumber = " . $lines[$i]['LineNumber'] . ";";
+			}
+			if ($key == "Tax") {
+				if (isset($lines[$i]['Tax']['TaxType']) && $lines[$i]['Tax']['TaxType'] != "") {
+					$query = $update . "TaxType = '" . $lines[$i]['Tax']['TaxType'] . "' WHERE InvoiceNo = '" . $invoiceNo . "'" . " AND LineNumber = " . $lines[$i]['LineNumber'] . ";";
+				}
+				if (isset($lines[$i]['Tax']['TaxPercentage']) && $lines[$i]['Tax']['TaxPercentage'] != "") {
+					$query = $update . "TaxPercentage = '" . $lines[$i]['Tax']['TaxPercentage'] . "' WHERE InvoiceNo = '" . $invoiceNo . "'" . " AND LineNumber = " . $lines[$i]['LineNumber'] . ";";
+				}
+			}
+
+			$stmt = $db->prepare($query);
+			$stmt->execute();
+		}
+		date_default_timezone_set("Europe/Lisbon");
+		$entryDate = date(sprintf('Y-m-d\TH:i:s%sP', substr(microtime(), 1, 4)));
+		$query = $update . "TaxPointDate = '" . $entryDate . "' WHERE InvoiceNo = '" . $invoiceNo . "'" . " AND LineNumber = " . $lines[$i]['LineNumber'] . ";";
+		$stmt = $db->prepare($query);
+		$stmt->execute();
 	}
 }
 ?>
