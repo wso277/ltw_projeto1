@@ -99,7 +99,6 @@
 					<br/>
 					Number of Lines <input name="NLines" type="text" value="<?=isset($_POST['NLines'])? $_POST['NLines'] :""?>" id="NLines" onchange="addLines()">
 					<br/>
-					<input name"Magic" type="hidden" id="Magic" value="<?=isset($_POST['Magic'])? $_POST['Magic'] :""?>">
 					<div id="nLinesDiv">
 						<input id="submit_btn" type="submit" value="Submit Form"/>
 					</div>
