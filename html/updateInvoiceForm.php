@@ -23,7 +23,9 @@
 				|| isset($_POST["Quantity1"]) && "" != $_POST["Quantity1"]
 				|| isset($_POST["UnitPrice1"]) && "" != $_POST["UnitPrice1"]
 				|| isset($_POST["TaxPointDate1"]) && "" != $_POST["TaxPointDate1"]
-				|| isset($_POST["CreditAmount1"]) && "" != $_POST["CreditAmount1"])
+				|| isset($_POST["CreditAmount1"]) && "" != $_POST["CreditAmount1"]
+				|| isset($_POST["TaxType1"]) && "" != $_POST["TaxType1"]
+				|| isset($_POST["TaxPercentage1"]) && "" != $_POST["TaxPercentage1"])
 			{
 				?>
 				<script type='text/javascript'> 
@@ -39,7 +41,9 @@
 						$unitPriceString = 'UnitPrice'.$i;
 						$taxPointDateString = 'TaxPointDate'.$i;
 						$creditAmountString = 'CreditAmount'.$i;
-						$line = array("LineNumber" => $_POST[$lineNumberString], "Quantity" => $_POST[$quantityString], "UnitPrice" => $_POST[$unitPriceString], "TaxPointDate" => $_POST[$taxPointDateString], "CreditAmount" => $line['CreditAmount'] = $_POST[$creditAmountString]);
+						$taxTypeString = 'TaxType'.$i;
+						$taxPercentageString = 'TaxPercentage'.$i;
+						$line = array("LineNumber" => $_POST[$lineNumberString], "Quantity" => $_POST[$quantityString], "UnitPrice" => $_POST[$unitPriceString], "TaxPointDate" => $_POST[$taxPointDateString], "CreditAmount" => $_POST[$creditAmountString], "Tax" => array("TaxType" => $_POST[$taxTypeString], "TaxPercentage" => $_POST[$taxPercentageString]));
 						$linesArray[$i-1] = $line;
 					}
 					$postArray;

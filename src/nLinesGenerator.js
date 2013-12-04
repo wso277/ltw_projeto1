@@ -20,6 +20,8 @@ function addLines()
 		var unitPriceText = document.createTextNode("Unit Price");
 		var taxPointDateText = document.createTextNode("Tax Point Date");
 		var creditAmountText = document.createTextNode("Credit Amount");
+		var taxTypeText = document.createTextNode("Tax Type");
+		var taxPercentageText = document.createTextNode("Tax Percentage");
 
 		var lineNumberField = document.createElement("input");
 		lineNumberField.setAttribute("type","text");
@@ -45,6 +47,16 @@ function addLines()
 		creditAmountField.setAttribute("type","text");
 		var creditAmountFieldName = "CreditAmount"+i;
 		creditAmountField.setAttribute("name",creditAmountFieldName);
+
+		var taxTypeField = document.createElement("input");
+		taxTypeField.setAttribute("type","text");
+		var taxTypeFieldName = "TaxType"+i;
+		taxTypeField.setAttribute("name",taxTypeFieldName);
+
+		var taxPercentageField = document.createElement("input");
+		taxPercentageField.setAttribute("type","text");
+		var taxPercentageFieldName = "TaxPercentage"+i;
+		taxPercentageField.setAttribute("name",taxPercentageFieldName);
 		
 		if (i == 1)
 			$("<br>").insertBefore("#submit_btn");
@@ -62,6 +74,12 @@ function addLines()
 			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(creditAmountText,submitButton);
 		container.insertBefore(creditAmountField,submitButton);
+			$("<br>").insertBefore("#submit_btn");
+		container.insertBefore(taxTypeText,submitButton);
+		container.insertBefore(taxTypeField,submitButton);
+			$("<br>").insertBefore("#submit_btn");
+		container.insertBefore(taxPercentageText,submitButton);
+		container.insertBefore(taxPercentageField,submitButton);
 			$("<br>").insertBefore("#submit_btn");
 			$("<br>").insertBefore("#submit_btn");
 	}
