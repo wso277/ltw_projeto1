@@ -63,6 +63,7 @@ defaultFooter();
 			fiveSecsHeader();
 			session_start ();
 			$_SESSION ['permission'] = $permission [0] ['Permission'];
+			$_SESSION['user'] = $_POST ['user'];
 			session_write_close ();
 			echo '<p class="redirect">Loggin successfully<br/> you\'ll be redirected to <a href="index.php">home</a> in 5 seconds.</p>';
 			defaultFooter();

@@ -45,6 +45,11 @@ function getInvoiceFromDB($InvoiceNo) {
 						$invoice['Line'] = $lines;
 						$i = 0;
 						foreach($invoice['Line'] as &$line) {
+							$line['LineNumber'] += 0;
+							$line['ProductCode'] += 0;
+							$line['Quantity'] += 0;
+							$line['CreditAmount'] += 0;
+							$line['UnitPrice'] += 0;
 							$line['Product'] = getProductFromDB($line['ProductCode']);
 							//unset($line['ProductCode']);
 							$tax['TaxType'] = $line['TaxType'];
@@ -90,10 +95,12 @@ function getInvoiceByValRange($field, $val) {
 		$invoices;
 
 		if ($field == "InvoiceNo") {
-			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "' AND " . $field . " < '" . $value2 . "'";
-			$stmt = $db -> prepare($select);
-			$stmt -> execute();
-			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			if (preg_match("/[^\/]+\/[0-9]+/", $value1) && preg_match("/[^\/]+\/[0-9]+/", $value2)) {
+				$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "' AND " . $field . " < '" . $value2 . "'";
+				$stmt = $db -> prepare($select);
+				$stmt -> execute();
+				$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			}
 		} else if ($field == "InvoiceDate") {
 			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") > julianday('" . $value1 . "') AND julianday(" . $field . ") < julianday('" . $value2 . "')";
 			$stmt = $db -> prepare($select);
@@ -138,10 +145,13 @@ function getInvoiceByValEqual($field, $val) {
 
 		}
 		if ($field == "InvoiceNo") {
-			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " = '" . $value1 . "'";
-			$stmt = $db -> prepare($select);
-			$stmt -> execute();
-			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			if (preg_match("/[^\/]+\/[0-9]+/", $value1)) {
+
+				$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " = '" . $value1 . "'";
+				$stmt = $db -> prepare($select);
+				$stmt -> execute();
+				$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			}
 		} else if ($field == "InvoiceDate") {
 			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") = julianday('" . $value1 . "')";
 			$stmt = $db -> prepare($select);
@@ -227,10 +237,12 @@ function getInvoiceByValMin($field, $val) {
 
 		}
 		if ($field == "InvoiceNo") {
-			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "'";
-			$stmt = $db -> prepare($select);
-			$stmt -> execute();
-			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			if (preg_match("/[^\/]+\/[0-9]+/", $value1)) {
+				$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " > '" . $value1 . "'";
+				$stmt = $db -> prepare($select);
+				$stmt -> execute();
+				$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			}
 		} else if ($field == "InvoiceDate") {
 			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") > julianday('" . $value1 . "')";
 			$stmt = $db -> prepare($select);
@@ -275,10 +287,12 @@ function getInvoiceByValMax($field, $val) {
 
 		}
 		if ($field == "InvoiceNo") {
-			$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " < '" . $value1 . "'";
-			$stmt = $db -> prepare($select);
-			$stmt -> execute();
-			$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			if (preg_match("/[^\/]+\/[0-9]+/", $value1)) {
+				$select = "SELECT InvoiceNo FROM Bill WHERE " . $field . " < '" . $value1 . "'";
+				$stmt = $db -> prepare($select);
+				$stmt -> execute();
+				$invoices = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+			}
 		} else if ($field == "InvoiceDate") {
 			$select = "SELECT InvoiceNo FROM Bill WHERE julianday(" . $field . ") < julianday('" . $value1 . "')";
 			$stmt = $db -> prepare($select);
