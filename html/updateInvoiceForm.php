@@ -10,22 +10,27 @@
 		<div id="main_div">
 			<?php include('header.php');?>
 			<script src="../src/nLinesGenerator.js"></script>
+			<script src="../src/fillInvoiceFields.js"></script>
 
 			<?php
 			session_start();
-			if(isset($_POST["InvoiceStatusDate"]) && "" != $_POST["InvoiceStatusDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceStatusDate"])
-				|| isset($_POST["InvoiceNo"]) && "" != $_POST["InvoiceNo"] /*&& preg_match("/[^\/]+\/[0-9]+/", $_POST['InvoiceNo'])*/
-				|| isset($_POST["InvoiceDate"]) && "" != $_POST["InvoiceDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceDate"])
-				|| isset($_POST["TaxPayable"]) && "" != $_POST["TaxPayable"]
-				|| isset($_POST["NetTotal"]) && "" != $_POST["NetTotal"]
-				|| isset($_POST["GrossTotal"]) && "" != $_POST["GrossTotal"]
-				|| isset($_POST["LineNumber1"]) && "" != $_POST["LineNumber1"]
-				|| isset($_POST["Quantity1"]) && "" != $_POST["Quantity1"]
-				|| isset($_POST["UnitPrice1"]) && "" != $_POST["UnitPrice1"]
-				|| isset($_POST["TaxPointDate1"]) && "" != $_POST["TaxPointDate1"]
-				|| isset($_POST["CreditAmount1"]) && "" != $_POST["CreditAmount1"]
-				|| isset($_POST["TaxType1"]) && "" != $_POST["TaxType1"]
-				|| isset($_POST["TaxPercentage1"]) && "" != $_POST["TaxPercentage1"])
+			if(
+				(isset($_POST["InvoiceNo"]) && "" != $_POST["InvoiceNo"] /*&& preg_match("/[^\/]+\/[0-9]+/", $_POST['InvoiceNo'])*/
+					&& isset($_POST["NLines"]) && "" != $_POST["NLines"])
+				|| 
+				(isset($_POST["InvoiceNo"]) && "" != $_POST["InvoiceNo"] && isset($_POST["Nlines"]) && "" != $_POST["NLines"] &&(
+					isset($_POST["InvoiceStatusDate"]) && "" != $_POST["InvoiceStatusDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceStatusDate"])
+					|| isset($_POST["InvoiceDate"]) && "" != $_POST["InvoiceDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceDate"])
+					|| isset($_POST["TaxPayable"]) && "" != $_POST["TaxPayable"]
+					|| isset($_POST["NetTotal"]) && "" != $_POST["NetTotal"]
+					|| isset($_POST["GrossTotal"]) && "" != $_POST["GrossTotal"]))
+				|| 
+				(isset($_POST["NLines"]) && "" != $_POST["NLines"] &&(
+					isset($_POST["InvoiceStatusDate"]) && "" != $_POST["InvoiceStatusDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceStatusDate"])
+					|| isset($_POST["InvoiceDate"]) && "" != $_POST["InvoiceDate"] && preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $_POST["InvoiceDate"])
+					|| isset($_POST["TaxPayable"]) && "" != $_POST["TaxPayable"]
+					|| isset($_POST["NetTotal"]) && "" != $_POST["NetTotal"]
+					|| isset($_POST["GrossTotal"]) && "" != $_POST["GrossTotal"])))
 			{
 				?>
 				<script type='text/javascript'> 
@@ -78,22 +83,23 @@
 			{
 				?>
 				
-				<form id="form" method="post" action="updateInvoiceForm.php">
-					Invoice Status Date <input name="InvoiceStatusDate" type="date" value="<?=isset($_POST['InvoiceStatusDate'])? $_POST['InvoiceStatusDate'] :""?>">
+				<form id="form" method="post" action="updateInvoiceForm.php" name="magicForm">
+					Invoice Number <input name="InvoiceNo" id="InvoiceNo" type="text" value="<?=isset($_POST['InvoiceNo'])? $_POST['InvoiceNo'] :""?>" onchange="fillFields()">
 					<br/>
-					Invoice Number <input name="InvoiceNo" type="text" value="<?=isset($_POST['InvoiceNo'])? $_POST['InvoiceNo'] :""?>">
+					Invoice Status Date <input name="InvoiceStatusDate" id="InvoiceStatusDate" type="date" value="<?=isset($_POST['InvoiceStatusDate'])? $_POST['InvoiceStatusDate'] :""?>">
 					<br/>
-					Invoice Date <input name="InvoiceDate" type="date" value="<?=isset($_POST['InvoiceDate'])? $_POST['InvoiceDate'] :""?>">
+					Invoice Date <input name="InvoiceDate" id="InvoiceDate" type="date" value="<?=isset($_POST['InvoiceDate'])? $_POST['InvoiceDate'] :""?>">
 					<br/>
-					Tax Payable <input name="TaxPayable" type="text" value="<?=isset($_POST['TaxPayable'])? $_POST['TaxPayable'] :""?>">
+					Tax Payable <input name="TaxPayable" id="TaxPayable" type="text" value="<?=isset($_POST['TaxPayable'])? $_POST['TaxPayable'] :""?>">
 					<br/>
-					Net Total <input name="NetTotal" type="text" value="<?=isset($_POST['NetTotal'])? $_POST['NetTotal'] :""?>">
+					Net Total <input name="NetTotal" id="NetTotal" type="text" value="<?=isset($_POST['NetTotal'])? $_POST['NetTotal'] :""?>">
 					<br/>
-					Gross Total <input name="GrossTotal" type="text" value="<?=isset($_POST['GrossTotal'])? $_POST['GrossTotal'] :""?>">
+					Gross Total <input name="GrossTotal" id="GrossTotal" type="text" value="<?=isset($_POST['GrossTotal'])? $_POST['GrossTotal'] :""?>">
 					<br/>
 					<br/>
 					Number of Lines <input name="NLines" type="text" value="<?=isset($_POST['NLines'])? $_POST['NLines'] :""?>" id="NLines" onchange="addLines()">
 					<br/>
+					<input name"Magic" type="hidden" id="Magic" value="<?=isset($_POST['Magic'])? $_POST['Magic'] :""?>">
 					<div id="nLinesDiv">
 						<input id="submit_btn" type="submit" value="Submit Form"/>
 					</div>
