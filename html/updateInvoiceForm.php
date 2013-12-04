@@ -31,7 +31,6 @@
 				<?php 
 					$documentsTotalsArray = array("TaxPayable" => $_POST['TaxPayable'], "NetTotal" => $_POST['NetTotal'], "GrossTotal" => $_POST['GrossTotal']);
 					$nLines = $_POST['NLines'];
-					$i;
 					$linesArray;
 					for($i = 1; $i <= $nLines; $i++)
 					{
@@ -39,7 +38,7 @@
 						$quantityString = 'Quantity'.$i;
 						$unitPriceString = 'UnitPrice'.$i;
 						$taxPointDateString = 'TaxPointDate'.$i;
-						$creditAmountString = 'creditAMount'.$i;
+						$creditAmountString = 'CreditAmount'.$i;
 						$line = array("LineNumber" => $_POST[$lineNumberString], "Quantity" => $_POST[$quantityString], "UnitPrice" => $_POST[$unitPriceString], "TaxPointDate" => $_POST[$taxPointDateString], "CreditAmount" => $line['CreditAmount'] = $_POST[$creditAmountString]);
 						$linesArray[$i-1] = $line;
 					}
