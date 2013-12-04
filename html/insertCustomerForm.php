@@ -2,7 +2,7 @@
 	<html>
 	<head>
 		<meta charset="UTF-8">
-		<title> Update Customer </title>
+		<title> Insert Customer </title>
 		<script src="../lib/jquery-1.10.2.js"></script>
 		<link rel="stylesheet" href="./style1.css">
 	</head>
@@ -13,14 +13,14 @@
 			<?php
 			session_start();
 			if(isset($_POST["CustomerID"]) && "" != $_POST["CustomerID"] 
-				|| isset($_POST["AccountID"]) && "" != $_POST["AccountID"] 
-				|| isset($_POST["CustomerTaxID"]) && "" != $_POST["CustomerTaxID"]  
-				|| isset($_POST["CompanyName"]) && "" != $_POST["CompanyName"]
-				|| isset($_POST["Email"]) && "" != $_POST["Email"]
-				|| isset($_POST["AddressDetail"]) && "" != $_POST["AddressDetail"]
-				|| isset($_POST["City"]) && "" != $_POST["City"]
-				|| isset($_POST["PostalCode"]) && "" != $_POST["PostalCode"]
-				|| isset($_POST["Country"]) && "" != $_POST["Country"])
+				&& isset($_POST["AccountID"]) && "" != $_POST["AccountID"] 
+				&& isset($_POST["CustomerTaxID"]) && "" != $_POST["CustomerTaxID"]  
+				&& isset($_POST["CompanyName"]) && "" != $_POST["CompanyName"]
+				&& isset($_POST["Email"]) && "" != $_POST["Email"]
+				&& isset($_POST["AddressDetail"]) && "" != $_POST["AddressDetail"]
+				&& isset($_POST["City"]) && "" != $_POST["City"]
+				&& isset($_POST["PostalCode"]) && "" != $_POST["PostalCode"]
+				&& isset($_POST["Country"]) && "" != $_POST["Country"])
 			{
 				?>
 				<script type='text/javascript'> 
@@ -31,7 +31,7 @@
 				?>;
 				console.log(jsPost); 
 				var $jsonPost = JSON.stringify(jsPost);
-				var product = $.ajax({url: "../api/updateCustomer.php",
+				var product = $.ajax({url: "../api/insertCustomer.php",
 					type: "POST",
 					dataType: 'json',
 					data: {customer : $jsonPost},
@@ -53,7 +53,7 @@
 			{
 				?>
 				
-				<form id="form" method="post" action="updateCustomerForm.php">
+				<form id="form" method="post" action="insertCustomerForm.php">
 					Customer ID <input name="CustomerID" type="text" value="<?=isset($_POST['CustomerID'])? $_POST['CustomerID'] :""?>">
 					<br/>
 					Account ID <input name="AccountID" type="text" value="<?=isset($_POST['AccountID'])? $_POST['AccountID'] :""?>">
