@@ -38,8 +38,8 @@ function defaultPage() {
 				<td><input type="text" pattern="[^\/]+\/[0-9]+" title="Example: FT SEQ/20" name="InvoiceNo" /></td>
 			</tr>
 		</table>
-		<button id="sbmt" type="submit" value="Import" class="session">Import</button>
 	</form>
+	<button id="sbmt" type="submit" value="Import" class="session">Import</button>
 	<?php
 	defaultFooter();
 }

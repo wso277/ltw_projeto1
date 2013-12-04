@@ -22,8 +22,10 @@ function getInvoiceFromDB($InvoiceNo) {
 				$customer = getCustomerFromDB($invoice['CustomerID']);
 				if (!isset($customer['error'])) {
 
-					unset($invoice['CustomerID']);
+					//unset($invoice['CustomerID']);
 					$invoice['Customer'] = $customer;
+
+					$invoice['CustomerID'] += 0;
 					
 					$documentTotals['TaxPayable'] = $invoice['TaxPayable'] + 0;
 					$documentTotals['NetTotal'] = $invoice['NetTotal'] + 0;
@@ -40,11 +42,11 @@ function getInvoiceFromDB($InvoiceNo) {
 					$stmt->execute();
 					$lines = $stmt->fetchAll(PDO::FETCH_ASSOC);
 					if ($lines != FALSE) {
-						$invoice['Lines'] = $lines;
+						$invoice['Line'] = $lines;
 						$i = 0;
-						foreach($invoice['Lines'] as &$line) {
+						foreach($invoice['Line'] as &$line) {
 							$line['Product'] = getProductFromDB($line['ProductCode']);
-							unset($line['ProductCode']);
+							//unset($line['ProductCode']);
 							$tax['TaxType'] = $line['TaxType'];
 							$tax['TaxPercentage'] = $line['TaxPercentage'] + 0;
 							$line['Tax'] = $tax;

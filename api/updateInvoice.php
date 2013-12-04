@@ -1,12 +1,10 @@
 <?php
 session_start();
-$_SESSION['permission'] = "editor";
-$_SESSION['user'] = "wso277";
 
 if (isset($_SESSION['permission']) && ($_SESSION['permission'] == 'editor' || $_SESSION['permission'] == 'administrator') ) {
-	//$invoice = json_decode($_POST['invoice'], true);
+	$invoice = json_decode($_POST['invoice'], true);
 	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-15","InvoiceDate":"2012-11-10","CustomerID":1,"DocumentTotals":{"TaxPayable":5.32,"NetTotal":3.21,"GrossTotal":4.21},"Line":[{"LineNumber":1,"ProductCode":1,"Quantity":2,"UnitPrice":10,"CreditAmount":20,"Tax":{"TaxType":"IVA","TaxPercentage":23.00}}]}',true);
-	$invoice = json_decode('{"InvoiceStatusDate":"2012-10-02","DocumentTotals":{"NetTotal":1.21},"InvoiceNo":"FT SEQ/6","Line":[{"LineNumber":1,"ProductCode":1,"Quantity":3,"CreditAmount":30,"Tax":{"TaxPercentage":21.00}}]}',true);
+	//$invoice = json_decode('{"InvoiceStatusDate":"2012-10-02","DocumentTotals":{"NetTotal":1.21},"InvoiceNo":"FT SEQ/6","Line":[{"LineNumber":1,"ProductCode":1,"Quantity":3,"CreditAmount":30,"Tax":{"TaxPercentage":21.00}}]}',true);
 
 	if (isset($invoice) ) {			
 		if (isset($invoice['InvoiceNo']) && preg_match("/[^\/]+\/[0-9]+/", $invoice['InvoiceNo'])) {
@@ -137,7 +135,7 @@ function addEntry($invoice) {
 		if (isset($invoice['InvoiceDate']) && 
 			preg_match("/^[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/", $invoice['InvoiceDate']) ) {
 
-			if (isset($invoice['CustomerID']) && is_integer($invoice['CustomerID'])) {
+			if (isset($invoice['CustomerID'])) {
 				$cust = $db->prepare("select CustomerID from Customer where CustomerID = :customer");
 				$cust->bindValue(':customer', $invoice['CustomerID'], PDO::PARAM_INT);
 				$cust->execute();
