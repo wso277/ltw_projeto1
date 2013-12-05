@@ -43,6 +43,9 @@ session_start ();
 			}
 			?>
 		</header>
+		<?php
+		if ($_SESSION ['permission'] == "reader" || $_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+			?>
 		<nav>
 			<div class="section">
 				<ul>
@@ -70,6 +73,31 @@ session_start ();
 					<a href="./search_product_umeasure.php"><li>Unit of Measure</li></a>
 				</ul>
 			</div>
+		</nav>
+			<?php
+		} else {
+			echo '<h2 class="subtitle"> Welcome to our Invoicing application</h3>';
+			echo '<p class="redirect">Please loggin to access reading and editing options.</p>';
+		}
+		if ($_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+			?>
+		<nav>
+			<a href="./updateProductForm.php"><div class="section">
+				<p class="section_title">Update
+						Product</p>
+			</div></a>
+			<a href="./updateCustomerForm.php"><div class="section">
+				<p class="section_title">Update
+						Customer</p>	
+			</div></a>
+			<a href="./updateInvoiceForm.php"><div class="section">
+				<p class="section_title">Update
+						Invoice</p>
+			</div></a>
+		</nav>
+		<?php
+		}
+		?>
 		</nav>
 		<footer>
 			<a href="./about_us.html"> About us </a> <span id="pipe"> | </span> <a

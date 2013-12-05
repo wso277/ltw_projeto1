@@ -20,6 +20,7 @@ body {
 	line-height: 24px;
 	width: 60em;
 	margin: 3em auto;
+	margin-bottom: 3em;
 }
 
 #main_div {
@@ -33,10 +34,12 @@ body {
 	position: absolute;
 	background: url(body_pattern.jpg) repeat center center;
 	background-size: 10%;
+	margin-bottom: 3em;
 }
 
 a {
 	text-decoration: none;
+	color: black;
 }
 
 a:visited {
@@ -118,7 +121,7 @@ footer>a{
 }
 
 nav {
-	margin: 5em auto;
+	margin: 3em auto;
 	padding: 0px auto;
 	position: relative;
 	width: 710px;
@@ -173,6 +176,14 @@ nav {
 	background: linear-gradient(to bottom, #b4e391 0%,#61c419 50%,#b4e391 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b4e391', endColorstr='#b4e391',GradientType=0 ); /* IE6-9 */
 
+}
+
+nav>a {
+	margin-left: 20px;
+}
+
+nav>a:first-child {
+	margin-left: 0px;
 }
 
 .section:hover>ul>a {
@@ -272,6 +283,13 @@ input.session {
 }
 
 .redirect {
+	display: block;
+	background-color: rgba(254, 254, 254, 0.7);
+	border-radius: 0px 0px 5px 25px;
+	color: black;
+	padding: 1em 2em;
+	margin: 0em;
+	font-family: helvetica;
 	margin: 2em 5em;
 }
 
@@ -309,7 +327,7 @@ a.frontpage:hover {
 	color: black;
 	padding: 1em 2em;
 	margin: 1em;
-	font-family: serif;
+	font-family: helvetica;
 }
 
 #sbmt {
