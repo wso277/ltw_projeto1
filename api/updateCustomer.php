@@ -5,7 +5,7 @@ $_SESSION ['permission'] = "editor";
 
 if (isset ( $_SESSION ['permission'] ) && ($_SESSION ['permission'] == 'editor' || $_SESSION ['permission'] == 'administrator')) {
 	// $customer = json_decode ( $_POST ['customer'], true );
-	$customer = json_decode ( '{"AccountID":"6666","CustomerTaxID":"2424","CompanyName":"Darpa","Email":"dart.for@the.win","BillingAddress":{"AddressDetail":"Awesomeness street","City":"Matrix","PostalCode":"2223-544","Country":"GB"}}', true );
+	$customer = json_decode ( '{"AccountID":8888,"CustomerTaxID":2424,"CompanyName":"Darpa","Email":"dart.for@the.win","BillingAddress":{"AddressDetail":"Awesomeness street","City":"Matrix","PostalCode":"2223-544","Country":"GB"}}', true );
 	
 	if (isset ( $customer ['CustomerID'] ) && $customer ['CustomerID'] != "") {
 		updateEntry ( $customer );
@@ -75,8 +75,6 @@ function addEntry($customer) {
 		$stmt->bindValue(':postcod', $customer['BillingAddress']['PostalCode'], PDO::PARAM_STR);
 		$stmt->bindValue(':country', $customer['BillingAddress']['Country'], PDO::PARAM_STR);
 		$stmt->execute();
-		var_dump($stmt);
-		var_dump($db->errorInfo());
 		
 		$stmt = $db->prepare("SELECT BillingAddressID FROM BillingAddress
 				WHERE AddressDetail = :addet AND City = :city AND PostalCode = :postcod AND Country = :country");
@@ -86,7 +84,7 @@ function addEntry($customer) {
 		$stmt->bindValue(':postcod', $customer['BillingAddress']['PostalCode'], PDO::PARAM_STR);
 		$stmt->bindValue(':country', $customer['BillingAddress']['Country'], PDO::PARAM_STR);
 		$stmt->execute();
-		$bill_addr = $stmt->fetch(PDO::FETCH_ASSOC)['BillingAddress'];
+		$bill_addr = $stmt->fetch(PDO::FETCH_ASSOC)['BillingAddressID'];
 		
 		$stmt = $db->prepare("INSERT INTO Customer (AccountID, CustomerTaxID, CompanyName, Email, BillingAddressID)
 								VALUES (:accid, :custtaxid, :compname, :email, :billaddr)");
