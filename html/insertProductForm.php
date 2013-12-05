@@ -49,15 +49,15 @@
 				?>
 				
 				<form id="form" method="post" action="insertProductForm.php">
-					Product Code <input name="ProductCode" type="text" value="<?=isset($_POST['ProductCode'])? $_POST['ProductCode'] :""?>">
+					Product Code <input name="ProductCode" type="text" value="<?=isset($_POST['ProductCode'])? $_POST['ProductCode'] :""?>" pattern="[0-9]+" required>
 					<br/>
-					Product Type <input name="ProductType" type="text" value="<?=isset($_POST['ProductType'])? $_POST['ProductType'] :""?>">
+					Product Type <input name="ProductType" type="text" value="<?=isset($_POST['ProductType'])? $_POST['ProductType'] :""?>" required>
 					<br/>
-					Product Description <input name="ProductDescription" type="text" value="<?=isset($_POST['ProductDescription'])? $_POST['ProductDescription'] :""?>">
+					Product Description <input name="ProductDescription" type="text" value="<?=isset($_POST['ProductDescription'])? $_POST['ProductDescription'] :""?>" required>
 					<br/>
-					Unit of Measure <input name="UnitOfMeasure" type="text" value="<?=isset($_POST['UnitOfMeasure'])? $_POST['UnitOfMeasure'] :""?>">
+					Unit of Measure <input name="UnitOfMeasure" type="text" value="<?=isset($_POST['UnitOfMeasure'])? $_POST['UnitOfMeasure'] :""?>" required>
 					<br/>
-					Unit Price <input name="UnitPrice" type="text" value="<?=isset($_POST['UnitPrice'])? $_POST['UnitPrice'] :""?>">
+					Unit Price <input name="UnitPrice" type="text" value="<?=isset($_POST['UnitPrice'])? $_POST['UnitPrice'] :""?>" pattern="[0-9]+|[0-9]+\.[0-9]+" required>
 					<br/>
 					<input id="submit_btn" type="submit" value="Submit Form"/>
 				</form>

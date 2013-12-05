@@ -36,6 +36,7 @@ function addLines()
 		quantityField.setAttribute("id","qt"+i);
 		var quantityFieldName = "Quantity"+i;
 		quantityField.setAttribute("name",quantityFieldName);
+		quantityField.setAttribute("required","");
 		quantityField.setAttribute("pattern","[0-9]+");
 
 		var unitPriceField = document.createElement("input");
@@ -43,6 +44,7 @@ function addLines()
 		unitPriceField.setAttribute("id","up"+i);
 		var unitPriceFieldName = "UnitPrice"+i;
 		unitPriceField.setAttribute("name",unitPriceFieldName);
+		unitPriceField.setAttribute("required","");
 		unitPriceField.setAttribute("pattern","[0-9]+|[0-9]+\.[0-9]+");
 
 		var taxPointDateField = document.createElement("input");
@@ -50,6 +52,7 @@ function addLines()
 		taxPointDateField.setAttribute("id","tpd"+i);
 		var taxPointDateFieldName = "TaxPointDate"+i;
 		taxPointDateField.setAttribute("name",taxPointDateFieldName);
+		taxPointDateField.setAttribute("required","");
 		taxPointDateField.setAttribute("pattern","[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])");
 
 		var creditAmountField = document.createElement("input");
@@ -57,6 +60,7 @@ function addLines()
 		creditAmountField.setAttribute("id","ca"+i);
 		var creditAmountFieldName = "CreditAmount"+i;
 		creditAmountField.setAttribute("name",creditAmountFieldName);
+		creditAmountField.setAttribute("required","");
 		creditAmountField.setAttribute("pattern","[0-9]+|[0-9]+\.[0-9]+");
 
 		var taxTypeField = document.createElement("input");
@@ -64,6 +68,7 @@ function addLines()
 		taxTypeField.setAttribute("id","tt"+i);
 		var taxTypeFieldName = "TaxType"+i;
 		taxTypeField.setAttribute("name",taxTypeFieldName);
+		taxTypeField.setAttribute("required","");
 		taxTypeField.setAttribute("pattern","[A-Z]+");
 
 		var taxPercentageField = document.createElement("input");
@@ -71,6 +76,7 @@ function addLines()
 		taxPercentageField.setAttribute("id","tp"+i);
 		var taxPercentageFieldName = "TaxPercentage"+i;
 		taxPercentageField.setAttribute("name",taxPercentageFieldName);
+		taxPercentageField.setAttribute("required","");
 		taxPercentageField.setAttribute("pattern","[0-9]+|[0-9]+\.[0-9]+");
 		
 		if (i == 1)

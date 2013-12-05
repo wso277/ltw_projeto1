@@ -54,23 +54,23 @@
 				?>
 				
 				<form id="form" method="post" action="insertCustomerForm.php">
-					Customer ID <input name="CustomerID" type="text" value="<?=isset($_POST['CustomerID'])? $_POST['CustomerID'] :""?>">
+					Customer ID <input name="CustomerID" type="text" value="<?=isset($_POST['CustomerID'])? $_POST['CustomerID'] :""?>" pattern="[0-9]+" required>
 					<br/>
-					Account ID <input name="AccountID" type="text" value="<?=isset($_POST['AccountID'])? $_POST['AccountID'] :""?>">
+					Account ID <input name="AccountID" type="text" value="<?=isset($_POST['AccountID'])? $_POST['AccountID'] :""?>" pattern="[0-9]+" required>
 					<br/>
-					Customer Tax ID <input name="CustomerTaxID" type="text" value="<?=isset($_POST['CustomerTaxID'])? $_POST['CustomerTaxID'] :""?>">
+					Customer Tax ID <input name="CustomerTaxID" type="text" value="<?=isset($_POST['CustomerTaxID'])? $_POST['CustomerTaxID'] :""?>" pattern="[0-9]+" required>
 					<br/>
-					Company Name <input name="CompanyName" type="text" value="<?=isset($_POST['CompanyName'])? $_POST['CompanyName'] :""?>">
+					Company Name <input name="CompanyName" type="text" value="<?=isset($_POST['CompanyName'])? $_POST['CompanyName'] :""?>" required>
 					<br/>
-					Email <input name="Email" type="text" value="<?=isset($_POST['Email'])? $_POST['Email'] :""?>">
+					Email <input name="Email" type="text" value="<?=isset($_POST['Email'])? $_POST['Email'] :""?>" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" required>
 					<br/>
-					Address Detail <input name="AddressDetail" type="text" value="<?=isset($_POST['AddressDetail'])? $_POST['AddressDetail'] :""?>">
+					Address Detail <input name="AddressDetail" type="text" value="<?=isset($_POST['AddressDetail'])? $_POST['AddressDetail'] :""?>" required>
 					<br/>
-					City <input name="City" type="text" value="<?=isset($_POST['City'])? $_POST['City'] :""?>">
+					City <input name="City" type="text" value="<?=isset($_POST['City'])? $_POST['City'] :""?>" required>
 					<br/>
-					Postal Code <input name="PostalCode" type="text" value="<?=isset($_POST['PostalCode'])? $_POST['PostalCode'] :""?>">
+					Postal Code <input name="PostalCode" type="text" value="<?=isset($_POST['PostalCode'])? $_POST['PostalCode'] :""?>" pattern="[0-9]{4}-[0-9]{3}" required>
 					<br/>
-					Country <input name="Country" type="text" value="<?=isset($_POST['Country'])? $_POST['Country'] :""?>">
+					Country <input name="Country" type="text" value="<?=isset($_POST['Country'])? $_POST['Country'] :""?>" required>
 					<br/>
 					<input id="submit_btn" type="submit" value="Submit Form"/>
 				</form>

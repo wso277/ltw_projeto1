@@ -9,6 +9,7 @@
 	<body>
 		<div id="main_div">
 			<?php include('header.php');?>
+			<script src="../src/fillFields.js"></script>
 
 			<?php
 			session_start();
@@ -49,15 +50,15 @@
 				?>
 				
 				<form id="form" method="post" action="updateProductForm.php">
-					Product Code <input name="ProductCode" type="text" value="<?=isset($_POST['ProductCode'])? $_POST['ProductCode'] :""?>">
+					Product Code <input name="ProductCode" type="text" id="ProductCode" value="<?=isset($_POST['ProductCode'])? $_POST['ProductCode'] :""?>" pattern="[0-9]+" onchange="fillProductFields()">
 					<br/>
-					Product Type <input name="ProductType" type="text" value="<?=isset($_POST['ProductType'])? $_POST['ProductType'] :""?>">
+					Product Type <input name="ProductType" type="text" id="ProductType" value="<?=isset($_POST['ProductType'])? $_POST['ProductType'] :""?>">
 					<br/>
-					Product Description <input name="ProductDescription" type="text" value="<?=isset($_POST['ProductDescription'])? $_POST['ProductDescription'] :""?>">
+					Product Description <input name="ProductDescription" type="text" id="ProductDescription" value="<?=isset($_POST['ProductDescription'])? $_POST['ProductDescription'] :""?>">
 					<br/>
-					Unit of Measure <input name="UnitOfMeasure" type="text" value="<?=isset($_POST['UnitOfMeasure'])? $_POST['UnitOfMeasure'] :""?>">
+					Unit of Measure <input name="UnitOfMeasure" type="text" id="UnitOfMeasure" value="<?=isset($_POST['UnitOfMeasure'])? $_POST['UnitOfMeasure'] :""?>">
 					<br/>
-					Unit Price <input name="UnitPrice" type="text" value="<?=isset($_POST['UnitPrice'])? $_POST['UnitPrice'] :""?>">
+					Unit Price <input name="UnitPrice" type="text" id="UnitPrice" value="<?=isset($_POST['UnitPrice'])? $_POST['UnitPrice'] :""?>" pattern="[0-9]+|[0-9]+\.[0-9]+">
 					<br/>
 					<input id="submit_btn" type="submit" value="Submit Form"/>
 				</form>
