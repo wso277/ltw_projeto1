@@ -22,7 +22,8 @@ CREATE TABLE BillingAddress (
 );
 
 CREATE TABLE Customer (
-	CustomerID		INTEGER PRIMARY KEY AUTOINCREMENT,
+	CustomerKey		INTEGER PRIMARY KEY AUTOINCREMENT
+	CustomerID		INTEGER NOT NULL UNIQUE,
 	AccountID	INTEGER NOT NULL,
 	CustomerTaxID	INTEGER NOT NULL,
 	CompanyName		TEXT NOT NULL,
@@ -45,7 +46,6 @@ CREATE TABLE Bill (
 
 CREATE TABLE Product (
 	ProductCode 			INTEGER PRIMARY KEY AUTOINCREMENT,
-	ProductType TEXT NOT NULL,
 	ProductDescription 	TEXT,
 	UnitOfMeasure 		TEXT NOT NULL,
 	UnitPrice 			REAL NOT NULL
@@ -65,8 +65,4 @@ CREATE TABLE Line (
 );
 
 INSERT INTO User (UserName, Password, Permission)
-	VALUES ('admin', 'obviouspass', 'administrator'),
-	       ('noob', '1234', 'reader');
-
-INSERT INTO BillingAddress VALUES (1,"Rua random", "City random", "1234-321","PT");
-INSERT INTO Customer VALUES (1,32156,317445,"Pandaria",1,"jkfjk@jsdfj.com");
+	VALUES ('admin', 'obviouspass', 'administrator');

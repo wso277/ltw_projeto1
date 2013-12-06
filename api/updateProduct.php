@@ -58,18 +58,7 @@ function updateEntry($product)
 			{
                 $error = '{"error":{"code":1006,"reason":"Wrong data"}}';
             }
-        } 
-		elseif($key == "ProductType"){
-			if(isset($value) && $value != "")
-			{
-				$insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
-			}
-			else
-			{
-				$error = '{"error":{"code":1006,"reason":"Wrong data"}}';
-			}
-		}
-		
+        }		
 		elseif ($key == "ProductDescription") {
             if (isset($value) && $value != "") 
 			{
@@ -125,13 +114,11 @@ function addEntry($product)
         $num = $max['max(ProductCode)'] + 1;
     }
 
-	if(isset($product['ProductType']) && $product['ProductType'] != "")
     if(isset($product['ProductDescription']) && $product['ProductDescription'] != "")
         if(isset($product['UnitPrice']) && is_real($product['UnitPrice']))
             if (isset($product['UnitOfMeasure'])) {
-                $stmt = $db->prepare('INSERT INTO Product VALUES (:ProductCode, :ProductType, :ProductDescription, :UnitPrice, :UnitOfMeasure)');
+                $stmt = $db->prepare('INSERT INTO Product VALUES (NULL, :ProductCode, :ProductDescription, :UnitPrice, :UnitOfMeasure)');
                 $stmt->bindValue(':ProductCode', $num, PDO::PARAM_INT);
-				$stmt->bindValue(':ProductType', $product['ProductType'], PDO::PARAM_STR);
                 $stmt->bindValue(':ProductDescription', $product['ProductDescription'], PDO::PARAM_STR);
                 $stmt->bindValue(':UnitPrice', $product['UnitPrice'], PDO::PARAM_STR);
                 $stmt->bindValue(':UnitOfMeasure', $product['UnitOfMeasure'], PDO::PARAM_STR);

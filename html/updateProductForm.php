@@ -14,7 +14,6 @@
 			<?php
 			session_start();
 			if(isset($_POST["ProductCode"]) && "" != $_POST["ProductCode"] 
-				|| isset($_POST["ProductType"]) && "" != $_POST["ProductType"] 
 				|| isset($_POST["ProductDescription"]) && "" != $_POST["ProductDescription"]  
 				|| isset($_POST["UnitOfMeasure"]) && "" != $_POST["UnitOfMeasure"]
 				|| isset($_POST["UnitPrice"]) && "" != $_POST["UnitPrice"])
@@ -51,8 +50,6 @@
 				
 				<form id="form" method="post" action="updateProductForm.php">
 					Product Code <input name="ProductCode" type="text" id="ProductCode" value="<?=isset($_POST['ProductCode'])? $_POST['ProductCode'] :""?>" pattern="[0-9]+" onchange="fillProductFields()">
-					<br/>
-					Product Type <input name="ProductType" type="text" id="ProductType" value="<?=isset($_POST['ProductType'])? $_POST['ProductType'] :""?>">
 					<br/>
 					Product Description <input name="ProductDescription" type="text" id="ProductDescription" value="<?=isset($_POST['ProductDescription'])? $_POST['ProductDescription'] :""?>">
 					<br/>

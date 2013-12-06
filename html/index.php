@@ -17,27 +17,18 @@ session_start ();
 				Online<span>Invoicing</span>System
 			</h1>
 			<?php
-			// var_dump ( $_SESSION ['permission'] );
 			if (! isset ( $_SESSION ['permission'] )) {
 				?>
-					<div class="log">
-				<a href="login.php">Login</a>
-			</div>
-			<div class="log">
-				<a href="register.php">Create Account</a>
-			</div>
+					<a href="login.php"><div class="log">Login</div></a> <a
+				href="register.php"><div class="log">Create Account</div></a>
 				<?php
 			} else {
 				?>
-					<div class="log">
-				<a href="logout.php">Logout</a>
-			</div>
+					<a href="logout.php"><div class="log">Logout</div></a>
 				<?php
 				if ($_SESSION ['permission'] == "administrator") {
 					?>
-									<div class="log">
-				<a href="administrate.php">Administrate</a>
-			</div>
+									<a href="administrate.php"><div class="log">Administrate</div></a>
 									<?php
 				}
 			}
@@ -77,32 +68,54 @@ session_start ();
 			<?php
 		} else {
 			echo '<h2 class="subtitle"> Welcome to our Invoicing application</h3>';
-			echo '<p class="redirect">Please loggin to access reading and editing options.</p>';
+			echo '<p class="redirect">Please login to access reading and editing options.</p>';
 		}
 		if ($_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
 			?>
 		<nav>
 			<a href="./updateProductForm.php"><div class="section">
-				<p class="section_title">Update
-						Product</p>
-			</div></a>
-			<a href="./updateCustomerForm.php"><div class="section">
-				<p class="section_title">Update
-						Customer</p>	
-			</div></a>
-			<a href="./updateInvoiceForm.php"><div class="section">
-				<p class="section_title">Update
-						Invoice</p>
-			</div></a>
+					<p class="section_title">Update Product</p>
+				</div></a> <a href="./updateCustomerForm.php"><div class="section">
+					<p class="section_title">Update Customer</p>
+				</div></a> <a href="./updateInvoiceForm.php"><div class="section">
+					<p class="section_title">Update Invoice</p>
+				</div></a>
 		</nav>
 		<?php
 		}
-		?>
+		if ($_SESSION ['permission'] == "reader" || $_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+			7?>
+			<nav>
+			<div class="section">
+				<ul>
+					<p class="section_title">Import/Export Documents</p>
+					<a href="./exportInvoiceXML.php"><li>Export to XML</li></a>
+		<?php
+			if ($_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+				?>
+					<a href="./searchimportInvoiceFromURL.php"><li>Import from other
+							DataBase</li></a>
+		<?php
+			}
+			?>
+			
+		
+		
+		
+		
+		
 		</nav>
+
+		</ul>
+	</div>
+			<?php
+		}
+		?>
 		<footer>
-			<a href="./about_us.html"> About us </a> <span id="pipe"> | </span> <a
-				href="./contact_us.html"> Contact Us </a>
-		</footer>
+		<a href="./about_us.html"> About us </a> <span id="pipe"> | </span> <a
+			href="./contact_us.html"> Contact Us </a>
+	</footer>
+
 	</div>
 </body>
 </html>
