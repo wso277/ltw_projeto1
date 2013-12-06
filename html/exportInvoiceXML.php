@@ -17,21 +17,17 @@ function defaultPage() {
 	} else {
 		?>
 <script src="../lib/jquery-1.10.2.js"></script>
-<script src="../src/import.js" type="text/javascript" charset="utf-8"></script>
-<form action="importInvoiceFromUrl.php" method="get">
+<script src="../src/exportXML.js" type="text/javascript" charset="utf-8"></script>
+<form action="exportInvoiceXML.php" method="get">
 	<table>
-		<tr>
-			<th>Insert Url to import:</th>
-			<td><input type="Url" name="url" /></td>
-		</tr>
 		<tr>
 			<th>Insert InvoiceNo:</th>
 			<td><input type="text" pattern="[^\/]+\/[0-9]+"
 				title="Example: FT SEQ/20" name="InvoiceNo" /></td>
 		</tr>
 	</table>
-	<button id="sbmt" type="submit" value="Import" class="session">Import</button>
 </form>
+<button id="sbmt" type="submit" value="Export" class="session">Export</button>
 <?php
 	}
 	defaultFooter ();

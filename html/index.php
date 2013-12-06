@@ -93,7 +93,7 @@ session_start ();
 		<?php
 			if ($_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
 				?>
-					<a href="./searchimportInvoiceFromURL.php"><li>Import from other
+					<a href="./importInvoiceFromUrl.php"><li>Import from other
 							DataBase</li></a>
 		<?php
 			}

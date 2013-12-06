@@ -7,7 +7,7 @@ class XMLExporter {
 	private function writeHeader() {
 		if (! isset ( $this->writer )) {
 			$this->writer = new XMLWriter ();
-			$this->writer->openMemory ();
+			$this->writer->openURI('./exportedXML.xml');
 		}
 		
 		$this->writer->startElement ( "AuditFile" );
@@ -42,7 +42,7 @@ class XMLExporter {
 		$existing_xml = true;
 		if (! isset ( $this->writer )) {
 			$this->writer = new XMLWriter ();
-			$this->writer->openMemory ();
+			$this->writer->openURI('./exportedXML.xml');
 			$this->writeHeader ();
 			$this->writer->startElement ( "MasterFiles" );
 			$existing_xml = false;
@@ -61,8 +61,8 @@ class XMLExporter {
 		$closeExport ();
 	}
 	private function writeCustomer($customer) {
+		$this->writer->startElement ( "Customer" );
 		foreach ( $customer as $key => $value ) {
-			$this->writer->startElement ( "Customer" );
 			if ($key == "BillingAddress") {
 				$this->writer->startElement ( "BillingAddress" );
 				foreach ( $value as $addr_key => $addr_val ) {
@@ -80,7 +80,7 @@ class XMLExporter {
 		$existing_xml = true;
 		if (! isset ( $this->writer )) {
 			$this->writer = new XMLWriter ();
-			$this->writer->openMemory ();
+			$this->writer->openURI('./exportedXML.xml');
 			$this->writer->setIndent ( true );
 			$this->writeHeader ();
 			$this->writer->startElement ( "MasterFiles" );
@@ -111,7 +111,7 @@ class XMLExporter {
 	}
 	public function exportInvoices($invoices) {
 		$this->writer = new XMLWriter ();
-		$this->writer->openMemory ();
+		$this->writer->openURI('./exportedXML.xml');
 		$this->writer->setIndent ( true );
 		$this->writeHeader ();
 		$this->writer->startElement ( "MasterFiles" );
@@ -212,14 +212,18 @@ class XMLExporter {
 	public function closeExport() {
 		if (isset ( $this->writer )) {
 			$this->writer->endElement ();
-			echo $this->writer->outputMemory ();
+			$this->writer->outputMemory ();
 			unset ( $this->writer );
 		}
 	}
 }
 
-$invoice = json_decode ( '{"InvoiceNo":1,"SystemEntryDate":"2013-06-06T23:23:23.20","SourceID":"ldkdk","InvoiceStatusDate":"2012-10-15","InvoiceDate":"2012-11-10","CustomerID":1,"Customer":{"CustomerID":1,"AccountID":8888,"CustomerTaxID":2424,"CompanyName":"Darpa","Email":"dart.for@the.win","BillingAddress":{"AddressDetail":"Awesomeness street","City":"Matrix","PostalCode":"2223-544","Country":"GB"}},"DocumentTotals":{"TaxPayable":5.32,"NetTotal":3.21,"GrossTotal":4.21},"Line":[{"LineNumber":1,"TaxPointDate":"2013-06-06","TaxType":"IVA","ProductCode":1,"Product":{"ProductCode":"1","ProductDescription":"produto generico","UnitOfMeasure":"km^3","UnitPrice":"75.0"},"Quantity":2,"UnitPrice":10,"CreditAmount":20,"Tax":{"TaxType":"IVA","TaxPercentage":23.00}}]}', true );
-$exporter = new XMLExporter ();
-$exporter->exportInvoices ( $invoice );
+if (isset($_GET['InvoiceNo'])) {
+	$exporter = new XMLExporter();
+	include('./getInvoiceFunc.php');
+	$invoice = getInvoiceFromDB($_GET['InvoiceNo']);
+	$exporter->exportInvoices($invoice);
+}
+
 ?>
 
