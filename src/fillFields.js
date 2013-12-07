@@ -10,7 +10,7 @@ function fillInvoiceFields()
 		data: data,
 		dataType: "json",
 		success: function(data){
-			if (data != null)
+			if (data[0] != null)
 			{
 				$("#InvoiceStatusDate").val(data[0].InvoiceStatusDate);
 				$("#InvoiceDate").val(data[0].InvoiceDate);
@@ -59,7 +59,7 @@ function fillProductFields()
 		data: data,
 		dataType: "json",
 		success: function(data){
-			if (data != null)
+			if (data[0] != null)
 			{
 				$("#ProductType").val(data[0].ProductType);
 				$("#ProductDescription").val(data[0].ProductDescription);
@@ -92,7 +92,7 @@ function fillCustomerFields()
 		data: data,
 		dataType: "json",
 		success: function(data){
-			if (data != null)
+			if (data[0] != null)
 			{
 				$("#AccountID").val(data[0].AccountID);
 				$("#CustomerTaxID").val(data[0].CustomerTaxID);
