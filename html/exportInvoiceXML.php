@@ -22,7 +22,7 @@ function defaultPage() {
 	<table>
 		<tr>
 			<th>Insert InvoiceNo:</th>
-			<td><input type="text" pattern="[^\/]+\/[0-9]+"
+			<td><input id="invc" type="text" pattern="[^\/]+\/[0-9]+"
 				title="Example: FT SEQ/20" name="InvoiceNo" /></td>
 		</tr>
 	</table>

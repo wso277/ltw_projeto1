@@ -35,7 +35,7 @@ session_start ();
 			?>
 		</header>
 		<?php
-		if ($_SESSION ['permission'] == "reader" || $_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+		if ($_SESSION ['permission'] == "reader" || $_SESSION ['permission'] == "editor" || $_SESSION ['permission'] == "administrator") {
 			?>
 		<nav>
 			<div class="section">
@@ -70,7 +70,7 @@ session_start ();
 			echo '<h2 class="subtitle"> Welcome to our Invoicing application</h3>';
 			echo '<p class="redirect">Please login to access reading and editing options.</p>';
 		}
-		if ($_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+		if ($_SESSION ['permission'] == "editor" || $_SESSION ['permission'] == "administrator") {
 			?>
 		<nav>
 			<a href="./updateProductForm.php"><div class="section">
@@ -83,7 +83,7 @@ session_start ();
 		</nav>
 		<?php
 		}
-		if ($_SESSION ['permission'] == "reader" || $_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+		if ($_SESSION ['permission'] == "reader" || $_SESSION ['permission'] == "editor" || $_SESSION ['permission'] == "administrator") {
 			7?>
 			<nav>
 			<div class="section">

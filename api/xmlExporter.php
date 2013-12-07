@@ -7,7 +7,7 @@ class XMLExporter {
 	private function writeHeader() {
 		if (! isset ( $this->writer )) {
 			$this->writer = new XMLWriter ();
-			$this->writer->openURI('./exportedXML.xml');
+			$this->writer->openURI('exportedXML.xml');
 		}
 		
 		$this->writer->startElement ( "AuditFile" );
@@ -42,7 +42,7 @@ class XMLExporter {
 		$existing_xml = true;
 		if (! isset ( $this->writer )) {
 			$this->writer = new XMLWriter ();
-			$this->writer->openURI('./exportedXML.xml');
+			$this->writer->openURI('exportedXML.xml');
 			$this->writeHeader ();
 			$this->writer->startElement ( "MasterFiles" );
 			$existing_xml = false;
@@ -80,7 +80,7 @@ class XMLExporter {
 		$existing_xml = true;
 		if (! isset ( $this->writer )) {
 			$this->writer = new XMLWriter ();
-			$this->writer->openURI('./exportedXML.xml');
+			$this->writer->openURI('exportedXML.xml');
 			$this->writer->setIndent ( true );
 			$this->writeHeader ();
 			$this->writer->startElement ( "MasterFiles" );
@@ -111,7 +111,7 @@ class XMLExporter {
 	}
 	public function exportInvoices($invoices) {
 		$this->writer = new XMLWriter ();
-		$this->writer->openURI('./exportedXML.xml');
+		$this->writer->openURI('exportedXML.xml');
 		$this->writer->setIndent ( true );
 		$this->writeHeader ();
 		$this->writer->startElement ( "MasterFiles" );

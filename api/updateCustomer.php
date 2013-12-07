@@ -1,11 +1,11 @@
 <?php
 session_start ();
-header ( 'Content-type: text/xml' );
-$_SESSION ['permission'] = "editor";
+//header ( 'Content-type: text/xml' );
+//$_SESSION ['permission'] = "editor";
 
 if (isset ( $_SESSION ['permission'] ) && ($_SESSION ['permission'] == 'editor' || $_SESSION ['permission'] == 'administrator')) {
-	// $customer = json_decode ( $_POST ['customer'], true );
-	$customer = json_decode ( '{"AccountID":8888,"CustomerTaxID":2424,"CompanyName":"Darpa","Email":"dart.for@the.win","BillingAddress":{"AddressDetail":"Awesomeness street","City":"Matrix","PostalCode":"2223-544","Country":"GB"}}', true );
+	$customer = json_decode ( $_POST ['customer'], true );
+	//$customer = json_decode ( '{"AccountID":8888,"CustomerTaxID":2424,"CompanyName":"Darpa","Email":"dart.for@the.win","BillingAddress":{"AddressDetail":"Awesomeness street","City":"Matrix","PostalCode":"2223-544","Country":"GB"}}', true );
 	
 	if (isset ( $customer ['CustomerID'] ) && $customer ['CustomerID'] != "") {
 		updateEntry ( $customer );
@@ -58,6 +58,14 @@ function addEntry($customer) {
 	} catch ( PDOException $e ) {
 		echo '{"error":{"code":1003,"reason":"' . $e->getMessage () . '"}}';
 	}
+
+	$stmt = $db->prepare('SELECT max(CustomerKey) FROM Customer');
+	$stmt->execute();
+	$max = $stmt->fetch(PDO::FETCH_ASSOC);
+	$num = 1;
+	if ($max['max(CustomerKey)'] != NULL) {
+		$num = $max['max(CustomerKey)'] + 1;
+	}
 	
 	if (isset($customer['AccountID']) && $customer['AccountID'] != "" &&
 		isset($customer['CustomerTaxID']) && $customer['CustomerTaxID'] != "" &&
@@ -68,34 +76,29 @@ function addEntry($customer) {
 		isset($customer['BillingAddress']['PostalCode']) && $customer['BillingAddress']['PostalCode'] != "" &&
 		isset($customer['BillingAddress']['Country']) && $customer['BillingAddress']['Country'] != "") {
 
-		$stmt = $db->prepare("INSERT INTO BillingAddress (AddressDetail, City, PostalCode, Country)
-								VALUES (:adddet, :city, :postcod, :country)");
-		$stmt->bindValue(':addet', $customer['BillingAddress']['AddressDetail'], PDO::PARAM_STR);
-		$stmt->bindValue(':city', $customer['BillingAddress']['City'], PDO::PARAM_STR);
-		$stmt->bindValue(':postcod', $customer['BillingAddress']['PostalCode'], PDO::PARAM_STR);
-		$stmt->bindValue(':country', $customer['BillingAddress']['Country'], PDO::PARAM_STR);
-		$stmt->execute();
-		
-		$stmt = $db->prepare("SELECT BillingAddressID FROM BillingAddress
-				WHERE AddressDetail = :addet AND City = :city AND PostalCode = :postcod AND Country = :country");
-
-		$stmt->bindValue(':addet', $customer['BillingAddress']['AddressDetail'], PDO::PARAM_STR);
-		$stmt->bindValue(':city', $customer['BillingAddress']['City'], PDO::PARAM_STR);
-		$stmt->bindValue(':postcod', $customer['BillingAddress']['PostalCode'], PDO::PARAM_STR);
-		$stmt->bindValue(':country', $customer['BillingAddress']['Country'], PDO::PARAM_STR);
-		$stmt->execute();
-		$bill_addr = $stmt->fetch(PDO::FETCH_ASSOC)['BillingAddressID'];
-		
-		$stmt = $db->prepare("INSERT INTO Customer (AccountID, CustomerTaxID, CompanyName, Email, BillingAddressID)
-								VALUES (:accid, :custtaxid, :compname, :email, :billaddr)");
-		$stmt->bindValue(':accid', $customer['AccountID'], PDO::PARAM_INT);
-		$stmt->bindValue(':custtaxid', $customer['CustomerTaxID'], PDO::PARAM_INT);
-		$stmt->bindValue(':compname', $customer['CompanyName'], PDO::PARAM_STR);
-		$stmt->bindValue(':email', $customer['Email'], PDO::PARAM_STR);
-		$stmt->bindValue(':billaddr', $bill_addr, PDO::PARAM_INT);
-		$stmt->execute();
-	} else {
-		echo '{"error":{"code":1006,"reason": invalid field"}}';
+		$stmt = $db->prepare('INSERT INTO BillingAddress (AddressDetail, City, PostalCode, Country)
+			VALUES (?, ?, ?, ?)');
+	if ($stmt->execute(array($customer['BillingAddress']['AddressDetail'], $customer['BillingAddress']['City'], $customer['BillingAddress']['PostalCode'], $customer['BillingAddress']['Country'])) == FALSE) {
+		var_dump($db->errorInfo());
 	}
+
+	$stmt1 = $db->prepare('SELECT BillingAddressID FROM BillingAddress
+		WHERE AddressDetail = ? AND City = ? AND PostalCode = ? AND Country = ?');
+
+	if ($stmt1->execute(array($customer['BillingAddress']['AddressDetail'], $customer['BillingAddress']['City'], $customer['BillingAddress']['PostalCode'], $customer['BillingAddress']['Country'])) == FALSE) {
+		var_dump($db->errorInfo());
+	}
+
+	$bill_addr = $stmt1->fetch(PDO::FETCH_ASSOC)['BillingAddressID'];
+	$bill_addr+=0;
+
+	$stmt2 = $db->prepare('INSERT INTO Customer (CustomerID, AccountID, CustomerTaxID, CompanyName, Email, BillingAddressID)
+		VALUES (?, ?, ?, ?, ?, ?)');
+	if ($stmt2->execute(array($num, $customer['AccountID'], $customer['CustomerTaxID'], $customer['CompanyName'], $customer['Email'], $bill_addr)) == FALSE) {
+		var_dump($db->errorInfo());
+	}
+} else {
+	echo '{"error":{"code":1006,"reason": invalid field"}}';
+}
 }
 ?>

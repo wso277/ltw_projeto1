@@ -34,17 +34,12 @@
 				var $jsonPost = JSON.stringify(jsPost);
 				var product = $.ajax({url: "../api/updateCustomer.php",
 					type: "POST",
-					dataType: 'json',
+					/*dataType: 'json',*/
 					data: {customer : $jsonPost},
 					success:function(data,textStatus, jqXHR) {
-						alert("PINTOU");
-						//console.log(data);
 					},															
 					error: function (jqXHR, textStatus, errorThrown)
 					{
-						alert("ERRO");
-						console.log(jqXHR.status);
-						//console.log(errorThrown);
 					}
 				});
 				</script>

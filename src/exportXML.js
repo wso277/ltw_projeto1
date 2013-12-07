@@ -1,13 +1,13 @@
 function openXMLNewPage() {
-	var win = window.open("./exportedXML.xml", '_blank');
+	var win = window.open("../api/exportedXML.xml", '_blank');
 	win.focus();
 }
 
-$(document).ready({
-	$('button[value="Export"]').click(function() {
-		var $data = 'InvoiceNo' + $('input[name="InvoiceNo]').value();
-		&.ajax({url: '../api/xmlExporter.php',
-			data: $data,
+$(document).ready(function() {
+	$('#sbmt').click(function() {
+		var $data = $('#invc').val();
+		$.ajax({url: '../api/xmlExporter.php',
+			data: { InvoiceNo:$data},
 			method: 'GET',
 			success: function() {
 				openXMLNewPage();

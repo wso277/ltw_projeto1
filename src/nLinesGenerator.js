@@ -16,9 +16,9 @@ function addLines()
 	{
 
 		var lineNumberText = document.createTextNode("Line Number");
+		var productCodeText = document.createTextNode("Product Code");
 		var quantityText = document.createTextNode("Quantity");
 		var unitPriceText = document.createTextNode("Unit Price");
-		var taxPointDateText = document.createTextNode("Tax Point Date");
 		var creditAmountText = document.createTextNode("Credit Amount");
 		var taxTypeText = document.createTextNode("Tax Type");
 		var taxPercentageText = document.createTextNode("Tax Percentage");
@@ -26,10 +26,18 @@ function addLines()
 		var lineNumberField = document.createElement("input");
 		lineNumberField.setAttribute("type","text");
 		lineNumberField.setAttribute("id","ln"+i);
+		lineNumberField.setAttribute("value",i);
 		var lineNumberFieldName = "LineNumber"+i;
 		lineNumberField.setAttribute("name",lineNumberFieldName);
 		lineNumberField.setAttribute("required","");
 		lineNumberField.setAttribute("pattern","[0-9]+");
+
+		var productCodeField = document.createElement("input");
+		productCodeField.setAttribute("type","text");
+		productCodeField.setAttribute("id","ln"+i);
+		var productCodeFieldName = "ProductCode"+i;
+		productCodeField.setAttribute("name",productCodeFieldName);
+		productCodeField.setAttribute("pattern","[0-9]+");
 
 		var quantityField = document.createElement("input");
 		quantityField.setAttribute("type","text");
@@ -44,13 +52,6 @@ function addLines()
 		var unitPriceFieldName = "UnitPrice"+i;
 		unitPriceField.setAttribute("name",unitPriceFieldName);
 		unitPriceField.setAttribute("pattern","[0-9]+|[0-9]+\.[0-9]+");
-
-		var taxPointDateField = document.createElement("input");
-		taxPointDateField.setAttribute("type","date");
-		taxPointDateField.setAttribute("id","tpd"+i);
-		var taxPointDateFieldName = "TaxPointDate"+i;
-		taxPointDateField.setAttribute("name",taxPointDateFieldName);
-		taxPointDateField.setAttribute("pattern","[1-9][0-9]{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])");
 
 		var creditAmountField = document.createElement("input");
 		creditAmountField.setAttribute("type","text");
@@ -78,14 +79,15 @@ function addLines()
 		container.insertBefore(lineNumberText,submitButton);
 		container.insertBefore(lineNumberField,submitButton);
 			$("<br>").insertBefore("#submit_btn");
+			$("<br>").insertBefore("#submit_btn");
+		container.insertBefore(productCodeText,submitButton);
+		container.insertBefore(productCodeField,submitButton);
+			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(quantityText,submitButton);
 		container.insertBefore(quantityField,submitButton);
 			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(unitPriceText,submitButton);
 		container.insertBefore(unitPriceField,submitButton);
-			$("<br>").insertBefore("#submit_btn");
-		container.insertBefore(taxPointDateText,submitButton);
-		container.insertBefore(taxPointDateField,submitButton);
 			$("<br>").insertBefore("#submit_btn");
 		container.insertBefore(creditAmountText,submitButton);
 		container.insertBefore(creditAmountField,submitButton);

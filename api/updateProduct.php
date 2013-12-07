@@ -1,33 +1,33 @@
 <?php
 
 session_start();
-$_SESSION['permission'] = "administrator";
+//$_SESSION['permission'] = "administrator";
 
 if (isset($_SESSION['permission']) &&
-         ($_SESSION['permission'] == 'editor' ||
-          $_SESSION['permission'] == 'administrator')) {
-    /*$product = json_decode($_POST['product'], true);*/
-	$product = json_decode('{"ProductCode":1,"ProductType":"bons maus","ProductDescription":"Prod1","UnitPrice":10.0,"UnitOfMeasure":"cancros"}',true); 
+   ($_SESSION['permission'] == 'editor' ||
+      $_SESSION['permission'] == 'administrator')) {
+    $product = json_decode($_POST['product'], true);
+	//$product = json_decode('{"ProductType":"bons maus","ProductDescription":"Prod1","UnitPrice":10.0,"UnitOfMeasure":"cancros"}',true); 
 
-    if (isset($_SESSION['permission'])) {
-        if ($_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {
-            if (isset($product['ProductCode']) && $product['ProductCode'] != "")
-			{
-				updateEntry($product);
-			}
-			else 
-			{
-				addEntry($product);
-			}
-
-        } else {
-            $error = '{"error":{"code":1002,"reason":"Permission Denied"}}';
-            echo $error;
+if (isset($_SESSION['permission'])) {
+    if ($_SESSION['permission'] == "editor" || $_SESSION['permission'] == "administrator") {
+        if (isset($product['ProductCode']) && $product['ProductCode'] != "")
+        {
+            updateEntry($product);
         }
+        else 
+        {
+            addEntry($product);
+        }
+
     } else {
-        $error = '{"error":{"code":1001,"reason":"Permission Denied"}}';
+        $error = '{"error":{"code":1002,"reason":"Permission Denied"}}';
         echo $error;
     }
+} else {
+    $error = '{"error":{"code":1001,"reason":"Permission Denied"}}';
+    echo $error;
+}
 } else {
     $error = '{"error":{"code":1001,"reason":"Permission Denied"}}';
     echo $error;
@@ -51,25 +51,25 @@ function updateEntry($product)
 
         if ($key == "ProductCode") {
             if (isset($value) && is_integer($value)) 
-			{
+            {
                 $insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
             } 
-			else 
-			{
+            else 
+            {
                 $error = '{"error":{"code":1006,"reason":"Wrong data"}}';
             }
         }		
-		elseif ($key == "ProductDescription") {
+        elseif ($key == "ProductDescription") {
             if (isset($value) && $value != "") 
-			{
+            {
                 $insert = $update . "'" . $key . "' = '" . $value . "'" . $where;
             } 
-			else 
-			{
+            else 
+            {
                 $error = '{"error":{"code":1006,"reason":"Wrong data"}}';
             }
         } elseif ($key == "UnitPrice") {
-            if(isset($value) && is_real($value)) $insert  = $update . "'" . $key . "' = '" . $value . "'" . $where;
+            if(isset($value) && (is_integer($product['UnitPrice']) || is_real($product['UnitPrice']))) $insert  = $update . "'" . $key . "' = '" . $value . "'" . $where;
             else $error = '{"error":{"code":1006,"reason":"Wrong data"}}';
         } elseif ($key == "UnitOfMeasure") {
             if(isset($value) && $value != "") $insert  = $update . "'" . $key . "' = '" . $value . "'" . $where;
@@ -87,11 +87,11 @@ function updateEntry($product)
 
 
 
-}
+    }
 
-        if ($has_error) {
+    if ($has_error) {
         echo $error;
-        } else {
+    } else {
         include 'getProductFunc.php';
         echo json_encode(getProductFromDB($product['ProductCode']));
     }
@@ -115,9 +115,9 @@ function addEntry($product)
     }
 
     if(isset($product['ProductDescription']) && $product['ProductDescription'] != "")
-        if(isset($product['UnitPrice']) && is_real($product['UnitPrice']))
+        if(isset($product['UnitPrice']) && (is_integer($product['UnitPrice']) || is_real($product['UnitPrice'])))
             if (isset($product['UnitOfMeasure'])) {
-                $stmt = $db->prepare('INSERT INTO Product VALUES (NULL, :ProductCode, :ProductDescription, :UnitPrice, :UnitOfMeasure)');
+                $stmt = $db->prepare('INSERT INTO Product VALUES (:ProductCode, :ProductDescription, :UnitPrice, :UnitOfMeasure)');
                 $stmt->bindValue(':ProductCode', $num, PDO::PARAM_INT);
                 $stmt->bindValue(':ProductDescription', $product['ProductDescription'], PDO::PARAM_STR);
                 $stmt->bindValue(':UnitPrice', $product['UnitPrice'], PDO::PARAM_STR);
@@ -133,4 +133,4 @@ function addEntry($product)
 
             }
 
-}
+        }

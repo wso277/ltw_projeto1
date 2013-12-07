@@ -22,7 +22,8 @@
 				<script type='text/javascript'> 
 				var jsPost = 
 				<?php 
-					echo json_encode($_POST);				
+					$productArray = array("ProductCode" => $_POST["ProductCode"], "ProductDescription" => $_POST["ProductDescription"], "UnitOfMeasure" => $_POST["UnitOfMeasure"], "UnitPrice" => $_POST["UnitPrice"]+0);
+					echo json_encode($productArray);				
 				?>;
 				console.log(jsPost); 
 				var $jsonPost = JSON.stringify(jsPost);
@@ -31,14 +32,9 @@
 					dataType: 'json',
 					data: {product : $jsonPost},
 					success:function(data,textStatus, jqXHR) {
-						alert("PINTOU");
-						//console.log(data);
 					},															
 					error: function (jqXHR, textStatus, errorThrown)
 					{
-						alert("ERRO");
-						console.log(jqXHR.status);
-						//console.log(errorThrown);
 					}
 				});
 				</script>

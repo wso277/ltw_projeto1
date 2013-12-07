@@ -99,9 +99,9 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 			row.append($('<tr><td>' + data[k].SourceID + '</td></tr>'));
 			row.append($('<tr><td>' + data[k].InvoiceDate + '</td></tr>'));
 			row.append($('<tr><td>' + data[k].SystemEntryDate + '</td></tr>'));
-			row.append($('<tr><td>' + data[k].TaxPayable + '</td></tr>'));
-			row.append($('<tr><td>' + data[k].NetTotal + '</td></tr>'));
-			row.append($('<tr><td>' + data[k].GrossTotal + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].DocumentTotals.TaxPayable + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].DocumentTotals.NetTotal + '</td></tr>'));
+			row.append($('<tr><td>' + data[k].DocumentTotals.GrossTotal + '</td></tr>'));
 			tableBill.append(row);
 
 		var rowCust = $('<tbody></body>');
@@ -118,20 +118,20 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 
 		
 
-		if (data[k].Lines != null) // Se tiver entradas da tabela Lines
+		if (data[k].Line != null) // Se tiver entradas da tabela Lines
 		{			
-			for (var i = 0; i < data[k].Lines.length; i++)
+			for (var i = 0; i < data[k].Line.length; i++)
 			{
 				var rowLine = $('<tr></tr>');
-				rowLine.append($('<td>' + data[k].Lines[i].LineNumber + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].Quantity + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].UnitPrice + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].CreditAmount + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].Product.ProductType + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].Product.ProductCode + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].Product.ProductDescription + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].Product.UnitPrice + '</td>'));
-				rowLine.append($('<td>' + data[k].Lines[i].Product.UnitOfMeasure + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].LineNumber + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].Quantity + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].UnitPrice + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].CreditAmount + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].Product.ProductType + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].Product.ProductCode + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].Product.ProductDescription + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].Product.UnitPrice + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].Product.UnitOfMeasure + '</td>'));
 				lineBill.append(rowLine);
 			}
 		}

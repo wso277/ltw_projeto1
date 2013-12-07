@@ -22,7 +22,7 @@ CREATE TABLE BillingAddress (
 );
 
 CREATE TABLE Customer (
-	CustomerKey		INTEGER PRIMARY KEY AUTOINCREMENT
+	CustomerKey		INTEGER PRIMARY KEY AUTOINCREMENT,
 	CustomerID		INTEGER NOT NULL UNIQUE,
 	AccountID	INTEGER NOT NULL,
 	CustomerTaxID	INTEGER NOT NULL,
@@ -66,3 +66,7 @@ CREATE TABLE Line (
 
 INSERT INTO User (UserName, Password, Permission)
 	VALUES ('admin', 'obviouspass', 'administrator');
+INSERT INTO User (UserName, Password, Permission)
+	VALUES ('read', 'readerpass', 'reader');
+INSERT INTO User (UserName, Password, Permission)
+	VALUES ('write', 'writerpass', 'editor');
