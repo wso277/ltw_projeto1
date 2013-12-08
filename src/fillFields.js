@@ -18,17 +18,18 @@ function fillInvoiceFields()
 				$("#TaxPayable").val(data[0].DocumentTotals.TaxPayable);
 				$("#NetTotal").val(data[0].DocumentTotals.NetTotal);
 				$("#GrossTotal").val(data[0].DocumentTotals.GrossTotal);
-				if (data[0].Lines != null && nLines >= 1)
+				if (data[0].Line != null && nLines >= 1)
 				{
-					for (var i = 0; i < nLines; i++)
+					for (var i = 0; i <= nLines; i++)
 					{
-						$("#ln"+i).val(data[0].Lines[i].LineNumber);
-						$("#qt"+i).val(data[0].Lines[i].Quantity);
-						$("#up"+i).val(data[0].Lines[i].UnitPrice);
-						$("#tpd"+i).val(data[0].Lines[i].TaxPointDate);
-						$("#ca"+i).val(data[0].Lines[i].CreditAmount);
-						$("#tt"+i).val(data[0].Lines[i].TaxType);
-						$("#tp"+i).val(data[0].Lines[i].TaxPercentage);
+						$("#ln"+i).val(data[0].Line[i].LineNumber);
+						$("#pc"+i).val(data[0].Line[i].Product.ProductCode);
+						$("#qt"+i).val(data[0].Line[i].Quantity);
+						$("#up"+i).val(data[0].Line[i].UnitPrice);
+						$("#tpd"+i).val(data[0].Line[i].TaxPointDate);
+						$("#ca"+i).val(data[0].Line[i].CreditAmount);
+						$("#tt"+i).val(data[0].Line[i].Tax.TaxType);
+						$("#tp"+i).val(data[0].Line[i].Tax.TaxPercentage);
 					}
 				}
 			}
@@ -39,6 +40,17 @@ function fillInvoiceFields()
 				$("#TaxPayable").val("");
 				$("#NetTotal").val("");
 				$("#GrossTotal").val("");
+				for (var i = 0; i < nLines; i++)
+				{
+					$("#ln"+i).val("");
+					$("#pc"+i).val("");
+					$("#qt"+i).val("");
+					$("#up"+i).val("");
+					$("#tpd"+i).val("");
+					$("#ca"+i).val("");
+					$("#tt"+i).val("");
+					$("#tp"+i).val("");
+				}
 			}
 		},
 		error: function(request,error){

@@ -34,7 +34,7 @@ function addLines()
 
 		var productCodeField = document.createElement("input");
 		productCodeField.setAttribute("type","text");
-		productCodeField.setAttribute("id","ln"+i);
+		productCodeField.setAttribute("id","pc"+i);
 		var productCodeFieldName = "ProductCode"+i;
 		productCodeField.setAttribute("name",productCodeFieldName);
 		productCodeField.setAttribute("pattern","[0-9]+");
