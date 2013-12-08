@@ -121,3 +121,6 @@ tr:nth-child(2n + 1) {
 	background-color: #ddd;
 }
 
+.go_top {
+	display: none;
+}
