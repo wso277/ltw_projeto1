@@ -24,7 +24,7 @@ class XMLExporter {
 		$this->writer->writeElement ( "AddressDetail", "Rua do Anão Maior, nº1.73" );
 		$this->writer->writeElement ( "City", "Curral de Moinas" );
 		$this->writer->writeElement ( "PostalCode", "0000-999" );
-		$this->writer->writeElement ( "Country", "ES" );
+		$this->writer->writeElement ( "Country", "PT" );
 		$this->writer->endElement ();
 		$this->writer->writeElement ( "FiscalYear", "2013" );
 		$this->writer->writeElement ( "StartDate", "2013-12-24" );
