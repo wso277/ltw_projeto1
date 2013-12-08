@@ -26,16 +26,20 @@ function defaultPage() {
 			<table>
 				<tr>
 					<th>Insert Url to import:</th>
-					<td><input type="Url" name="url" /></td>
+					<td><input type="Url" name="url" required/></td>
 				</tr>
 				<tr>
 					<th>Insert InvoiceNo:</th>
 					<td><input type="text" pattern="[^\/]+\/[0-9]+"
 						title="Example: FT SEQ/20" name="InvoiceNo" /></td>
 					</tr>
+					<tr>
+						<th>Import Everything:</th>
+						<td><input id="checkAll" type="checkbox" name="all" value="false" onclick="askInvoice()"></td>
+					</tr>
 				</table>
 			</form>
-			
+
 			<button id="sbmt" type="submit" value="Import" class="session">Import</button>
 			<?php
 			defaultFooter ();
