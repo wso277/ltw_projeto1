@@ -95,6 +95,7 @@ session_start ();
 				?>
 					<a href="./importInvoiceFromUrl.php"><li>Import from other
 							DataBase</li></a>
+					<a href="./importXML.php"><li>Import from XML</li></a>
 		<?php
 			}
 			?>
