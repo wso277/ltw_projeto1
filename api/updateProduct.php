@@ -117,7 +117,7 @@ function addEntry($product)
     if(isset($product['ProductDescription']) && $product['ProductDescription'] != "")
         if(isset($product['UnitPrice']) && (is_integer($product['UnitPrice']) || is_real($product['UnitPrice'])))
             if (isset($product['UnitOfMeasure'])) {
-                $stmt = $db->prepare('INSERT INTO Product VALUES (:ProductCode, :ProductDescription, :UnitPrice, :UnitOfMeasure)');
+                $stmt = $db->prepare('INSERT INTO Product VALUES (:ProductCode, :ProductDescription, :UnitOfMeasure, :UnitPrice)');
                 $stmt->bindValue(':ProductCode', $num, PDO::PARAM_INT);
                 $stmt->bindValue(':ProductDescription', $product['ProductDescription'], PDO::PARAM_STR);
                 $stmt->bindValue(':UnitPrice', $product['UnitPrice'], PDO::PARAM_STR);

@@ -51,6 +51,10 @@ function updateEntry($customer) {
 			$update_stmt->execute ();
 		}
 	}
+
+	include('getCustomer.php');
+	echo json_encode(getCustomerFromDB($num));
+
 }
 function addEntry($customer) {
 	try {
@@ -96,6 +100,10 @@ function addEntry($customer) {
 		VALUES (?, ?, ?, ?, ?, ?)');
 	if ($stmt2->execute(array($num, $customer['AccountID'], $customer['CustomerTaxID'], $customer['CompanyName'], $customer['Email'], $bill_addr)) == FALSE) {
 		var_dump($db->errorInfo());
+	}
+	else {
+		include('getCustomerFunc.php');
+		echo json_encode(getCustomerFromDB($num));
 	}
 } else {
 	echo '{"error":{"code":1006,"reason": invalid field"}}';

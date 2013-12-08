@@ -126,8 +126,9 @@ var $invoice = $.ajax({url: "../api/searchInvoicesByField.php",
 				rowLine.append($('<td>' + data[k].Line[i].LineNumber + '</td>'));
 				rowLine.append($('<td>' + data[k].Line[i].Quantity + '</td>'));
 				rowLine.append($('<td>' + data[k].Line[i].UnitPrice + '</td>'));
+				rowLine.append($('<td>' + data[k].Line[i].TaxPointDate + '</td>'));
 				rowLine.append($('<td>' + data[k].Line[i].CreditAmount + '</td>'));
-				rowLine.append($('<td>' + data[k].Line[i].Product.ProductType + '</td>'));
+				rowLine.append($('<td>' + "P" + '</td>'));
 				rowLine.append($('<td>' + data[k].Line[i].Product.ProductCode + '</td>'));
 				rowLine.append($('<td>' + data[k].Line[i].Product.ProductDescription + '</td>'));
 				rowLine.append($('<td>' + data[k].Line[i].Product.UnitPrice + '</td>'));

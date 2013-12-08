@@ -14,6 +14,7 @@ function fillInvoiceFields()
 			{
 				$("#InvoiceStatusDate").val(data[0].InvoiceStatusDate);
 				$("#InvoiceDate").val(data[0].InvoiceDate);
+				$("#CustomerID").val(data[0].CustomerID);
 				$("#TaxPayable").val(data[0].DocumentTotals.TaxPayable);
 				$("#NetTotal").val(data[0].DocumentTotals.NetTotal);
 				$("#GrossTotal").val(data[0].DocumentTotals.GrossTotal);

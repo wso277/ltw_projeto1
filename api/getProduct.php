@@ -3,5 +3,12 @@ $ProductCode = $_GET['ProductCode'];
 
 include ('getProductFunc.php');
 
-echo json_encode(getProductFromDB($ProductCode));
+$productjson = json_encode(getProductFromDB($ProductCode));
+
+if (isset($_GET['callback'])) {
+	$callback = $_GET['callback']; 
+	echo $callback."(".$productjson.");";	
+} else {
+	echo $productjson;
+}
 ?>

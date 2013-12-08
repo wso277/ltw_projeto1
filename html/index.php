@@ -91,7 +91,7 @@ session_start ();
 					<p class="section_title">Import/Export Documents</p>
 					<a href="./exportInvoiceXML.php"><li>Export to XML</li></a>
 		<?php
-			if ($_SESSION ['permission'] == "writer" || $_SESSION ['permission'] == "administrator") {
+			if ($_SESSION ['permission'] == "editor" || $_SESSION ['permission'] == "administrator") {
 				?>
 					<a href="./importInvoiceFromUrl.php"><li>Import from other
 							DataBase</li></a>

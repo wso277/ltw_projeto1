@@ -16,6 +16,8 @@ function getProductFromDB($ProductCode) {
 			$product = $stmt -> fetch(PDO::FETCH_ASSOC);
 
 			if ($product != FALSE) {
+				$product['ProductCode']+=0;
+				$product['UnitPrice']+=0;
 				return $product;
 			} else { 
 				$error = json_decode('{"error":{"code":303,"reason":"Product not found"}}', true);

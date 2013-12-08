@@ -3,5 +3,12 @@ $CustomerID = $_GET['CustomerID'];
 
 include('getCustomerFunc.php');
 
-echo json_encode(getCustomerFromDB($CustomerID));
+$customerjson = json_encode(getCustomerFromDB($CustomerID));
+
+if (isset($_GET['callback'])) {
+	$callback = $_GET['callback']; 
+	echo $callback."(".$customerjson.");";	
+} else {
+	echo $customerjson;
+}
 ?>
