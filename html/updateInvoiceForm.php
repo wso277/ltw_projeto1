@@ -97,7 +97,7 @@
 			Gross Total <input name="GrossTotal" id="GrossTotal" type="text" value="<?=isset($_POST['GrossTotal'])? $_POST['GrossTotal'] :""?>" pattern="[0-9]+|[0-9]+\.[0-9]+">
 			<br/>
 			<br/>
-			Number of Lines <input name="NLines" type="text" value="<?=isset($_POST['NLines'])? $_POST['NLines'] :""?>" id="NLines" onchange="addLines()" pattern="[0-9]+" required>
+			Number of Lines <input name="NLines" type="text" value="<?=isset($_POST['NLines'])? $_POST['NLines'] :""?>" id="NLines" onchange="addLines();fillInvoiceFields()" pattern="[0-9]+" required>
 			<br/>
 			<div id="nLinesDiv">
 				<input id="submit_btn" type="submit" value="Submit Form"/>
