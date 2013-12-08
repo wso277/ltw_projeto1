@@ -95,6 +95,8 @@ function importDB(invoiceNo) {
 			}
 		}
 	});
+
+
 }
 
 function askInvoice() {
