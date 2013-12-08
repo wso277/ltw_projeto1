@@ -74,6 +74,7 @@
 					}
 				});
 		</script>
+				<p class="redirect">Update Completed.<br/> Go to <a href="index.php">home</a>.</p>
 		<?php
 	}
 	else
