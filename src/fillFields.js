@@ -40,7 +40,7 @@ function fillInvoiceFields()
 				$("#TaxPayable").val("");
 				$("#NetTotal").val("");
 				$("#GrossTotal").val("");
-				for (var i = 0; i < nLines; i++)
+				for (var i = 0; i <= nLines; i++)
 				{
 					$("#ln"+i).val("");
 					$("#pc"+i).val("");
@@ -59,6 +59,17 @@ function fillInvoiceFields()
 			$("#TaxPayable").val("");
 			$("#NetTotal").val("");
 			$("#GrossTotal").val("");
+			for (var i = 0; i <= nLines; i++)
+			{
+				$("#ln"+i).val("");
+				$("#pc"+i).val("");
+				$("#qt"+i).val("");
+				$("#up"+i).val("");
+				$("#tpd"+i).val("");
+				$("#ca"+i).val("");
+				$("#tt"+i).val("");
+				$("#tp"+i).val("");
+			}
 		}});
 }
 
