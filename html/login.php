@@ -1,4 +1,5 @@
 <?php
+session_start ();
 include ('default_html_elems.php');
 if (isset ( $_SESSION ['permission'] )) {
 	header ( 'Location: index.php' );
@@ -61,7 +62,6 @@ if (isset ( $_SESSION ['permission'] )) {
 defaultFooter();
 		} else {
 			fiveSecsHeader();
-			session_start ();
 			$_SESSION ['permission'] = $permission [0] ['Permission'];
 			$_SESSION['user'] = $_POST ['user'];
 			session_write_close ();
